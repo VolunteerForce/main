@@ -33,5 +33,7 @@ notifications:
   email:
     recipients:
       - jan.spidlen@gmail.com
-    on_success: never # default: change
+      - parulekar.t@gmail.com
+      - Dharini.chandrasekaran@gmail.com
+    on_success: change # default: change
     on_failure: always # default: always
