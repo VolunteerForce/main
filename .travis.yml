@@ -15,4 +15,4 @@ android:
 
 script:
    - cd VolunteerHero
-   - ./gradlew 
+   - ./gradlew build 
