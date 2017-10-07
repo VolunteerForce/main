@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
         Fabric.with(this, new Crashlytics());
 
 //        forceCrash(null);/
-    }
+    }a
 
     public void forceCrash(View view) {
         throw new RuntimeException("This is a crash");
