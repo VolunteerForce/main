@@ -15,8 +15,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Fabric.with(this, new Crashlytics());
-
-//        forceCrash(null);/
     }
 
     public void forceCrash(View view) {
