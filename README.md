@@ -80,7 +80,27 @@
 
 Screens
 
-1. Login Screen
+Login Screen Dharini
+Map View of nearby activities 
+List View of nearby activities - with action bar search 
+Event detail page 
+Navigation view so that user can filter settings - Dharin
+Profile view of user to also display “My events” -  
+Screen for event creation 
+Stretch: Basic settings screen (push notification etc)
 
-2. Map View of nearby activitu
+
+
+## Demo example
+Demo
+Start on Login screen
+User logs in using FB/Google
+User sees list of all events
+User switches tabs from list to map view
+User opens Nav View and updates filters -> views (list and map) updates based on the filter
+Clicking on event will open the detail page
+User subscribes from the details page (or list view)
+App asks if user wants to add the event into their calendar
+User can share the event URL (deeplink) with other friends (email/phone/FB)
+User create a new event with details such as location, type, description.(for demo purposes we can store this locally if they don’t allow us to publish)
 
