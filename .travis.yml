@@ -21,4 +21,12 @@ licenses:
 
 script:
    - cd VolunteerHero
-   - ./gradlew build 
+   - ./gradlew build
+
+
+notifications:
+  email:
+    recipients:
+      - jan.spidlen@gmail.com
+    on_success: never # default: change
+    on_failure: always # default: always
