@@ -87,6 +87,7 @@ Map View of nearby activities
 List View of nearby activities - with action bar search 
 
 Event detail page
+[image](https://www.dropbox.com/s/qtspa9rii50kdvh/Screenshot%202017-10-07%2016.34.30.png?dl=0)
 
 Navigation view so that user can filter settings
 
@@ -94,7 +95,7 @@ Profile view of user to also display “My events”
 
 Screen for event creation
 
-![image](https://photos-5.dropbox.com/t/2/AAAgHLLmrH6eQsQirahx2vOvjFzMg1edwLIALb3v3NqjqQ/12/10477072/png/32x32/1/_/1/2/Screenshot%202017-10-07%2016.34.30.png/EKnd6AcY-sEDIAIoAg/wdMXUj19OrrpQiB9v5lV8MEP03lG-VIRXDy_DtLKt2w?size=800x600&size_mode=3)
+[image](https://www.dropbox.com/s/pdy6f8popubkm3y/Screenshot%202017-10-07%2016.36.26.png?dl=0)
 
 Stretch: Basic settings screen (push notification etc)
 
