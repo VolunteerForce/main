@@ -1,5 +1,18 @@
 # Description
 
+VolunteerHero is an app designed to enable you to easily find ways to engage with your local community and
+volunteer for different events in your area of interest. With VolunteerHero, subscribing and keeping track of 
+these events is easier than ever before! Pick your favorite cause along with a convenient time and location
+to make a positive social impact. Whether it is a food drive, a charity run or helping out at the local animal
+shelter, a few fun hours and you will make the world a better place.
+
+VolunteerHero also makes it easier to find friends who are interested so that volunteering can be a fun, social
+activity. Powered in part by the VolunteerMatch API, VolunteerHero will definitely make your day, your week much
+brighter as you take the time to improve the lives of people around you, one step at a time.
+
+Be not the hero your city needs, be the hero it deserves!
+
+
 ## Functional user stories
 
 1. User can login using Google (maybe Facebook)
