@@ -112,7 +112,7 @@ Navigation view so that user can filter settings
 
 Wire frames for screens:
 
-<img src='https://imgur.com/JFqLyDn' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://github.com/VolunteerForce/main/blob/master/ScreenDesigns/VolunteerHero_wireframes.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [EZGIF](https://ezgif.com/maker/ezgif-3-837bdecf-gif-equalized).
 
