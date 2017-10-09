@@ -93,25 +93,28 @@ Be not the hero your city needs, be the hero it deserves!
 
 Screens
 
-Login Screen  [image](https://imgur.com/V9zddc5)
+[Login Screen](https://imgur.com/V9zddc5)
 
-Map View of nearby activities [image](https://imgur.com/ziC9zj6)
+[Map View of nearby activities](https://imgur.com/ziC9zj6)
 
-List View of nearby activities - with action bar search [image](https://imgur.com/1HBpTVe)
+[List View of nearby activities - with action bar search](https://imgur.com/1HBpTVe)
 
-Event detail page
-[image](https://www.dropbox.com/s/qtspa9rii50kdvh/Screenshot%202017-10-07%2016.34.30.png?dl=0)
+[Event detail page](https://www.dropbox.com/s/qtspa9rii50kdvh/Screenshot%202017-10-07%2016.34.30.png?dl=0)
 
-Navigation view so that user can filter settings
+[Profile view of user to also display “My events”](https://imgur.com/ykAYJbw)
 
-Profile view of user to also display “My events” [image](https://imgur.com/ykAYJbw)
-
-Screen for event creation
-
-[image](https://www.dropbox.com/s/pdy6f8popubkm3y/Screenshot%202017-10-07%2016.36.26.png?dl=0)
+[Screen for event creation](https://www.dropbox.com/s/pdy6f8popubkm3y/Screenshot%202017-10-07%2016.36.26.png?dl=0)
 
 Stretch: Basic settings screen (push notification etc)
+Navigation view so that user can filter settings
 
+## Video Walkthrough
+
+Wire frames for screens:
+
+<img src='https://imgur.com/JFqLyDn' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+GIF created with [EZGIF](https://ezgif.com/maker/ezgif-3-837bdecf-gif-equalized).
 
 ## Demo example
 
