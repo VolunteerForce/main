@@ -93,18 +93,18 @@ Be not the hero your city needs, be the hero it deserves!
 
 Screens
 
-Login Screen
+Login Screen  [image](https://imgur.com/V9zddc5)
 
-Map View of nearby activities
+Map View of nearby activities [image](https://imgur.com/ziC9zj6)
 
-List View of nearby activities - with action bar search 
+List View of nearby activities - with action bar search [image](https://imgur.com/1HBpTVe)
 
 Event detail page
 [image](https://www.dropbox.com/s/qtspa9rii50kdvh/Screenshot%202017-10-07%2016.34.30.png?dl=0)
 
 Navigation view so that user can filter settings
 
-Profile view of user to also display “My events”
+Profile view of user to also display “My events” [image](https://imgur.com/ykAYJbw)
 
 Screen for event creation
 
