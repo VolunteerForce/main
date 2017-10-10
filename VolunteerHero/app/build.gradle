@@ -80,6 +80,7 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
         transitive = true;
     }
+
     compile 'com.github.florent37:materialviewpager:1.2.3'
     //dependencies
     compile 'com.flaviofaria:kenburnsview:1.0.7'
@@ -93,4 +94,6 @@ dependencies {
     apply plugin: 'me.tatarka.retrolambda'
 //    compile 'org.jetbrains:annotations:15.0'
     compile 'com.android.support:support-annotations:26.+'
+
+    apply plugin: 'com.google.gms.google-services'
 }
