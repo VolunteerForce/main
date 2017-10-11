@@ -91,4 +91,6 @@ dependencies {
 
     apply plugin: 'com.android.application' //or apply plugin: 'java'
     apply plugin: 'me.tatarka.retrolambda'
+//    compile 'org.jetbrains:annotations:15.0'
+    compile 'com.android.support:support-annotations:26.+'
 }
