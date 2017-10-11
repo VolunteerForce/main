@@ -1,9 +1,10 @@
-package com.codepath.volunteerhero;
+package com.codepath.volunteerhero.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.codepath.volunteerhero.R;
 import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
 
