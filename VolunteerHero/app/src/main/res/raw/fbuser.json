@@ -1,0 +1,22 @@
+{
+  "updated_time": "2017-10-07T10:42:24+0000",
+  "gender": "female",
+  "timezone": -7,
+  "link": "https://www.facebook.com/app_scoped_user_id/1111111111111111/",
+  "verified": true,
+  "locale": "en_US",
+  "picture": {
+    "data": {
+      "is_silhouette": false,
+      "url": "{image_url}"
+    }
+  },
+  "age_range": {
+    "min": 21
+  },
+  "name": "John Doe",
+  "id": "1111111111111111",
+  "first_name": "John",
+  "last_name": "Doe",
+  "email": "john.doe@gmail.com"
+}
