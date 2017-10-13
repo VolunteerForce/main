@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "789455634974",
-    "firebase_url": "https://volunteerhero-28e1c.firebaseio.com",
-    "project_id": "volunteerhero-28e1c",
-    "storage_bucket": "volunteerhero-28e1c.appspot.com"
+    "project_number": "1045546938724",
+    "firebase_url": "https://volunteerhero-96ab2.firebaseio.com",
+    "project_id": "volunteerhero-96ab2",
+    "storage_bucket": "volunteerhero-96ab2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:789455634974:android:051244e56cbc0d82",
+        "mobilesdk_app_id": "1:1045546938724:android:051244e56cbc0d82",
         "android_client_info": {
           "package_name": "com.codepath.volunteerhero"
         }
       },
       "oauth_client": [
         {
-          "client_id": "789455634974-jdhkt71hbv4s9igirlc1jb7h07t9qt48.apps.googleusercontent.com",
+          "client_id": "1045546938724-kdg2hb44ah12hl6isgmv50pqp3kvqoq8.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCzEUtyNLERSlK3-se7MiBmp_0Cw-vLI4k"
+          "current_key": "AIzaSyBp0Il21xou8cIvwdqGT4t8PL1i9WCxSrU"
         }
       ],
       "services": {
