@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "com.codepath.volunteerhero"
         minSdkVersion 19
@@ -24,6 +24,9 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    lintOptions {
+        abortOnError false
     }
 }
 android {
@@ -49,18 +52,23 @@ repositories {
     maven { url "https://jitpack.io" }
 }
 
+ext {
+    supportLibVersion = '26.0.0'  // variable that can be referenced to keep support libs consistent
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
 
-    compile 'com.android.support:recyclerview-v7:26.+'
-    compile 'com.android.support:support-v4:26.+'
-    compile 'com.android.support:design:26.+'
+    compile "com.android.support:appcompat-v7:${supportLibVersion}"
+    compile "com.android.support:recyclerview-v7:${supportLibVersion}"
+    compile "com.android.support:support-v4:${supportLibVersion}"
+    compile "com.android.support:design:${supportLibVersion}"
+    compile "com.android.support:support-annotations:${supportLibVersion}"
 
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
@@ -92,8 +100,6 @@ dependencies {
 
     apply plugin: 'com.android.application' //or apply plugin: 'java'
     apply plugin: 'me.tatarka.retrolambda'
-//    compile 'org.jetbrains:annotations:15.0'
-    compile 'com.android.support:support-annotations:26.+'
 
     // firebase
     compile 'com.google.firebase:firebase-core:11.4.2'
