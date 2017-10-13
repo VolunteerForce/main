@@ -2,4 +2,7 @@
     <string name="app_name">VolunteerHero</string>
     <string name="facebook_app_id">1510437562337974</string>
     <string name="fb_login_protocol_scheme">fb1510437562337974</string>
+    <string name="create_event_text">Create Event</string>
+    <string name="event_name_hint">Event name</string>
+    <string name="event_description_hint">Event description</string>
 </resources>
