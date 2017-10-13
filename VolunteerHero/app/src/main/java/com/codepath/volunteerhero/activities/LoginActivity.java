@@ -30,7 +30,7 @@ import io.fabric.sdk.android.Fabric;
  * @author tejalpar
  * Created on 10/11/17.
  */
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
     private static final String TAG = LoginActivity.class.getSimpleName();
 
     private FirebaseAuth firebaseAuth;
@@ -42,12 +42,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        // analytics
-        Fabric.with(this, new Crashlytics());
-
-        // Bind views
-        ButterKnife.bind(this);
 
         callbackManager = CallbackManager.Factory.create();
 
