@@ -1,34 +1,58 @@
 package com.codepath.volunteerhero.fragments;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.codepath.volunteerhero.R;
+import com.codepath.volunteerhero.adapters.EventAdapter;
+import com.codepath.volunteerhero.models.Event;
+import com.codepath.volunteerhero.utils.EndlessRecyclerViewScrollListener;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link OpportunitiesListFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link OpportunitiesListFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Fragment to list the volunteer opportunities
  */
 public class OpportunitiesListFragment extends Fragment {
+
+    public static final String TAG = OpportunitiesListFragment.class.getSimpleName();
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    @BindView(R.id.rvEventList)
+    RecyclerView rvEventList;
+
+    @BindView(R.id.swipeRefreshContainer)
+    SwipeRefreshLayout srSwipeContainer;
+
+    private Unbinder unbinder;
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
+    private List<Event> mEventsList;
+    private EventAdapter mEventAdapter;
+
+    private EndlessRecyclerViewScrollListener mScrollListener;
 
     public OpportunitiesListFragment() {
         // Required empty public constructor
@@ -65,45 +89,67 @@ public class OpportunitiesListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_opportunities_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_opportunities_list, container, false);
+        unbinder = ButterKnife.bind(this, view);
+        return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity(),
+                LinearLayoutManager.VERTICAL, false);
+        rvEventList.setLayoutManager(manager);
+        mEventsList = new ArrayList<>();
+        mEventAdapter = new EventAdapter(getActivity(), mEventsList);
+        rvEventList.setAdapter(mEventAdapter);
+        mScrollListener = new EndlessRecyclerViewScrollListener(manager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                Toast.makeText(getActivity(), "Loading more events", Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        srSwipeContainer.setOnRefreshListener(()-> {
+            mEventsList.clear();
+            mEventAdapter.clear();
+            mScrollListener.resetState();
+            Toast.makeText(getActivity(), "Refreshing", Toast.LENGTH_SHORT).show();
+        });
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvEventList.getContext(),
+                manager.getOrientation());
+        rvEventList.addItemDecoration(dividerItemDecoration);
+
+
+        rvEventList.addOnScrollListener(mScrollListener);
+
+        populateEventList();
+    }
+
+    public void populateEventList() {
+        List<Event> testEvents = new ArrayList<Event>(20);
+        for (int i = 0; i < 20; ++i) {
+            testEvents.add(new Event());
         }
+        mEventAdapter.addAll(testEvents);
+        Log.d(TAG, "successfully loaded dummy data");
+        srSwipeContainer.setRefreshing(false);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
+
 }
