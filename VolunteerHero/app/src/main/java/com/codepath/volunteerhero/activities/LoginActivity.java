@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.codepath.volunteerhero.R;
+import com.codepath.volunteerhero.VolunteerHeroApplication;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -99,7 +100,7 @@ public class LoginActivity extends BaseActivity {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "signInWithCredential:success");
                         FirebaseUser user = firebaseAuth.getCurrentUser();
-                        //updateUI(user);
+                        VolunteerHeroApplication.setLoggedInUser(user);
                         showOpportunitiesListActivity();
                     } else {
                         // If sign in fails, display a message to the user.

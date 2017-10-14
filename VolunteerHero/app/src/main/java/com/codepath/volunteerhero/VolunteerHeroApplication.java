@@ -11,18 +11,18 @@ import com.google.firebase.auth.FirebaseUser;
  * Created on 10/12/17.
  */
 public class VolunteerHeroApplication extends Application {
-    private FirebaseUser loggedInUser;
+    private static FirebaseUser loggedInUser;
 
     @Override
     public void onCreate() {
         super.onCreate();
     }
 
-    public FirebaseUser getLoggedInUser() {
+    public static FirebaseUser getLoggedInUser() {
         return loggedInUser;
     }
 
-    public void setLoggedInUser(FirebaseUser loggedInUser) {
-        this.loggedInUser = loggedInUser;
+    public static void setLoggedInUser(FirebaseUser firebaseUser) {
+        loggedInUser = firebaseUser;
     }
 }
