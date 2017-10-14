@@ -2,13 +2,11 @@ package com.codepath.volunteerhero.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.codepath.volunteerhero.R;
-import com.crashlytics.android.Crashlytics;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -21,8 +19,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import io.fabric.sdk.android.Fabric;
 
 /**
  * Facebook login activity
@@ -77,8 +73,10 @@ public class LoginActivity extends BaseActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
 
-        // bind ui
-        // updateUI(currentUser);
+        // show opportunities
+        if (currentUser != null) {
+            showOpportunitiesListActivity();
+        }
     }
 
     @Override
@@ -102,6 +100,7 @@ public class LoginActivity extends BaseActivity {
                         Log.d(TAG, "signInWithCredential:success");
                         FirebaseUser user = firebaseAuth.getCurrentUser();
                         //updateUI(user);
+                        showOpportunitiesListActivity();
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -111,5 +110,10 @@ public class LoginActivity extends BaseActivity {
                     }
 
                 });
+    }
+
+    private void showOpportunitiesListActivity() {
+        Intent intent = new Intent(this, OpportunitiesListActivity.class);
+        startActivity(intent);
     }
 }
