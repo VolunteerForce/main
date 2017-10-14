@@ -2,6 +2,7 @@ package com.codepath.volunteerhero.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -16,15 +17,24 @@ import android.widget.Toast;
 
 import com.codepath.volunteerhero.R;
 import com.codepath.volunteerhero.adapters.EventAdapter;
+import com.codepath.volunteerhero.models.BetterPlaceEventResponse;
 import com.codepath.volunteerhero.models.Event;
+import com.codepath.volunteerhero.networking.BetterPlaceClient;
 import com.codepath.volunteerhero.utils.EndlessRecyclerViewScrollListener;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 /**
  * Fragment to list the volunteer opportunities
@@ -44,6 +54,7 @@ public class OpportunitiesListFragment extends Fragment {
     SwipeRefreshLayout srSwipeContainer;
 
     private Unbinder unbinder;
+    private Handler mHandler;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -83,6 +94,7 @@ public class OpportunitiesListFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        mHandler = new Handler();
     }
 
     @Override
@@ -127,6 +139,32 @@ public class OpportunitiesListFragment extends Fragment {
     }
 
     public void populateEventList() {
+
+        BetterPlaceClient client = BetterPlaceClient.getInstance();
+        client.getEvents(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "Failed to get a network response");
+            }
+
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                try {
+                    String responseData = response.body().string();
+                    JSONObject json = new JSONObject(responseData);
+                    mHandler.post(() -> {
+                        //parse response json
+
+                            BetterPlaceEventResponse b = BetterPlaceEventResponse.parseJSON(responseData);
+                            Log.d(TAG, "b.eventList.size " + b.data.size() );
+
+                        //update adapter
+                    });
+                } catch (JSONException e) {
+
+                }
+            }
+        }, 0);
         List<Event> testEvents = new ArrayList<Event>(20);
         for (int i = 0; i < 20; ++i) {
             testEvents.add(new Event());

@@ -11,22 +11,30 @@ import java.util.List;
 
 public class Event {
 
-    public enum EventType {
-        InPerson,
-        Virtual
-    }
-
     @NonNull
     public String id;
 
+    // The organization of the event
     @NonNull
-    public String creatorId;
+    public Carrier carrier;
 
     @NonNull
     public String title;
 
     @NonNull
+    public double latitude;
+
+    @NonNull
+    public double longitude;
+
+    @NonNull
     public String description;
+
+    @NonNull
+    public String city;
+
+    @NonNull
+    public String country;
 
     // Main image of the event.
     @Nullable
@@ -35,7 +43,8 @@ public class Event {
     @NonNull
     public List<String> imageUrls;
 
+    // Whether an event is in person or virtual
     @NonNull
-    public EventType type;
+    public boolean location_fixed;
 
 }
