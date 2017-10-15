@@ -70,8 +70,8 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         @BindView(R.id.tvLocation)
         TextView tvLocation;
 
-        @BindView(R.id.tvDescription)
-        TextView tvDescription;
+        @BindView(R.id.tvTopics)
+        TextView tvTopics;
 
         @BindView(R.id.ivOrgPic)
         ImageView ivOrgPic;
@@ -82,9 +82,9 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         }
 
         public void bind(Event event) {
-            tvOrgName.setText("SF SPCA");
-            tvDescription.setText("Be a dog or a cat volunteer today! Loving pets will brighten your life.");
-            tvLocation.setText("San Francisco, CA");
+            tvOrgName.setText(event.carrier.name);
+            tvLocation.setText(event.getLocation());
+            tvTopics.setText(event.getTopics());
 
             Glide.with(mContext).load(R.drawable.ic_upload_cover_photo)
                     .into(ivOrgPic);

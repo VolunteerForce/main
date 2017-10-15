@@ -3,6 +3,7 @@ package com.codepath.volunteerhero.models;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,11 +31,12 @@ public class Event {
     @NonNull
     public String description;
 
-    @NonNull
     public String city;
 
-    @NonNull
     public String country;
+
+    @NonNull
+    public ArrayList<String> topics;
 
     // Main image of the event.
     @Nullable
@@ -46,5 +48,21 @@ public class Event {
     // Whether an event is in person or virtual
     @NonNull
     public boolean location_fixed;
+
+    public String getLocation() {
+        if (city == null || country == null) {
+            return "Virtual";
+        }
+        return city + ", " + country;
+    }
+
+    public String getTopics() {
+        StringBuilder result = new StringBuilder();
+        for(String string : topics) {
+            result.append(string);
+            result.append(", ");
+        }
+        return result.length() > 0 ? result.substring(0, result.length() - 2): "";
+    }
 
 }

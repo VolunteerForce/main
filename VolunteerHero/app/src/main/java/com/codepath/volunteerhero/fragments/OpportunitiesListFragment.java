@@ -119,6 +119,7 @@ public class OpportunitiesListFragment extends Fragment {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 Toast.makeText(getActivity(), "Loading more events", Toast.LENGTH_SHORT).show();
+                populateEventList(page);
             }
         };
 
@@ -127,18 +128,19 @@ public class OpportunitiesListFragment extends Fragment {
             mEventAdapter.clear();
             mScrollListener.resetState();
             Toast.makeText(getActivity(), "Refreshing", Toast.LENGTH_SHORT).show();
+            populateEventList(0);
         });
+
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvEventList.getContext(),
                 manager.getOrientation());
         rvEventList.addItemDecoration(dividerItemDecoration);
 
 
         rvEventList.addOnScrollListener(mScrollListener);
-
-        populateEventList();
+        populateEventList(0);
     }
 
-    public void populateEventList() {
+    public void populateEventList(int page) {
 
         BetterPlaceClient client = BetterPlaceClient.getInstance();
         client.getEvents(new Callback() {
@@ -155,23 +157,19 @@ public class OpportunitiesListFragment extends Fragment {
                     mHandler.post(() -> {
                         //parse response json
 
-                            BetterPlaceEventResponse b = BetterPlaceEventResponse.parseJSON(responseData);
-                            Log.d(TAG, "b.eventList.size " + b.data.size() );
+                        BetterPlaceEventResponse b = BetterPlaceEventResponse.parseJSON(responseData);
+                        Log.d(TAG, "b.eventList.size " + b.data.size() );
 
+                        mEventAdapter.addAll(b.data);
+                        Log.d(TAG, "successfully loaded dummy data");
+                        srSwipeContainer.setRefreshing(false);
                         //update adapter
                     });
                 } catch (JSONException e) {
 
                 }
             }
-        }, 0);
-        List<Event> testEvents = new ArrayList<Event>(20);
-        for (int i = 0; i < 20; ++i) {
-            testEvents.add(new Event());
-        }
-        mEventAdapter.addAll(testEvents);
-        Log.d(TAG, "successfully loaded dummy data");
-        srSwipeContainer.setRefreshing(false);
+        }, page);
     }
 
     @Override

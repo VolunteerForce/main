@@ -1,6 +1,7 @@
 package com.codepath.volunteerhero.networking;
 
 import okhttp3.Callback;
+import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
@@ -28,8 +29,12 @@ public class BetterPlaceClient {
     }
 
     public void getEvents(Callback callback, int page) {
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(BETTER_PLACE_URL).newBuilder();
+        urlBuilder.addQueryParameter("page", String.valueOf(page));
+        String url = urlBuilder.build().toString();
+
         Request request = new Request.Builder()
-                .url(BETTER_PLACE_URL)
+                .url(url)
                 .build();
         mClient.newCall(request).enqueue(callback);
     }
