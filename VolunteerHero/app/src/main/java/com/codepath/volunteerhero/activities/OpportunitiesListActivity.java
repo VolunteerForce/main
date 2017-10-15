@@ -1,5 +1,6 @@
 package com.codepath.volunteerhero.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,40 +12,51 @@ import android.view.View;
 import com.codepath.volunteerhero.R;
 import com.codepath.volunteerhero.adapters.EventFragmentPagerAdapter;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 /**
  * Main activity to browse list of opportunities
  */
 public class OpportunitiesListActivity extends BaseActivity {
 
+    @BindView(R.id.viewpager)
     ViewPager mViewPager;
     EventFragmentPagerAdapter mViewPagerAdapter;
+
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
+    @BindView(R.id.sliding_tabs)
+    TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_opportunities_list);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        ButterKnife.bind(this);
+
+        setSupportActionBar(toolbar);
 
         //create adapter
         mViewPagerAdapter = new EventFragmentPagerAdapter(getSupportFragmentManager(), this);
 
-        mViewPager = (ViewPager) findViewById(R.id.viewpager);
         mViewPager.setAdapter(mViewPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
 
+    }
+
+    @OnClick(R.id.fab)
+    public void startCreateActivity() {
+        // TODO(jan.spidlen): Maybe start it for result.
+        startActivity(new Intent(this.getApplicationContext(), CreateEventActivity.class));
     }
 
 }
