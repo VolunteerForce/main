@@ -1,3 +1,8 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="wideButtonPadding">10dp</dimen>
+    <dimen name="section_divider_top_margin">2dp</dimen>
+    <dimen name="section_divider_height">2dp</dimen>
+    <dimen name="section_divider_bottom_margin">2dp</dimen>
 </resources>

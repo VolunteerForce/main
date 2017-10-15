@@ -49,8 +49,6 @@ public class OpportunitiesListActivity extends BaseActivity {
         mViewPager.setAdapter(mViewPagerAdapter);
 
         tabLayout.setupWithViewPager(mViewPager);
-
-
     }
 
     @OnClick(R.id.fab)

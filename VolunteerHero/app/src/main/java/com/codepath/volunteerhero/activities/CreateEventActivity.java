@@ -24,8 +24,6 @@ public class CreateEventActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_create_event);
-
-
         transitionToFragment(CreateEventFragment.newInstance());
     }
 
