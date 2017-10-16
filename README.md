@@ -81,7 +81,7 @@ Be not the hero your city needs, be the hero it deserves!
 
 11. Organizer can delete their own event **(core)**
 
-12. Organizer can edit event** (stretch)**
+12. Organizer can edit event **(stretch)**
 
 13. App will cache subscribed event locally **(stretch)**
 
