@@ -172,6 +172,10 @@ public class OpportunitiesListFragment extends Fragment {
                         BetterPlaceEventResponse b = BetterPlaceEventResponse.parseJSON(responseData);
                         Log.d(TAG, "b.eventList.size " + b.data.size() );
 
+                        LocalStorage ls = new LocalStorage(getContext());
+                        for (Event e: b.data) {
+//                            ls.saveEvent(e);
+                        }
                         mEventAdapter.addAll(b.data);
                         Log.d(TAG, "successfully loaded dummy data");
                         srSwipeContainer.setRefreshing(false);
