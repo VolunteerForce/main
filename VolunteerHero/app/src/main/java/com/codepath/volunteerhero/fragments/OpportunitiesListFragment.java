@@ -20,6 +20,7 @@ import com.codepath.volunteerhero.adapters.EventAdapter;
 import com.codepath.volunteerhero.models.BetterPlaceEventResponse;
 import com.codepath.volunteerhero.models.Event;
 import com.codepath.volunteerhero.networking.BetterPlaceClient;
+import com.codepath.volunteerhero.storage.LocalStorage;
 import com.codepath.volunteerhero.utils.EndlessRecyclerViewScrollListener;
 
 import org.json.JSONException;
@@ -87,6 +88,11 @@ public class OpportunitiesListFragment extends Fragment {
         return fragment;
     }
 
+    public void addEvent(Event e) {
+        mEventsList.add(0,  e);
+        mEventAdapter.notifyDataSetChanged();
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -141,7 +147,13 @@ public class OpportunitiesListFragment extends Fragment {
     }
 
     public void populateEventList(int page) {
+        if (page == 0) {
+            // READ from DB first;
 
+            LocalStorage ls = new LocalStorage(this.getContext());
+            Log.d("jenda", "ls.readAllStoredEvents() " + ls.readAllStoredEvents());
+            mEventAdapter.addAll(ls.readAllStoredEvents());
+        }
         BetterPlaceClient client = BetterPlaceClient.getInstance();
         client.getEvents(new Callback() {
             @Override

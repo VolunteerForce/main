@@ -25,6 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import com.codepath.volunteerhero.storage.LocalStorage;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
@@ -64,6 +65,8 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
 
     CreateEventFragmentController controller;
 
+    LocalStorage storage;
+
     public static CreateEventFragment newInstance() {
         CreateEventFragment fragment = new CreateEventFragment();
         Bundle bundle = new Bundle();
@@ -80,8 +83,8 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
         ButterKnife.bind(this, view);
 
         controller = new CreateEventFragmentController(this, this.getContext());
-
         setUpTextListeners();
+        storage  = new LocalStorage(this.getContext());
         return view;
     }
 
@@ -103,8 +106,6 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
     @OnClick(R.id.event_address_button)
     void selectAddress() {
         PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-
-        Log.d("jenda", "selectAddress ");
         try {
             startActivityForResult(builder.build(this.getActivity()), PLACE_PICKER_REQUEST);
         } catch (GooglePlayServicesRepairableException e) {
@@ -117,8 +118,7 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
     @OnClick(R.id.create_event_button)
     void createEvent() {
         Event event = controller.createEvent();
-
-        Log.d("jenda", "event " + event);
+        storage.saveEvent(event);
     }
 
     @OnClick(R.id.event_date_button)

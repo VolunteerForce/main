@@ -10,6 +10,7 @@ import android.util.Log;
 import com.google.android.gms.location.places.Place;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -18,7 +19,7 @@ import java.util.Locale;
  * Created by jan_spidlen on 10/10/17.
  */
 
-public class Event {
+public class Event implements Serializable{
 
     public Event() {}
 
@@ -67,6 +68,9 @@ public class Event {
     }
 
     public String getTopics() {
+        if (topics == null) {
+            return "";
+        }
         StringBuilder result = new StringBuilder();
         for(String string : topics) {
             result.append(string);
