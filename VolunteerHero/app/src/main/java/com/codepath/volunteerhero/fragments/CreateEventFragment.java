@@ -119,6 +119,7 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
     void createEvent() {
         Event event = controller.createEvent();
         storage.saveEvent(event);
+        getActivity().getSupportFragmentManager().popBackStack();
     }
 
     @OnClick(R.id.event_date_button)
