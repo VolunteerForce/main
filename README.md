@@ -15,81 +15,96 @@ Be not the hero your city needs, be the hero it deserves!
 
 ## Functional user stories
 
-1. User can login using Google (maybe Facebook)
+1. User can login using Google (maybe Facebook)** (core)**
 
-    1. Stretch: add own account management (using phone number or email)
+    1. **Stretch**: add own account management (using phone number or email)
 
-    2. Pull down profile image
+    2. Pull down profile image ** (core)**
 
-2. User can browser list of volunteering opportunities nearby (GPS location required)
+2. User can browser list of volunteering opportunities nearby (GPS location required)** (core)**
 
-    3. User can see list when not logged
+    3. User can see list when not logged** (stretch)**
 
     4. In order to participate they need to login
 
-3. User can see events on the map
+3. User can see events on the map **(core)**
 
-    5. Stretch: App can navigate user to the event location
+    5. **Stretch**: App can navigate user to the event location
 
-4. User can click on event to see details
+4. User can click on event to see details **(core)**
 
-    6. Mission statement
+    6. Mission statement **(core)**
 
-    7. Time and date
+    7. Time and date **(core)**
 
-    8. Description 
+    8. Description  **(core)**
 
-    9. Type (virtual vs in-person)
+    9. Type (virtual vs in-person) **(core)**
 
     10. etc.
 
-5. User can filter volunteering opportunities based on:
+5. User can filter volunteering opportunities based on **(core)**
 
-    11. Search radius
+    11. **Stretch: **Search radius
 
-    12. Key words
+    12. Dates **(core)**
 
-    13. Type
+    13. Key words **(core)**
 
-    14. Stretch: Whether FB friends are volunteering
+    14. Type **(core)**
 
-6. Stretch: Volunteer can subscribe to push notifications about various events such as upcoming dates, changes in descriptions, etc…
+    15. **Stretch** Whether FB friends are volunteering
 
-7. Volunteer can unsubscribe from events
+6. **Stretch** Volunteer can subscribe to push notifications about various events such as upcoming dates, changes in descriptions, etc…
 
-8. Volunteer can see their events they are subscribed to
+7. Volunteer can unsubscribe from events **(core)**
 
-9. User can share event to a friend using a link (maybe also sharing to FB)
+8. Volunteer can see their events they are subscribed to **(core)**
 
-10. Organizer can create volunteering event
+9. User can share event to a friend using a link (maybe also sharing to FB) **Stretch**
 
-    15. Setting up date
+10. Organizer can create volunteering event **(core)**
 
-    16. Location
+    16. Setting up date **(core)**
 
-    17. Image (banner)
+    17. Location **(core)**
 
-    18. Description
+    18. Image (banner) **(stretch)**
 
-    19. Type
+    19. Description **(core)**
 
-    20. number of volunteers
+    20. Type **(core)**
 
-    21. ...
+    21. # of volunteers **(core)**
 
-11. Organizer can delete their own event
+    22. …
 
-12. Organizer can edit event
+11. Organizer can delete their own event **(core)**
 
-13. App will cache subscribed event locally
+12. Organizer can edit event** (stretch)**
 
-14. App supports adding event to Android Calendar
+13. App will cache subscribed event locally **(stretch)**
 
-15. Volunteer can email organizer through the app
+14. App supports adding event to Android Calendar **(stretch)**
 
-16. Organizer can email all volunteers of the event
+15. Volunteer can email organizer through the app **(core)**
 
-17. Organizer can see all attendees
+16. Organizer can email all volunteers of the event **(core)**
+
+17. Organizer can see all attendees **(stretch)**
+
+18. User gets points/badges based on how many hours they have volunteered **(stretch)**
+
+
+## Progress
+
+Running doc here: https://docs.google.com/document/d/1F_mepCT9BaTCb3PPIhYkbBqLBUz3xmzM814sY_sGzK4/edit#
+
+# Week of Oct 15 2017
+
+[WalkThrough](https://imgur.com/a/QISf5)
+
+# Week of Oct 8 2017
 
 Screens
 
