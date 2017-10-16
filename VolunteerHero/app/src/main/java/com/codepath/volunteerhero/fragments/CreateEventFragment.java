@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +27,7 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.zxing.common.StringUtils;
 
 import java.io.IOException;
 import java.util.Date;
@@ -63,7 +67,6 @@ public class CreateEventFragment extends Fragment {
         return fragment;
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -71,8 +74,26 @@ public class CreateEventFragment extends Fragment {
                 container, false);
 
         ButterKnife.bind(this, view);
-
+        setUpTextListeners();
+        maybeEnableCreateButton();
         return view;
+    }
+
+    private void setUpTextListeners() {
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                maybeEnableCreateButton();
+            }
+        };
+        eventName.addTextChangedListener(textWatcher);
+        eventDescription.addTextChangedListener(textWatcher);
     }
 
     @Override
@@ -83,11 +104,12 @@ public class CreateEventFragment extends Fragment {
                 lastSelectedPlace = place;
                 String toastMsg = String.format("Place: %s", place.getName());
                 Toast.makeText(this.getActivity(), toastMsg, Toast.LENGTH_LONG).show();
+
+                maybeEnableCreateButton();
             }
         }
     }
-//
-//
+
     @OnClick(R.id.event_address_button)
     void selectAddress() {
         PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
@@ -113,5 +135,14 @@ public class CreateEventFragment extends Fragment {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    void maybeEnableCreateButton() {
+        String title = eventName.getText().toString();
+        String description = eventDescription.getText().toString();
+        final boolean enabled = lastSelectedPlace != null
+                && !TextUtils.isEmpty(title)
+                && !TextUtils.isEmpty(description);
+        createEventButton.setEnabled(enabled);
     }
 }
