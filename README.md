@@ -75,7 +75,7 @@ Be not the hero your city needs, be the hero it deserves!
 
     20. Type **(core)**
 
-    21. # of volunteers **(core)**
+    21. num of volunteers **(core)**
 
     22. …
 
