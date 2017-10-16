@@ -1,16 +1,26 @@
 package com.codepath.volunteerhero.models;
 
+import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
+import com.google.android.gms.location.places.Place;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by jan_spidlen on 10/10/17.
  */
 
 public class Event {
+
+    public Event() {}
 
     @NonNull
     public String id;
@@ -63,6 +73,22 @@ public class Event {
             result.append(", ");
         }
         return result.length() > 0 ? result.substring(0, result.length() - 2): "";
+    }
+
+    public Event updateFromPlace(Place place, Context context) throws IOException {
+        this.latitude = place.getLatLng().latitude;
+        this.longitude = place.getLatLng().longitude;
+        Geocoder gcd = new Geocoder(context, Locale.getDefault());
+        List<Address> addresses = gcd.getFromLocation(this.latitude, this.longitude, 1);
+        Log.d("jenda", "addresses: " + addresses);
+        for (Address address: addresses) {
+            if (address.getCountryName() != null) {
+                this.country = address.getCountryName();
+                this.city = address.getLocality();
+                break;
+            }
+        }
+        return this;
     }
 
 }

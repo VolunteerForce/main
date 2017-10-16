@@ -20,6 +20,17 @@
         </activity>
 
         <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBp0Il21xou8cIvwdqGT4t8PL1i9WCxSrU" />
+
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="@string/google_maps_api_key" />
+
+        <meta-data android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <meta-data
             android:name="io.fabric.ApiKey"
             android:value="603e6bcab91a8ab53fe558a113b1b54232b151c5"/>
         <meta-data
