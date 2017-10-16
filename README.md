@@ -81,7 +81,7 @@ Be not the hero your city needs, be the hero it deserves!
 
 11. Organizer can delete their own event **(core)**
 
-12. Organizer can edit event **(stretch)**
+12. Organizer can edit event** (stretch)**
 
 13. App will cache subscribed event locally **(stretch)**
 
@@ -102,7 +102,10 @@ Running doc here: https://docs.google.com/document/d/1F_mepCT9BaTCb3PPIhYkbBqLBU
 
 # Week of Oct 15 2017
 
-[WalkThrough](https://imgur.com/a/QISf5)
+<img src='https://github.com/VolunteerForce/main/blob/master/codepath-volunteerhero-sub-1.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+
+[Imgur link WalkThrough](https://imgur.com/a/QISf5)
 
 # Week of Oct 8 2017
 
