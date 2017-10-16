@@ -86,11 +86,15 @@ public class OpportunitiesMapFragment extends Fragment implements GoogleMap.OnMa
         }
     }
 
+    public void addPin(Event e) {
+        MapUtils.addPin(map, new LatLng(e.latitude, e.longitude), e.title, e.description);
+    }
+
     private void loadPins(GoogleMap map) {
         Log.d("jenda", "loading pins");
         LocalStorage ls = new LocalStorage(this.getContext());
         for(Event e: ls.readAllStoredEvents()) {
-            MapUtils.addPin(map, new LatLng(e.latitude, e.longitude), e.title, e.description);
+            addPin(e);
         }
     }
 
