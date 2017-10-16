@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.codepath.volunteerhero.R;
+import com.codepath.volunteerhero.controllers.CreateEventFragmentController;
 import com.codepath.volunteerhero.models.Event;
 
 import butterknife.BindView;
@@ -28,8 +30,10 @@ import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.zxing.common.StringUtils;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
 
 import static android.app.Activity.RESULT_OK;
@@ -38,7 +42,7 @@ import static android.app.Activity.RESULT_OK;
  * Created by jan_spidlen on 10/12/17.
  */
 
-public class CreateEventFragment extends Fragment {
+public class CreateEventFragment extends Fragment implements CreateEventFragmentController.View {
 
     @BindView(R.id.upload_cover_image_button)
     ImageView coverPhoto;
@@ -57,8 +61,8 @@ public class CreateEventFragment extends Fragment {
     Button createEventButton;
 
     final static int PLACE_PICKER_REQUEST = 1;
-    Place lastSelectedPlace;
-    Date lastSelectedEventDate;
+
+    CreateEventFragmentController controller;
 
     public static CreateEventFragment newInstance() {
         CreateEventFragment fragment = new CreateEventFragment();
@@ -74,38 +78,24 @@ public class CreateEventFragment extends Fragment {
                 container, false);
 
         ButterKnife.bind(this, view);
+
+        controller = new CreateEventFragmentController(this, this.getContext());
+
         setUpTextListeners();
-        maybeEnableCreateButton();
         return view;
     }
 
     private void setUpTextListeners() {
-        TextWatcher textWatcher = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                maybeEnableCreateButton();
-            }
-        };
-        eventName.addTextChangedListener(textWatcher);
-        eventDescription.addTextChangedListener(textWatcher);
+        eventName.addTextChangedListener(controller);
+        eventDescription.addTextChangedListener(controller);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
-                Place place = PlacePicker.getPlace(this.getActivity(), data);
-                lastSelectedPlace = place;
-                String toastMsg = String.format("Place: %s", place.getName());
-                Toast.makeText(this.getActivity(), toastMsg, Toast.LENGTH_LONG).show();
-
-                maybeEnableCreateButton();
+                final Place place = PlacePicker.getPlace(this.getActivity(), data);
+                controller.setPlace(place);
             }
         }
     }
@@ -126,23 +116,35 @@ public class CreateEventFragment extends Fragment {
 
     @OnClick(R.id.create_event_button)
     void createEvent() {
-        Event event = new Event();
-        event.title = eventName.getText().toString();
-        event.description = eventDescription.getText().toString();
+        Event event = controller.createEvent();
 
-        try {
-            event.updateFromPlace(lastSelectedPlace, this.getContext());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Log.d("jenda", "event " + event);
     }
 
-    void maybeEnableCreateButton() {
-        String title = eventName.getText().toString();
-        String description = eventDescription.getText().toString();
-        final boolean enabled = lastSelectedPlace != null
-                && !TextUtils.isEmpty(title)
-                && !TextUtils.isEmpty(description);
+    @OnClick(R.id.event_date_button)
+    void showDatePicker() {
+        Calendar now = Calendar.getInstance();
+        DatePickerDialog dpd = DatePickerDialog.newInstance(
+                controller,
+                now.get(Calendar.YEAR),
+                now.get(Calendar.MONTH),
+                now.get(Calendar.DAY_OF_MONTH)
+        );
+        dpd.show(getActivity().getFragmentManager(), "Datepickerdialog");
+    }
+
+    @Override
+    public String getTitle() {
+        return eventName.getText().toString();
+    }
+
+    @Override
+    public String getDescription() {
+        return eventDescription.getText().toString();
+    }
+
+    @Override
+    public void setCreateEventButtonEnabled(boolean enabled) {
         createEventButton.setEnabled(enabled);
     }
 }

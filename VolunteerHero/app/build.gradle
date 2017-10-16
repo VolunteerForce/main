@@ -123,5 +123,7 @@ dependencies {
     
     // GMS
     apply plugin: 'com.google.gms.google-services'
+
+    compile 'com.wdullaer:materialdatetimepicker:3.3.1'
 }
 
