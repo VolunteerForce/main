@@ -3,16 +3,28 @@ package com.codepath.volunteerhero.fragments;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.codepath.volunteerhero.R;
+import com.codepath.volunteerhero.models.Event;
+import com.codepath.volunteerhero.storage.LocalStorage;
+import com.codepath.volunteerhero.utils.MapUtils;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Fragment with placeholder code for map view
  */
-public class OpportunitiesMapFragment extends Fragment {
+public class OpportunitiesMapFragment extends Fragment implements GoogleMap.OnMapLongClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -21,6 +33,11 @@ public class OpportunitiesMapFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+//    @BindView(R.id.map)
+
+    SupportMapFragment mapFragment;
+    private GoogleMap map;
 
     private OnFragmentInteractionListener mListener;
 
@@ -54,12 +71,51 @@ public class OpportunitiesMapFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+    protected void loadMap(GoogleMap googleMap) {
+        map = googleMap;
+        if (map != null) {
+            // Map is ready
+            Toast.makeText(this.getContext(), "Map Fragment was loaded properly!", Toast.LENGTH_SHORT).show();
+//            MapDemoActivityPermissionsDispatcher.getMyLocationWithCheck(this);
+//            MapDemoActivityPermissionsDispatcher.startLocationUpdatesWithCheck(this);
+            map.setOnMapLongClickListener(this);
+//            map.setOnMarkerDragListener(this);
+            loadPins(map);
+        } else {
+            Toast.makeText(this.getContext(), "Error - Map was null!!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void loadPins(GoogleMap map) {
+        Log.d("jenda", "loading pins");
+        LocalStorage ls = new LocalStorage(this.getContext());
+        for(Event e: ls.readAllStoredEvents()) {
+            MapUtils.addPin(map, new LatLng(e.latitude, e.longitude), e.title, e.description);
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_opportunities_map, container, false);
+        View v = inflater.inflate(R.layout.fragment_opportunities_map, container, false);
+
+        ButterKnife.bind(this, v);
+
+
+        mapFragment = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map));
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(new OnMapReadyCallback() {
+                @Override
+                public void onMapReady(GoogleMap map) {
+                    loadMap(map);
+                }
+            });
+        } else {
+            Toast.makeText(this.getContext(), "Error - Map Fragment was null!!", Toast.LENGTH_SHORT).show();
+        }
+
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -73,6 +129,11 @@ public class OpportunitiesMapFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onMapLongClick(LatLng latLng) {
+
     }
 
     /**
