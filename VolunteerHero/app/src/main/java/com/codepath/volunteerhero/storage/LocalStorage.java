@@ -19,7 +19,7 @@ import java.util.List;
  */
 
 public class LocalStorage {
-    String FILENAME = "data.dat";
+    String FILENAME = "data1.dat";
     String string = "hello world!";
 
     private final Context context;

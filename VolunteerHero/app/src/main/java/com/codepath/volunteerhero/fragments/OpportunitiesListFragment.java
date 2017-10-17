@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import com.codepath.volunteerhero.R;
 import com.codepath.volunteerhero.adapters.EventAdapter;
+import com.codepath.volunteerhero.data.DataProvider;
+import com.codepath.volunteerhero.data.EventDataProvider;
 import com.codepath.volunteerhero.models.BetterPlaceEventResponse;
 import com.codepath.volunteerhero.models.Event;
 import com.codepath.volunteerhero.networking.BetterPlaceClient;
@@ -40,7 +42,7 @@ import okhttp3.Response;
 /**
  * Fragment to list the volunteer opportunities
  */
-public class OpportunitiesListFragment extends Fragment {
+public class OpportunitiesListFragment extends Fragment implements DataProvider.DataChangedListener<Event> {
 
     public static final String TAG = OpportunitiesListFragment.class.getSimpleName();
     // TODO: Rename parameter arguments, choose names that match
@@ -68,6 +70,7 @@ public class OpportunitiesListFragment extends Fragment {
 
     public OpportunitiesListFragment() {
         // Required empty public constructor
+        EventDataProvider.getInstance().addDataChangedListener(this);
     }
 
     /**
@@ -125,7 +128,8 @@ public class OpportunitiesListFragment extends Fragment {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 Toast.makeText(getActivity(), "Loading more events", Toast.LENGTH_SHORT).show();
-                populateEventList(page);
+//                populateEventList(page);
+                EventDataProvider.getInstance().loadMoreData();
             }
         };
 
@@ -134,7 +138,9 @@ public class OpportunitiesListFragment extends Fragment {
             mEventAdapter.clear();
             mScrollListener.resetState();
             Toast.makeText(getActivity(), "Refreshing", Toast.LENGTH_SHORT).show();
-            populateEventList(0);
+//            populateEventList(0);
+
+            EventDataProvider.getInstance().startDataLoad();
         });
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvEventList.getContext(),
@@ -143,10 +149,12 @@ public class OpportunitiesListFragment extends Fragment {
 
 
         rvEventList.addOnScrollListener(mScrollListener);
-        populateEventList(0);
+//        populateEventList(0);
+
+        EventDataProvider.getInstance().startDataLoad();
     }
 
-    public void populateEventList(int page) {
+    public void populateEventList2(int page) {
         if (page == 0) {
             // READ from DB first;
 
@@ -167,15 +175,9 @@ public class OpportunitiesListFragment extends Fragment {
                     String responseData = response.body().string();
                     JSONObject json = new JSONObject(responseData);
                     mHandler.post(() -> {
-                        //parse response json
-
                         BetterPlaceEventResponse b = BetterPlaceEventResponse.parseJSON(responseData);
                         Log.d(TAG, "b.eventList.size " + b.data.size() );
 
-                        LocalStorage ls = new LocalStorage(getContext());
-                        for (Event e: b.data) {
-//                            ls.saveEvent(e);
-                        }
                         mEventAdapter.addAll(b.data);
                         Log.d(TAG, "successfully loaded dummy data");
                         srSwipeContainer.setRefreshing(false);
@@ -204,4 +206,19 @@ public class OpportunitiesListFragment extends Fragment {
         unbinder.unbind();
     }
 
+    @Override
+    public void dataChanged(List<Event> data) {
+        mEventAdapter.updateAll(data);
+    }
+
+    @Override
+    public void dataAdded(List<Event> data) {
+        Log.d("jenda", "dataAdded " + data);
+        mEventAdapter.addAll(data);
+    }
+
+    @Override
+    public void dataRemoved(List<Event> data) {
+        mEventAdapter.removeAll(data);
+    }
 }

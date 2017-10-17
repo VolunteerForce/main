@@ -20,7 +20,8 @@ public class BetterPlaceEventResponse {
 
     public static BetterPlaceEventResponse parseJSON(String response) {
         Gson gson = new GsonBuilder().create();
-        BetterPlaceEventResponse eventResponse = gson.fromJson(response, BetterPlaceEventResponse.class);
+        BetterPlaceEventResponse eventResponse = gson.fromJson(response,
+                BetterPlaceEventResponse.class);
         return eventResponse;
     }
 }

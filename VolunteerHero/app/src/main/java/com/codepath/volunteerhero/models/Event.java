@@ -19,12 +19,7 @@ import java.util.Locale;
  * Created by jan_spidlen on 10/10/17.
  */
 
-public class Event implements Serializable{
-
-    public Event() {}
-
-    @NonNull
-    public String id;
+public class Event extends BaseModelWithId implements Serializable{
 
     // The organization of the event
     @NonNull

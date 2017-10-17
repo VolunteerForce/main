@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.codepath.volunteerhero.R;
+import com.codepath.volunteerhero.data.DataProvider;
+import com.codepath.volunteerhero.data.EventDataProvider;
 import com.codepath.volunteerhero.models.Event;
 import com.codepath.volunteerhero.storage.LocalStorage;
 import com.codepath.volunteerhero.utils.MapUtils;
@@ -18,13 +20,15 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
  * Fragment with placeholder code for map view
  */
-public class OpportunitiesMapFragment extends Fragment implements GoogleMap.OnMapLongClickListener {
+public class OpportunitiesMapFragment extends Fragment implements GoogleMap.OnMapLongClickListener, DataProvider.DataChangedListener<Event> {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -43,6 +47,7 @@ public class OpportunitiesMapFragment extends Fragment implements GoogleMap.OnMa
 
     public OpportunitiesMapFragment() {
         // Required empty public constructor
+        EventDataProvider.getInstance().addDataChangedListener(this);
     }
 
     /**
@@ -80,7 +85,7 @@ public class OpportunitiesMapFragment extends Fragment implements GoogleMap.OnMa
 //            MapDemoActivityPermissionsDispatcher.startLocationUpdatesWithCheck(this);
             map.setOnMapLongClickListener(this);
 //            map.setOnMarkerDragListener(this);
-            loadPins(map);
+//            loadPins(map);
         } else {
             Toast.makeText(this.getContext(), "Error - Map was null!!", Toast.LENGTH_SHORT).show();
         }
@@ -90,13 +95,13 @@ public class OpportunitiesMapFragment extends Fragment implements GoogleMap.OnMa
         MapUtils.addPin(map, new LatLng(e.latitude, e.longitude), e.title, e.description);
     }
 
-    private void loadPins(GoogleMap map) {
-        Log.d("jenda", "loading pins");
-        LocalStorage ls = new LocalStorage(this.getContext());
-        for(Event e: ls.readAllStoredEvents()) {
-            addPin(e);
-        }
-    }
+//    private void loadPins(GoogleMap map) {
+//        Log.d("jenda", "loading pins");
+//        LocalStorage ls = new LocalStorage(this.getContext());
+//        for(Event e: ls.readAllStoredEvents()) {
+//            addPin(e);
+//        }
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -138,6 +143,23 @@ public class OpportunitiesMapFragment extends Fragment implements GoogleMap.OnMa
     @Override
     public void onMapLongClick(LatLng latLng) {
 
+    }
+
+    @Override
+    public void dataChanged(List<Event> data) {
+        // TODO(jenda): Implement.
+    }
+
+    @Override
+    public void dataAdded(List<Event> data) {
+        for(Event e: data) {
+            addPin(e);
+        }
+    }
+
+    @Override
+    public void dataRemoved(List<Event> data) {
+        // TODO(jenda): Implement.
     }
 
     /**

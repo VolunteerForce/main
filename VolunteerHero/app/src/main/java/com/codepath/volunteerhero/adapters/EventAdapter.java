@@ -57,8 +57,25 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         notifyDataSetChanged();
     }
 
-    public void addAll(List<Event> tweets) {
-        mEventsList.addAll(tweets);
+    public void addAll(List<Event> events) {
+        mEventsList.addAll(events);
+        notifyDataSetChanged();
+    }
+
+    public void removeAll(List<Event> events) {
+        mEventsList.removeAll(events);
+        notifyDataSetChanged();
+    }
+
+    public void updateAll(List<Event> events) {
+        for(Event e: events) {
+            mEventsList.replaceAll(event -> {
+                if (e.id.equals(event.id)) {
+                    return e;
+                }
+               return event;
+            });
+        }
         notifyDataSetChanged();
     }
 

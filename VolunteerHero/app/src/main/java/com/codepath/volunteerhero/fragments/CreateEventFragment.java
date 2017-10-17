@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.codepath.volunteerhero.R;
 import com.codepath.volunteerhero.controllers.CreateEventFragmentController;
+import com.codepath.volunteerhero.data.EventDataProvider;
 import com.codepath.volunteerhero.models.Event;
 
 import butterknife.BindView;
@@ -65,8 +66,6 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
 
     CreateEventFragmentController controller;
 
-    LocalStorage storage;
-
     public static CreateEventFragment newInstance() {
         CreateEventFragment fragment = new CreateEventFragment();
         Bundle bundle = new Bundle();
@@ -84,7 +83,6 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
 
         controller = new CreateEventFragmentController(this, this.getContext());
         setUpTextListeners();
-        storage  = new LocalStorage(this.getContext());
         return view;
     }
 
@@ -118,7 +116,7 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
     @OnClick(R.id.create_event_button)
     void createEvent() {
         Event event = controller.createEvent();
-        storage.saveEvent(event);
+        EventDataProvider.getInstance().addOrUpdateData(event);
         getActivity().getSupportFragmentManager().popBackStack();
     }
 

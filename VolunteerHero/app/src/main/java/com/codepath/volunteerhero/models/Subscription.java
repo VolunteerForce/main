@@ -8,10 +8,7 @@ import java.util.Date;
  * Created by jan_spidlen on 10/10/17.
  */
 
-public class Subscription {
-
-    @NonNull
-    public String id;
+public class Subscription extends BaseModelWithId {
 
     @NonNull
     public Date date;
