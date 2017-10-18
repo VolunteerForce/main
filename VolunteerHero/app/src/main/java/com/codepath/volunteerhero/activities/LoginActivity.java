@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.codepath.volunteerhero.R;
 import com.codepath.volunteerhero.VolunteerHeroApplication;
+import com.codepath.volunteerhero.database.FirebaseDBHelper;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -74,8 +75,11 @@ public class LoginActivity extends BaseActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
 
-        // show opportunities
         if (currentUser != null) {
+            // save user if any updates
+            FirebaseDBHelper.getInstance().saveUser(currentUser);
+
+            // show opportunities
             showOpportunitiesListActivity();
         }
     }
@@ -100,6 +104,7 @@ public class LoginActivity extends BaseActivity {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "signInWithCredential:success");
                         FirebaseUser user = firebaseAuth.getCurrentUser();
+                        FirebaseDBHelper.getInstance().saveUser(user);
                         VolunteerHeroApplication.setLoggedInUser(user);
                         showOpportunitiesListActivity();
                     } else {
