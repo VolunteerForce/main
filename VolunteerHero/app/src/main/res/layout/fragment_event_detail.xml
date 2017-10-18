@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginTop="23dp"
+        app:srcCompat="@android:drawable/stat_notify_error"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"/>
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/imageView"
+        android:layout_marginStart="39dp"
+        android:layout_marginTop="29dp"
+        tools:text="Adoptathon!"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tvOrg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tvTitle"
+        android:layout_below="@+id/tvTitle"
+        android:layout_marginTop="10dp"
+        tools:text="SF SPCA"/>
+
+    <Button
+        android:id="@+id/btnSubscribe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/tvOrg"
+        android:layout_marginBottom="16dp"
+        android:text="@string/subscribe"/>
+
+    <TextView
+        android:id="@+id/tvLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tvOrg"
+        android:layout_below="@+id/tvOrg"
+        android:layout_marginTop="15dp"
+        tools:text="Virtual"/>
+
+    <TextView
+        android:id="@+id/tvDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tvLocation"
+        android:layout_below="@+id/tvLocation"
+        android:layout_marginTop="23dp"
+        tools:text="Help puppies get adopted!"/>
+
+    <TextView
+        android:id="@+id/tvWebsiteLink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tvDescription"
+        android:layout_below="@+id/tvDescription"
+        android:layout_marginTop="24dp"
+        tools:text="www.fakewebsite.com"/>
+
+    <ImageButton
+        android:id="@+id/ibShare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/tvTitle"
+        android:layout_marginEnd="21dp"
+        app:srcCompat="?attr/actionModeShareDrawable"/>
+
+</RelativeLayout>

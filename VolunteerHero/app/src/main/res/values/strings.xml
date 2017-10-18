@@ -15,5 +15,6 @@
     <string name="event_type_button_text">Event Type</string>
     <string name="event_address_button">Event Address</string>
     <string name="event_date_test">Event Date</string>
+    <string name="subscribe">Subscribe</string>
 
 </resources>
