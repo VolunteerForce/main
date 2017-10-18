@@ -3,6 +3,7 @@ package com.codepath.volunteerhero;
 import android.app.Application;
 
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Main application
@@ -16,6 +17,7 @@ public class VolunteerHeroApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
     }
 
     public static FirebaseUser getLoggedInUser() {
