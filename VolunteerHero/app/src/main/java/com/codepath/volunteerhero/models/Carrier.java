@@ -2,13 +2,15 @@ package com.codepath.volunteerhero.models;
 
 import android.support.annotation.NonNull;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
 import java.io.Serializable;
 
 /**
  * Created by dharinic on 10/14/17.
  */
-
-public class Carrier implements Serializable{
+@IgnoreExtraProperties
+public class Carrier extends BaseModelWithId implements Serializable {
 
     @NonNull
     public String name;
@@ -16,4 +18,7 @@ public class Carrier implements Serializable{
     @NonNull
     public String country;
 
+    public Carrier() {
+        //required default constructor
+    }
 }

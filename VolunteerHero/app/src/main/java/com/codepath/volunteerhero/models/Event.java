@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.google.android.gms.location.places.Place;
+import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -18,7 +19,7 @@ import java.util.Locale;
 /**
  * Created by jan_spidlen on 10/10/17.
  */
-
+@IgnoreExtraProperties
 public class Event extends BaseModelWithId implements Serializable{
 
     // The organization of the event
@@ -90,4 +91,7 @@ public class Event extends BaseModelWithId implements Serializable{
         return this;
     }
 
+    public Event() {
+        //required default constructor
+    }
 }
