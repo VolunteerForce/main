@@ -16,5 +16,7 @@
     <string name="event_address_button">Event Address</string>
     <string name="event_date_test">Event Date</string>
     <string name="subscribe">Subscribe</string>
+    <string name="retry">Retry</string>
+    <string name="ok">Ok</string>
 
 </resources>
