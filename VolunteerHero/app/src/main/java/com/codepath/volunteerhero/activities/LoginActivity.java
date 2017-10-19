@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.codepath.volunteerhero.R;
 import com.codepath.volunteerhero.VolunteerHeroApplication;
 import com.codepath.volunteerhero.database.FirebaseDBHelper;
+import com.codepath.volunteerhero.utils.Utils;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -77,7 +78,7 @@ public class LoginActivity extends BaseActivity {
 
         if (currentUser != null) {
             // save user if any updates
-            FirebaseDBHelper.getInstance().saveUser(currentUser);
+            Utils.currentUser = FirebaseDBHelper.getInstance().saveUser(currentUser);
 
             // show opportunities
             showOpportunitiesListActivity();

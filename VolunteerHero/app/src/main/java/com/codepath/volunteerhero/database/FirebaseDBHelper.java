@@ -29,10 +29,12 @@ public class FirebaseDBHelper {
         firebaseClient = FirebaseClient.getInstance();
     }
 
-    public void saveUser(FirebaseUser user) {
+    public User saveUser(FirebaseUser user) {
         // add or update user
         User dbUser = new User(user.getUid(), user.getDisplayName(), user.getEmail(), user.getPhotoUrl().getPath());
         firebaseClient.getFirebaseDatabase().child(USERS_NODE).child(user.getUid()).setValue(dbUser);
+
+        return dbUser;
     }
 
     public void addEvent(Event event) {

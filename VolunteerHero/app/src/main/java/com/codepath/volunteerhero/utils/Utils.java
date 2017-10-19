@@ -1,5 +1,7 @@
 package com.codepath.volunteerhero.utils;
 
+import com.codepath.volunteerhero.models.User;
+
 import java.util.Random;
 
 /**
@@ -19,4 +21,6 @@ public class Utils {
         }
         return randomStringBuilder.toString() + ".jpg";
     }
+
+    public static User currentUser;
 }
