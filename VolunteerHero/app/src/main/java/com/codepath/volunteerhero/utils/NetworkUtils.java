@@ -15,24 +15,33 @@ import com.codepath.volunteerhero.R;
 public class NetworkUtils {
 
     public static void showRetryableError(@NonNull View v, @NonNull @StringRes int messageRes,
-                                          @Nullable View.OnClickListener retryAction) {
-        showError(v, messageRes, R.string.retry, retryAction);
+                                          @NonNull View.OnClickListener retryAction) {
+        showRetryableError(v, v.getContext().getString(messageRes), retryAction);
+    }
+
+    public static void showRetryableError(@NonNull View v, String message,
+                                          @NonNull View.OnClickListener retryAction) {
+        showError(v, message, v.getContext().getString(R.string.retry), retryAction);
+    }
+
+
+    public static void showNonretryableError(@NonNull View v, String message) {
+        showError(v, message, v.getContext().getString(R.string.ok), null);
     }
 
     public static void showNonretryableError(@NonNull View v, @NonNull @StringRes int messageRes) {
-        showError(v, messageRes, R.string.ok, null);
+        showNonretryableError(v, v.getContext().getString(messageRes));
     }
 
-    private static void showError(View v, @StringRes int messageRes,
-                                 @StringRes int buttonTextRes,
+    private static void showError(View v, String message, String buttonText,
                                  @Nullable View.OnClickListener retryAction) {
-        final Snackbar snackbar = Snackbar.make(v, messageRes, Snackbar.LENGTH_LONG);
+        final Snackbar snackbar = Snackbar.make(v, message, Snackbar.LENGTH_LONG);
         if (retryAction == null) {
             retryAction = view -> {
                 snackbar.dismiss();
             };
         }
-        snackbar.setAction(buttonTextRes, retryAction);
+        snackbar.setAction(buttonText, retryAction);
 
         snackbar.show();
     }

@@ -8,12 +8,12 @@
     android:id="@+id/outer_fragment_layout">
 
 
-    <ImageView
+    <ImageButton
         android:id="@+id/upload_cover_image_button"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_alignParentTop="true"
-        android:src="@mipmap/ic_upload_cover_photo" />
+        android:background="@mipmap/ic_upload_cover_photo" />
 
     <FrameLayout
         android:id="@+id/sectionDivider1"

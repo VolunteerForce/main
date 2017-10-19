@@ -5,11 +5,13 @@ android {
     buildToolsVersion "26.0.1"
     defaultConfig {
         applicationId "com.codepath.volunteerhero"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+
     }
     buildTypes {
         release {
@@ -127,5 +129,8 @@ dependencies {
     compile 'com.wdullaer:materialdatetimepicker:3.3.1'
 
     compile 'com.google.maps.android:android-maps-utils:0.5+'
+
+    compile 'com.android.support:multidex:1.0.1'
+
 }
 
