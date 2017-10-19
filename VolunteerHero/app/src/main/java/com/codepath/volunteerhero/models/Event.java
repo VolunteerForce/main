@@ -26,6 +26,8 @@ public class Event extends BaseModelWithId implements Serializable{
     @NonNull
     public Carrier carrier;
 
+    public User creator;
+
     @NonNull
     public String title;
 
