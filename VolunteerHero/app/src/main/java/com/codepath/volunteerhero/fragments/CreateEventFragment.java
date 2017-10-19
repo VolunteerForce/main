@@ -4,18 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.codepath.volunteerhero.R;
 import com.codepath.volunteerhero.controllers.CreateEventFragmentController;
@@ -26,17 +20,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import com.codepath.volunteerhero.storage.LocalStorage;
+import com.codepath.volunteerhero.utils.NetworkUtils;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
-import com.google.zxing.common.StringUtils;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
-import java.io.IOException;
 import java.util.Calendar;
-import java.util.Date;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -130,6 +121,13 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
                 now.get(Calendar.DAY_OF_MONTH)
         );
         dpd.show(getActivity().getFragmentManager(), "Datepickerdialog");
+    }
+
+    @OnClick(R.id.test_button)
+    void test() {
+        NetworkUtils.showRetryableError(this.getView(), R.string.test_error_message_1, v -> {
+            NetworkUtils.showNonretryableError(this.getView(), R.string.test_error_message_2);
+        });
     }
 
     @Override

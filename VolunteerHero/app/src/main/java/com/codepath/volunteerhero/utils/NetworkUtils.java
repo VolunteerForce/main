@@ -19,19 +19,20 @@ public class NetworkUtils {
         showError(v, messageRes, R.string.retry, retryAction);
     }
 
-    public static void showNonretryableError(@NonNull View v, @NonNull @StringRes int messageRes,
-                                             @Nullable View.OnClickListener retryAction) {
-        showError(v, messageRes, R.string.ok, retryAction);
+    public static void showNonretryableError(@NonNull View v, @NonNull @StringRes int messageRes) {
+        showError(v, messageRes, R.string.ok, null);
     }
 
     private static void showError(View v, @StringRes int messageRes,
-                                 @StringRes int buttonAction,
+                                 @StringRes int buttonTextRes,
                                  @Nullable View.OnClickListener retryAction) {
         final Snackbar snackbar = Snackbar.make(v, messageRes, Snackbar.LENGTH_LONG);
-
-        if (retryAction != null) {
-            snackbar.setAction(buttonAction, retryAction);
+        if (retryAction == null) {
+            retryAction = view -> {
+                snackbar.dismiss();
+            };
         }
+        snackbar.setAction(buttonTextRes, retryAction);
 
         snackbar.show();
     }
