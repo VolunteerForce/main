@@ -104,10 +104,7 @@ public class LoginActivity extends BaseActivity {
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "signInWithCredential:success");
-                        FirebaseUser user = firebaseAuth.getCurrentUser();
-                        User loggedInUser = FirebaseDBHelper.getInstance().saveUser(user);
-                        VolunteerHeroApplication.setLoggedInUser(loggedInUser);
-                        showOpportunitiesListActivity();
+                        onLoginSuccess();
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -122,5 +119,12 @@ public class LoginActivity extends BaseActivity {
     private void showOpportunitiesListActivity() {
         Intent intent = new Intent(this, OpportunitiesListActivity.class);
         startActivity(intent);
+    }
+
+    private void onLoginSuccess() {
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        User loggedInUser = FirebaseDBHelper.getInstance().saveUser(user);
+        VolunteerHeroApplication.setLoggedInUser(loggedInUser);
+        showOpportunitiesListActivity();
     }
 }
