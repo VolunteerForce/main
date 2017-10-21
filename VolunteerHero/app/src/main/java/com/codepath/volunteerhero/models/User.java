@@ -5,10 +5,13 @@ import android.support.annotation.Nullable;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
+import org.parceler.Parcel;
+
 /**
  * Created by jan_spidlen on 10/10/17.
  */
 @IgnoreExtraProperties
+@Parcel(analyze={User.class})
 public class User {
 
     @NonNull

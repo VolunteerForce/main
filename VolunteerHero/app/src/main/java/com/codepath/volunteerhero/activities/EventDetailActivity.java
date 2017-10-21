@@ -6,8 +6,6 @@ import android.support.v4.app.FragmentTransaction;
 import com.codepath.volunteerhero.R;
 import com.codepath.volunteerhero.fragments.EventDetailFragment;
 
-import butterknife.OnClick;
-
 /**
  * Created by dharinic on 10/17/17.
  */

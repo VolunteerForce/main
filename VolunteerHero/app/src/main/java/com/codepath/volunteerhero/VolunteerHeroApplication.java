@@ -1,6 +1,6 @@
 package com.codepath.volunteerhero;
 
-import android.app.Application;
+import android.support.multidex.MultiDexApplication;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
@@ -11,7 +11,7 @@ import com.google.firebase.database.FirebaseDatabase;
  * @author tejalpar
  * Created on 10/12/17.
  */
-public class VolunteerHeroApplication extends Application {
+public class VolunteerHeroApplication extends MultiDexApplication {
     private static FirebaseUser loggedInUser;
 
     @Override

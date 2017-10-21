@@ -31,6 +31,17 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         mEventsList = events;
     }
 
+    private OnItemClickListener mListener;
+
+    // Interface for item click
+    public interface OnItemClickListener {
+        void onItemClick(View itemView, Event event);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.mListener = listener;
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
@@ -79,7 +90,7 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         notifyDataSetChanged();
     }
 
-    public class EventView extends RecyclerView.ViewHolder {
+    public class EventView extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         @BindView(R.id.tvOrgName)
         TextView tvOrgName;
@@ -96,6 +107,7 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         public EventView(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(this);
         }
 
         public void bind(Event event) {
@@ -110,6 +122,15 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             Glide.with(mContext).load(R.drawable.ic_upload_cover_photo)
                     .into(ivOrgPic);
 
+        }
+
+        @Override
+        public void onClick(View view) {
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                Event e = mEventsList.get(position);
+                mListener.onItemClick(itemView, e);
+            }
         }
     }
 }
