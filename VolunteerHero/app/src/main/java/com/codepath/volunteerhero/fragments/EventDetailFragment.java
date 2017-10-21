@@ -1,5 +1,6 @@
 package com.codepath.volunteerhero.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -87,7 +88,10 @@ public class EventDetailFragment extends Fragment {
 
     @OnClick (R.id.ibShare)
     void shareEvent() {
-        //TODO: (dharinic) share with facebook/email
+        Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(android.content.Intent.EXTRA_TEXT, mEvent.title);
+        startActivity(Intent.createChooser(intent, "Share via"));
     }
 
     void populateFragmentWithData() {
