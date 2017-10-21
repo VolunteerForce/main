@@ -1,9 +1,12 @@
 package com.codepath.volunteerhero.database;
 
 import com.codepath.volunteerhero.models.Event;
+import com.codepath.volunteerhero.models.Subscription;
 import com.codepath.volunteerhero.models.User;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
+
+import java.util.List;
 
 /**
  * Created by tejalpar
@@ -14,6 +17,7 @@ public class FirebaseDBHelper {
     private static final String USERS_NODE = "users";
     private static final String EVENTS_NODE = "events";
     private static final String CARRIER_NODE = "carrier";
+    private static final String SUBSCRIPTION_NODE = "subscription";
 
     private static FirebaseDBHelper instance;
     private static FirebaseClient firebaseClient;
@@ -47,5 +51,27 @@ public class FirebaseDBHelper {
 
     public void updateEvent(Event event) {
         firebaseClient.getFirebaseDatabase().child(EVENTS_NODE).child(event.id).setValue(event);
+    }
+
+    public void addUsersSubscribedEvent(User user, Event subscribedEvent) {
+        DatabaseReference dfReference = firebaseClient.getFirebaseDatabase();
+
+        Subscription subscription = new Subscription();
+        dfReference.child(SUBSCRIPTION_NODE).child(subscription.id).child("events").push().setValue(subscribedEvent);
+    }
+
+    public void addUsersSubscribedEvents(User user, List<Event> subscribedEvents) {
+        DatabaseReference dfReference = firebaseClient.getFirebaseDatabase();
+
+        Subscription subscription = new Subscription();
+        subscription.id = dfReference.child(SUBSCRIPTION_NODE).push().getKey();
+        subscription.date = System.currentTimeMillis();
+        subscription.user = user;
+        subscription.events = subscribedEvents;
+        dfReference.child(SUBSCRIPTION_NODE).child(subscription.id).setValue(subscription);
+    }
+
+    public void updateUsersSubscribedEvents(Subscription subscription) {
+        firebaseClient.getFirebaseDatabase().child(SUBSCRIPTION_NODE).child(subscription.id).setValue(subscription);
     }
 }

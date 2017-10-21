@@ -2,7 +2,7 @@ package com.codepath.volunteerhero;
 
 import android.app.Application;
 
-import com.google.firebase.auth.FirebaseUser;
+import com.codepath.volunteerhero.models.User;
 import com.google.firebase.database.FirebaseDatabase;
 
 /**
@@ -12,7 +12,7 @@ import com.google.firebase.database.FirebaseDatabase;
  * Created on 10/12/17.
  */
 public class VolunteerHeroApplication extends Application {
-    private static FirebaseUser loggedInUser;
+    private static User loggedInUser;
 
     @Override
     public void onCreate() {
@@ -20,11 +20,11 @@ public class VolunteerHeroApplication extends Application {
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
     }
 
-    public static FirebaseUser getLoggedInUser() {
+    public static User getLoggedInUser() {
         return loggedInUser;
     }
 
-    public static void setLoggedInUser(FirebaseUser firebaseUser) {
-        loggedInUser = firebaseUser;
+    public static void setLoggedInUser(User loggedInUser) {
+        VolunteerHeroApplication.loggedInUser = loggedInUser;
     }
 }

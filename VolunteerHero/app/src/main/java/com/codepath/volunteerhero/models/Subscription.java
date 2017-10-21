@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
-import java.util.Date;
+import java.util.List;
 
 /**
  * Created by jan_spidlen on 10/10/17.
@@ -13,13 +13,13 @@ import java.util.Date;
 public class Subscription extends BaseModelWithId {
 
     @NonNull
-    public Date date;
+    public long date;
 
     @NonNull
-    public String userId;
+    public User user;
 
     @NonNull
-    public String eventId;
+    public List<Event> events;
 
     public Subscription() {
         //required default constructor
