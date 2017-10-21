@@ -22,5 +22,8 @@
     <string name="test_error_message_2">This is a test error 2.</string>
     <string name="vacancies">Vacancies:</string>
     <string name="contact">Contact :</string>
-
+    <string name="string_filters">Filters</string>
+    <string name="string_event_name">Event Name</string>
+    <string name="string_category">Category</string>
+    <string name="string_logout">Log Out</string>
 </resources>

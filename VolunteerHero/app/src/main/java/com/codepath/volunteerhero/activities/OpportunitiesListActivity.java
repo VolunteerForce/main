@@ -3,14 +3,19 @@ package com.codepath.volunteerhero.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.view.MenuItem;
 
 import com.codepath.volunteerhero.R;
 import com.codepath.volunteerhero.adapters.EventFragmentPagerAdapter;
+import com.facebook.login.LoginManager;
+import com.google.firebase.auth.FirebaseAuth;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,6 +32,12 @@ public class OpportunitiesListActivity extends BaseActivity {
 
     @BindView(R.id.fab)
     FloatingActionButton fab;
+
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
+
+    @BindView(R.id.navigation_view)
+    NavigationView drawerNavView;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -49,6 +60,17 @@ public class OpportunitiesListActivity extends BaseActivity {
         mViewPager.setAdapter(mViewPagerAdapter);
 
         tabLayout.setupWithViewPager(mViewPager);
+
+        // Setup drawer view
+        setupDrawerContent(drawerNavView);
+
+        // setup menu icon
+        final ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_24dp);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+        drawerLayout.closeDrawers();
     }
 
     @OnClick(R.id.fab)
@@ -57,4 +79,50 @@ public class OpportunitiesListActivity extends BaseActivity {
         startActivity(new Intent(this.getApplicationContext(), CreateEventActivity.class));
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                drawerLayout.openDrawer(GravityCompat.START);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void selectDrawerItem(MenuItem menuItem) {
+        switch(menuItem.getItemId()) {
+            case R.id.nav_filter_by_name:
+                break;
+            case R.id.nav_filter_by_category:
+                break;
+            case R.id.nav_logout_user:
+                FirebaseAuth.getInstance().signOut();
+                LoginManager.getInstance().logOut();
+                showLoginActivity();
+                break;
+            default:
+                drawerLayout.closeDrawers();
+                break;
+        }
+
+        // Highlight the selected item has been done by NavigationView
+        menuItem.setChecked(true);
+        // Set action bar title
+        setTitle(menuItem.getTitle());
+        // Close the navigation drawer
+        drawerLayout.closeDrawers();
+    }
+
+    private void setupDrawerContent(NavigationView navigationView) {
+        navigationView.setNavigationItemSelectedListener(
+                menuItem -> {
+                    selectDrawerItem(menuItem);
+                    return true;
+                });
+    }
+
+    private void showLoginActivity() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
 }
