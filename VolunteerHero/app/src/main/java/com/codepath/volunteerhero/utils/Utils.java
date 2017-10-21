@@ -21,6 +21,4 @@ public class Utils {
         }
         return randomStringBuilder.toString() + ".jpg";
     }
-
-    public static User currentUser;
 }
