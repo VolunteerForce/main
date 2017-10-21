@@ -47,6 +47,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static android.R.attr.data;
+import static android.R.attr.imageButtonStyle;
 import static android.app.Activity.RESULT_OK;
 import static android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION;
 import static android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
@@ -57,8 +59,9 @@ import static android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
 
 public class CreateEventFragment extends Fragment implements CreateEventFragmentController.View {
 
-    private static final int RESULT_LOAD_IMAGE = 1;
+//    private static final int RESULT_LOAD_IMAGE = 1;
     private static final int IMAGE_OR_CAMERA_REQUEST_CODE = 2;
+    private static final int PLACE_PICKER_REQUEST = 3;
 
     @BindView(R.id.upload_cover_image_button)
     ImageButton coverPhotoButton;
@@ -76,7 +79,6 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
     @BindView(R.id.create_event_button)
     Button createEventButton;
 
-    final static int PLACE_PICKER_REQUEST = 1;
 
     CreateEventFragmentController controller;
 
@@ -115,83 +117,43 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
             return;
         }
 
-        if (requestCode == PLACE_PICKER_REQUEST) {
-            if (resultCode == RESULT_OK) {
-                final Place place = PlacePicker.getPlace(this.getActivity(), data);
-                controller.setPlace(place);
-            }
-        } else if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
-            Uri imageUri = data.getData();
-            String[] filePathColumn = { MediaStore.Images.Media.DATA };
-
-
-            Cursor cursor = this.getActivity().getContentResolver().query(imageUri,
-                    filePathColumn, null, null, null);
-            cursor.moveToFirst();
-
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            String picturePath = cursor.getString(columnIndex);
-            cursor.close();
-
-//            ImageView imageView = (ImageView) findViewById(R.id.imgView);
-
-//            this.getActivity().getB
-            Bitmap bmp = null;
-            try {
-                bmp = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageUri);
-                //this.getActivity().getBitmapFromUri(selectedImage);
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-//            imageView.setImageBitmap(bmp);
-
+        switch (requestCode) {
+            case PLACE_PICKER_REQUEST:
+                controller.setPlace(PlacePicker.getPlace(this.getActivity(), data));
+                break;
+            case IMAGE_OR_CAMERA_REQUEST_CODE:
+                Bitmap bmp = controller.decodeImage(data, file);
+                coverPhotoButton.setImageBitmap(bmp);
+                break;
         }
-        if (resultCode == RESULT_OK) {
-            if (requestCode == IMAGE_OR_CAMERA_REQUEST_CODE) {
+        if (requestCode == IMAGE_OR_CAMERA_REQUEST_CODE) {
 
-                Log.d("jenda", "bmp inside ");
-                final boolean isCamera;
-                if (data == null) {
-                    isCamera = true;
+            Log.d("jenda", "bmp inside ");
+            final boolean isCamera;
+            if (data == null || data.getData() == null) {
+                isCamera = true;
+            } else {
+                final String action = data.getAction();
+                if (action == null) {
+                    isCamera = false;
                 } else {
-                    final String action = data.getAction();
-                    if (action == null) {
-                        isCamera = false;
-                    } else {
-                        isCamera = action.equals(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                    }
-                }
-
-                Uri selectedImageUri;
-//                File f; f.doce
-                Log.d("jenda", "path " + outputFileUri.getPath());
-
-                Log.d("jenda", "outputFileUri exists " + new File(outputFileUri.getPath()).exists());
-
-                Log.d("jenda", "   data.getExtras().get(\"data\"); " + data.getData());
-//                Log.d("jenda", "path " + PathUtil.getPath(this.getContext(),outputFileUri));
-
-                BitmapFactory.decodeFile(outputFileUri.getPath());
-//                BitmapFactory.decodeUr
-                if (isCamera) {
-                    selectedImageUri = Uri.fromFile(new File(outputFileUri.getPath())); ;
-                } else {
-                    selectedImageUri = data == null ? null : data.getData();
-                }
-
-                Bitmap bmp = null;
-                try {
-                    bmp =
-                            BitmapFactory.decodeFile(outputFileUri.getPath());
-//                    bmp = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImageUri);
-                    //this.getActivity().getBitmapFromUri(selectedImage);
-                    Log.d("jenda", "bmp " + bmp.getByteCount());
-                } catch (Exception e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    isCamera = action.equals(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                 }
             }
+            Bitmap bmp = null;
+            if (isCamera) {
+                bmp = BitmapFactory.decodeFile(file.getAbsolutePath());
+            } else {
+                Uri selectedImageUri = data == null ? null : data.getData();
+                try {
+                    bmp = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImageUri);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    NetworkUtils.showNonretryableError(this.getView(), R.string.cannot_decode_image);
+                }
+            }
+
+            Log.d("jenda", "bmp " + bmp.getByteCount());
         }
     }
 
@@ -200,10 +162,9 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
         PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
         try {
             startActivityForResult(builder.build(this.getActivity()), PLACE_PICKER_REQUEST);
-        } catch (GooglePlayServicesRepairableException e) {
+        } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
             e.printStackTrace();
-        } catch (GooglePlayServicesNotAvailableException e) {
-            e.printStackTrace();
+            NetworkUtils.showNonretryableError(this.getView(), R.string.cannot_select_address);
         }
     }
 
@@ -238,48 +199,7 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
     void uploadCoverPhoto() {
 
         openImageIntent();
-//        Intent i = new Intent(
-//                Intent.ACTION_PICK,
-//                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//
-//        startActivityForResult(i, RESULT_LOAD_IMAGE);
     }
-
-
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
-//            Uri imageUri = data.getData();
-//            String[] filePathColumn = { MediaStore.Images.Media.DATA };
-//
-//
-//            Cursor cursor = this.getActivity().getContentResolver().query(imageUri,
-//                    filePathColumn, null, null, null);
-//            cursor.moveToFirst();
-//
-//            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-//            String picturePath = cursor.getString(columnIndex);
-//            cursor.close();
-//
-////            ImageView imageView = (ImageView) findViewById(R.id.imgView);
-//
-////            this.getActivity().getB
-//            Bitmap bmp = null;
-//            try {
-//                bmp = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageUri);
-//                //this.getActivity().getBitmapFromUri(selectedImage);
-//            } catch (IOException e) {
-//                // TODO Auto-generated catch block
-//                e.printStackTrace();
-//            }
-////            imageView.setImageBitmap(bmp);
-//
-//        }
-//
-//
-//    }
 
 
     @Override
@@ -297,41 +217,37 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
         createEventButton.setEnabled(enabled);
     }
 
-    private Uri outputFileUri;
 
+    private File file;
     private String fullPath;
 
     private void openImageIntent() {
 
+        // TODO(jan.spidlen): Properly handle permissions.
         if (ContextCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
                 || ContextCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
-                String[] perms = {  Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE };
+                String[] perms = {
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                };
                 int permsRequestCode = 200;
                 requestPermissions(perms, permsRequestCode);
             return;
         }
 
         // Determine Uri of camera image to save.
-        final File root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-//        File root = Environment.getExternalStoragePublicDirectory(
-//                Environment.DIRECTORY_PICTURES);
-        File file = new File(root, "share_image_" + System.currentTimeMillis() + ".png");
+        final File root = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES);
+        file = new File(root, "share_image_" + System.currentTimeMillis() + ".png");
 
-
-//        file.cre
         if (!file.getParentFile().exists() && !file.getParentFile().mkdirs()) {
             NetworkUtils.showNonretryableError(this.getView(), "Dir not created");
-        }
-//        final String fname = Utils.getUniqueImageFilename();
-//        final File sdImageMainDirectory = new File(root, "test_file.jpg");
-//        outputFileUri = Uri.fromFile(sdImageMainDirectory);
-        outputFileUri = FileProvider.getUriForFile(getActivity(), "com.codepath.volunteerhero", file);
+    }
+        Uri outputFileUri = FileProvider.getUriForFile(getActivity(),
+                "com.codepath.volunteerhero", file);
 
-        Log.d("jenda", "absolute path " + outputFileUri.getPath());
-//        fullPath = sdImageMainDirectory.getAbsolutePath();
-        // Camera.
         final List<Intent> cameraIntents = new ArrayList<Intent>();
         final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         final PackageManager packageManager = getActivity().getPackageManager();
@@ -356,12 +272,8 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
         final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Source");
 
         // Add the camera options.
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[cameraIntents.size()]));
-
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
-        // set the image file name
-
-        startActivityForResult(intent, IMAGE_OR_CAMERA_REQUEST_CODE);
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS,
+                cameraIntents.toArray(new Parcelable[cameraIntents.size()]));
+        startActivityForResult(chooserIntent, IMAGE_OR_CAMERA_REQUEST_CODE);
     }
 }

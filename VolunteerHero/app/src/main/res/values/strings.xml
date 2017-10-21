@@ -20,6 +20,8 @@
     <string name="ok">Ok</string>
     <string name="test_error_message_1">This is a test error 1.</string>
     <string name="test_error_message_2">This is a test error 2.</string>
+    <string name="cannot_decode_image">Cannot decode image.</string>
+    <string name="cannot_select_address">Problem selecting address.</string>
     <string name="vacancies">Vacancies:</string>
     <string name="contact">Contact :</string>
     <string name="string_filters">Filters</string>
