@@ -10,6 +10,8 @@ import android.util.Log;
 import com.google.android.gms.location.places.Place;
 import com.google.firebase.database.IgnoreExtraProperties;
 
+import org.parceler.Parcel;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ import java.util.Locale;
  * Created by jan_spidlen on 10/10/17.
  */
 @IgnoreExtraProperties
+@Parcel(analyze={Event.class})
 public class Event extends BaseModelWithId implements Serializable{
 
     // The organization of the event

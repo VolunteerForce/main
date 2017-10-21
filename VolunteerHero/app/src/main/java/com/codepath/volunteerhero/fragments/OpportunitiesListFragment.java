@@ -1,6 +1,7 @@
 package com.codepath.volunteerhero.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.codepath.volunteerhero.R;
+import com.codepath.volunteerhero.activities.EventDetailActivity;
 import com.codepath.volunteerhero.adapters.EventAdapter;
 import com.codepath.volunteerhero.data.DataProvider;
 import com.codepath.volunteerhero.data.EventDataProvider;
@@ -24,9 +26,11 @@ import com.codepath.volunteerhero.models.Event;
 import com.codepath.volunteerhero.networking.BetterPlaceClient;
 import com.codepath.volunteerhero.storage.LocalStorage;
 import com.codepath.volunteerhero.utils.EndlessRecyclerViewScrollListener;
+import com.codepath.volunteerhero.utils.VolunteerHeroConstants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,7 +46,7 @@ import okhttp3.Response;
 /**
  * Fragment to list the volunteer opportunities
  */
-public class OpportunitiesListFragment extends Fragment implements DataProvider.DataChangedListener<Event> {
+public class OpportunitiesListFragment extends Fragment implements DataProvider.DataChangedListener<Event>, EventAdapter.OnItemClickListener {
 
     public static final String TAG = OpportunitiesListFragment.class.getSimpleName();
     // TODO: Rename parameter arguments, choose names that match
@@ -123,6 +127,7 @@ public class OpportunitiesListFragment extends Fragment implements DataProvider.
         rvEventList.setLayoutManager(manager);
         mEventsList = new ArrayList<>();
         mEventAdapter = new EventAdapter(getActivity(), mEventsList);
+        mEventAdapter.setOnItemClickListener(this);
         rvEventList.setAdapter(mEventAdapter);
         mScrollListener = new EndlessRecyclerViewScrollListener(manager) {
             @Override
@@ -220,5 +225,13 @@ public class OpportunitiesListFragment extends Fragment implements DataProvider.
     @Override
     public void dataRemoved(List<Event> data) {
         mEventAdapter.removeAll(data);
+    }
+
+    @Override
+    public void onItemClick(View itemView, Event event) {
+        // open detail activity
+        Intent i = new Intent(getActivity(), EventDetailActivity.class);
+        i.putExtra(VolunteerHeroConstants.EXTRA_EVENT, Parcels.wrap(event));
+        getActivity().startActivity(i);
     }
 }
