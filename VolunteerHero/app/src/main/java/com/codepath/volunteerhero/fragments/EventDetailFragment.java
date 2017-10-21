@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,8 +29,25 @@ public class EventDetailFragment extends Fragment {
 
     public static final String TAG = EventDetailFragment.class.getSimpleName();
 
+    private Event mEvent;
+
     @BindView(R.id.tvTitle)
     TextView tvTitle;
+
+    @BindView(R.id.tvOrg)
+    TextView tvOrg;
+
+    @BindView(R.id.ivImage)
+    ImageView ivImage;
+
+    @BindView(R.id.tvLocation)
+    TextView tvLocation;
+
+    @BindView(R.id.tvDescription)
+    TextView tvDescription;
+
+    @BindView(R.id.tvWebsiteLink)
+    TextView tvWebsite;
 
     public static EventDetailFragment newInstance() {
         EventDetailFragment fragment = new EventDetailFragment();
@@ -42,6 +60,7 @@ public class EventDetailFragment extends Fragment {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_event_detail,
                 container, false);
 
+        mEvent = Parcels.unwrap(getActivity().getIntent().getParcelableExtra(VolunteerHeroConstants.EXTRA_EVENT));
         ButterKnife.bind(this, view);
         return view;
     }
@@ -65,9 +84,15 @@ public class EventDetailFragment extends Fragment {
 
     void populateFragmentWithData() {
         //TODO: (dharinic) add data from event
-        Event event = Parcels.unwrap(getActivity().getIntent().getParcelableExtra(VolunteerHeroConstants.EXTRA_EVENT));
-        Log.e(TAG, ".. event = " + event.title );
-        Toast.makeText(getActivity(), "Got evnet " + event.carrier.name , Toast.LENGTH_SHORT).show();
+        Log.e(TAG, ".. event = " + mEvent.title );
+        Toast.makeText(getActivity(), "Got evnet " + mEvent.carrier.name , Toast.LENGTH_SHORT).show();
+
+        tvTitle.setText(mEvent.title);
+        tvLocation.setText(mEvent.getLocation());
+        tvDescription.setText(mEvent.description);
+        tvOrg.setText(mEvent.carrier.name);
+       // tvWebsite.setText(event.carrier.);
+
      }
 
 }

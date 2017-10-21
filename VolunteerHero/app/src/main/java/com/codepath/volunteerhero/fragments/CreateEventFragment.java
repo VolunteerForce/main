@@ -24,7 +24,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 
 import com.codepath.volunteerhero.R;
 import com.codepath.volunteerhero.controllers.CreateEventFragmentController;
@@ -36,7 +35,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import com.codepath.volunteerhero.utils.NetworkUtils;
-import com.codepath.volunteerhero.utils.Utils;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
@@ -52,8 +50,6 @@ import java.util.List;
 import static android.app.Activity.RESULT_OK;
 import static android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION;
 import static android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
-import static android.os.Environment.DIRECTORY_DCIM;
-import static com.codepath.volunteerhero.R.id.imageView;
 
 /**
  * Created by jan_spidlen on 10/12/17.

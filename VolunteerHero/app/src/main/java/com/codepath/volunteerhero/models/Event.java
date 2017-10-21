@@ -61,6 +61,9 @@ public class Event extends BaseModelWithId implements Serializable{
     @NonNull
     public boolean location_fixed;
 
+    @NonNull
+    public Contact contact;
+
     public String getLocation() {
         if (city == null || country == null) {
             return "Virtual";
