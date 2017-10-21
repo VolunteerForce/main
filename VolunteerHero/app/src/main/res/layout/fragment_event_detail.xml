@@ -88,4 +88,32 @@
         android:layout_alignStart="@+id/tvLocation"
         android:text="@string/vacancies"/>
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tvActivities"
+        android:layout_below="@+id/tvActivities"
+        android:layout_marginTop="10dp"
+        android:text="@string/contact"/>
+
+    <TextView
+        android:id="@+id/tvContactName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView2"
+        android:layout_below="@+id/textView2"
+        android:layout_marginTop="10dp"
+        tools:text="John Doe"/>
+
+    <TextView
+        android:id="@+id/tvContactEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tvContactName"
+        android:layout_below="@+id/tvContactName"
+        android:autoLink="email"
+        android:layout_marginTop="10dp"
+        tools:text="email.codepath.com"/>
+
 </RelativeLayout>

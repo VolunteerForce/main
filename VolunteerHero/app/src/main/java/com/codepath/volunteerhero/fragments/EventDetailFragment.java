@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.codepath.volunteerhero.R;
@@ -50,6 +49,12 @@ public class EventDetailFragment extends Fragment {
     @BindView(R.id.tvActivities)
     TextView tvActivities;
 
+    @BindView(R.id.tvContactEmail)
+    TextView tvContactEmail;
+
+    @BindView(R.id.tvContactName)
+    TextView tvContactName;
+
     public static EventDetailFragment newInstance() {
         EventDetailFragment fragment = new EventDetailFragment();
         return fragment;
@@ -75,7 +80,9 @@ public class EventDetailFragment extends Fragment {
 
     @OnClick(R.id.btnSubscribe)
     void subscribe() {
-        //TODO: (dharinic) save to firebase (use confirm dialog?)
+        //TODO: (tejal) save to firebase (use confirm dialog?)
+        /*FirebaseDBHelper helper = FirebaseDBHelper.getInstance();
+        helper.addUsersSubscribedEvent(VolunteerHeroApplication.getLoggedInUser(), mEvent);*/
     }
 
     @OnClick (R.id.ibShare)
@@ -84,9 +91,7 @@ public class EventDetailFragment extends Fragment {
     }
 
     void populateFragmentWithData() {
-        //TODO: (dharinic) add data from event
         Log.e(TAG, ".. event = " + mEvent.title );
-        Toast.makeText(getActivity(), "Got evnet " + mEvent.carrier.name , Toast.LENGTH_SHORT).show();
 
         tvTitle.setText(mEvent.title);
         tvLocation.setText(mEvent.getLocation());
@@ -95,7 +100,9 @@ public class EventDetailFragment extends Fragment {
         tvNumVacancies.setText(String.valueOf(mEvent.vacancies));
         tvOrg.setText(mEvent.carrier.name);
         tvActivities.setText(mEvent.getActivities());
-       // tvWebsite.setText(event.carrier.);
+
+        tvContactEmail.setText(mEvent.contact.getEmail());
+        tvContactName.setText(mEvent.contact.getName());
 
      }
 
