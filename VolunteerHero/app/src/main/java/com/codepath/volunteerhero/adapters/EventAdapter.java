@@ -119,7 +119,8 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             tvLocation.setText(event.getLocation());
             tvTopics.setText(event.getTopics());
 
-            Glide.with(mContext).load(R.drawable.ic_upload_cover_photo)
+
+            Glide.with(mContext).load(event.getImageUrl())
                     .into(ivOrgPic);
 
         }

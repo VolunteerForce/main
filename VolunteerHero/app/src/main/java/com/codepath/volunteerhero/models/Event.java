@@ -64,6 +64,12 @@ public class Event extends BaseModelWithId implements Serializable{
     @NonNull
     public Contact contact;
 
+    public EventImage image;
+
+    public int vacancies;
+
+    public ArrayList<String> activities;
+
     public String getLocation() {
         if (city == null || country == null) {
             return "Virtual";
@@ -77,6 +83,18 @@ public class Event extends BaseModelWithId implements Serializable{
         }
         StringBuilder result = new StringBuilder();
         for(String string : topics) {
+            result.append(string);
+            result.append(", ");
+        }
+        return result.length() > 0 ? result.substring(0, result.length() - 2): "";
+    }
+
+    public String getActivities() {
+        if (activities == null) {
+            return "";
+        }
+        StringBuilder result = new StringBuilder();
+        for(String string : activities) {
             result.append(string);
             result.append(", ");
         }
@@ -97,6 +115,17 @@ public class Event extends BaseModelWithId implements Serializable{
             }
         }
         return this;
+    }
+
+    public String getImageUrl() {
+        List<Link> imageLinks = image.links;
+        String imageUrl;
+        if (imageLinks != null || imageLinks.size() > 0) {
+            imageUrl = imageLinks.get(imageLinks.size() -1).href;}
+        else {
+            imageUrl = null;
+        }
+        return imageUrl;
     }
 
     public Event() {

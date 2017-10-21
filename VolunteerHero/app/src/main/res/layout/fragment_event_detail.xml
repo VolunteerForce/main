@@ -53,22 +53,23 @@
         tools:text="Virtual"/>
 
     <TextView
-        android:id="@+id/tvDescription"
+        android:id="@+id/tvNumVacancies"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/tvLocation"
         android:layout_below="@+id/tvLocation"
+        android:layout_toEndOf="@+id/tvVacancies"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="23dp"
-        tools:text="Help puppies get adopted!"/>
+        tools:text="30"/>
 
     <TextView
-        android:id="@+id/tvWebsiteLink"
+        android:id="@+id/tvActivities"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/tvDescription"
-        android:layout_below="@+id/tvDescription"
+        android:layout_alignStart="@+id/tvVacancies"
+        android:layout_below="@+id/tvVacancies"
         android:layout_marginTop="24dp"
-        tools:text="www.fakewebsite.com"/>
+        tools:text="Coaching, organizing"/>
 
     <ImageButton
         android:id="@+id/ibShare"
@@ -78,5 +79,13 @@
         android:layout_alignTop="@+id/tvTitle"
         android:layout_marginEnd="21dp"
         app:srcCompat="?attr/actionModeShareDrawable"/>
+
+    <TextView
+        android:id="@+id/tvVacancies"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tvNumVacancies"
+        android:layout_alignStart="@+id/tvLocation"
+        android:text="@string/vacancies"/>
 
 </RelativeLayout>

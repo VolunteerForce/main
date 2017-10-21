@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.codepath.volunteerhero.R;
 import com.codepath.volunteerhero.models.Event;
 import com.codepath.volunteerhero.utils.VolunteerHeroConstants;
@@ -43,11 +44,11 @@ public class EventDetailFragment extends Fragment {
     @BindView(R.id.tvLocation)
     TextView tvLocation;
 
-    @BindView(R.id.tvDescription)
-    TextView tvDescription;
+    @BindView(R.id.tvNumVacancies)
+    TextView tvNumVacancies;
 
-    @BindView(R.id.tvWebsiteLink)
-    TextView tvWebsite;
+    @BindView(R.id.tvActivities)
+    TextView tvActivities;
 
     public static EventDetailFragment newInstance() {
         EventDetailFragment fragment = new EventDetailFragment();
@@ -89,8 +90,11 @@ public class EventDetailFragment extends Fragment {
 
         tvTitle.setText(mEvent.title);
         tvLocation.setText(mEvent.getLocation());
-        tvDescription.setText(mEvent.description);
+        Glide.with(getActivity()).load(mEvent.getImageUrl())
+                .into(ivImage);
+        tvNumVacancies.setText(String.valueOf(mEvent.vacancies));
         tvOrg.setText(mEvent.carrier.name);
+        tvActivities.setText(mEvent.getActivities());
        // tvWebsite.setText(event.carrier.);
 
      }
