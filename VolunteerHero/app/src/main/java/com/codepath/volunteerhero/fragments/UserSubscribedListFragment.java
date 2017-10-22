@@ -6,6 +6,7 @@ import com.codepath.volunteerhero.VolunteerHeroApplication;
 import com.codepath.volunteerhero.database.FirebaseDBHelper;
 import com.codepath.volunteerhero.models.Event;
 import com.codepath.volunteerhero.models.User;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +57,16 @@ public class UserSubscribedListFragment extends OpportunitiesListFragment {
 
             @Override
             public void onEventDataUpdated(Event event) {
+
+            }
+
+            @Override
+            public void onUserInfoAvailable(User loggedInUser) {
+
+            }
+
+            @Override
+            public void onUserInfoNotFound(FirebaseUser firebaseUser) {
 
             }
         });

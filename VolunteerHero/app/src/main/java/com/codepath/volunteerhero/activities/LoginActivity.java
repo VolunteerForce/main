@@ -76,6 +76,35 @@ public class LoginActivity extends BaseActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        FirebaseDBHelper.getInstance().getUser(currentUser, new FirebaseDBHelper.DataChangeEventListener() {
+            @Override
+            public void onUserDataUpdated(User user) {
+
+            }
+
+            @Override
+            public void onEventDataUpdated(Event event) {
+
+            }
+
+            @Override
+            public void onUserInfoAvailable(User loggedInUser) {
+                VolunteerHeroApplication.setLoggedInUser(loggedInUser);
+                showOpportunitiesListActivity();
+            }
+
+            @Override
+            public void onUserInfoNotFound(FirebaseUser firebaseUser) {
+
+            }
+        });
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
