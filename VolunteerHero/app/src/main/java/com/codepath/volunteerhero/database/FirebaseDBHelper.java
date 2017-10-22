@@ -12,10 +12,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -61,6 +59,8 @@ public class FirebaseDBHelper {
     public interface DataChangeEventListener {
         void onUserDataUpdated(User user);
         void onEventDataUpdated(Event event);
+        void onUserInfoAvailable(User loggedInUser);
+        void onUserInfoNotFound(FirebaseUser firebaseUser);
     }
 
     public static FirebaseDBHelper getInstance() {
@@ -77,9 +77,36 @@ public class FirebaseDBHelper {
     public User saveUser(FirebaseUser user) {
         // add or update user
         User dbUser = new User(user.getUid(), user.getDisplayName(), user.getEmail(), user.getPhotoUrl().getPath());
+        dbUser.events = new ArrayList<>();
         firebaseClient.getFirebaseDatabase().child(USERS_NODE).child(user.getUid()).setValue(dbUser);
 
         return dbUser;
+    }
+
+    public void getUser(FirebaseUser user, DataChangeEventListener listener) {
+        registerListener(listener);
+        // add or update user
+        firebaseClient.getFirebaseDatabase().child(USERS_NODE).orderByChild(NODE_ID).equalTo(user.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int count = 0;
+                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                    count++;
+                    User user = userSnapshot.getValue(User.class);
+                    notifyUserInfoAvailableEvent(user);
+                    return;
+                }
+                if (count == 0) {
+                    notifyUserInfoNotFound(user);
+                    return;
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public Event addEvent(Event event) {
@@ -195,6 +222,18 @@ public class FirebaseDBHelper {
     private void notifyEventDataChangeEvent(Event event) {
         for (DataChangeEventListener listener: dataChangeListeners) {
             listener.onEventDataUpdated(event);
+        }
+    }
+
+    private void notifyUserInfoAvailableEvent(User user) {
+        for (DataChangeEventListener listener: dataChangeListeners) {
+            listener.onUserInfoAvailable(user);
+        }
+    }
+
+    private void notifyUserInfoNotFound(FirebaseUser firebaseUser) {
+        for (DataChangeEventListener listener: dataChangeListeners) {
+            listener.onUserInfoNotFound(firebaseUser);
         }
     }
 }

@@ -22,6 +22,7 @@ import com.codepath.volunteerhero.models.Event;
 import com.codepath.volunteerhero.models.User;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -159,6 +160,16 @@ public class OpportunitiesListActivity extends BaseActivity {
             public void onEventDataUpdated(Event event) {
 
             }
+
+            @Override
+            public void onUserInfoAvailable(User loggedInUser) {
+
+            }
+
+            @Override
+            public void onUserInfoNotFound(FirebaseUser firebaseUser) {
+
+            }
         });
     }
 
@@ -172,6 +183,16 @@ public class OpportunitiesListActivity extends BaseActivity {
             @Override
             public void onEventDataUpdated(Event event) {
                 events.add(event);
+            }
+
+            @Override
+            public void onUserInfoAvailable(User loggedInUser) {
+
+            }
+
+            @Override
+            public void onUserInfoNotFound(FirebaseUser firebaseUser) {
+
             }
         });
     }

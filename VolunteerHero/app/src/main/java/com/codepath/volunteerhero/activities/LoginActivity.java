@@ -9,17 +9,22 @@ import android.widget.Toast;
 import com.codepath.volunteerhero.R;
 import com.codepath.volunteerhero.VolunteerHeroApplication;
 import com.codepath.volunteerhero.database.FirebaseDBHelper;
+import com.codepath.volunteerhero.models.Event;
 import com.codepath.volunteerhero.models.User;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -45,7 +50,7 @@ public class LoginActivity extends BaseActivity {
         callbackManager = CallbackManager.Factory.create();
 
         loginButton.setReadPermissions("email", "public_profile");
-        //LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"));
+        //addPermissions();
 
         // Callback registration
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -68,21 +73,6 @@ public class LoginActivity extends BaseActivity {
 
         // Initialize Firebase Auth
         firebaseAuth = FirebaseAuth.getInstance();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-
-        if (currentUser != null) {
-            // save user if any updates
-            VolunteerHeroApplication.setLoggedInUser(FirebaseDBHelper.getInstance().saveUser(currentUser));
-
-            // show opportunities
-            showOpportunitiesListActivity();
-        }
     }
 
     @Override
@@ -123,8 +113,37 @@ public class LoginActivity extends BaseActivity {
 
     private void onLoginSuccess() {
         FirebaseUser user = firebaseAuth.getCurrentUser();
-        User loggedInUser = FirebaseDBHelper.getInstance().saveUser(user);
-        VolunteerHeroApplication.setLoggedInUser(loggedInUser);
-        showOpportunitiesListActivity();
+
+        FirebaseDBHelper.getInstance().getUser(user, new FirebaseDBHelper.DataChangeEventListener() {
+            @Override
+            public void onUserDataUpdated(User user) {
+
+            }
+
+            @Override
+            public void onEventDataUpdated(Event event) {
+
+            }
+
+            @Override
+            public void onUserInfoAvailable(User loggedInUser) {
+                VolunteerHeroApplication.setLoggedInUser(loggedInUser);
+                showOpportunitiesListActivity();
+            }
+
+            @Override
+            public void onUserInfoNotFound(FirebaseUser firebaseUser) {
+                User loggedInUser = FirebaseDBHelper.getInstance().saveUser(user);
+                VolunteerHeroApplication.setLoggedInUser(loggedInUser);
+                showOpportunitiesListActivity();
+            }
+        });
+    }
+
+    private void addPermissions() {
+        List<String> permissions = new ArrayList<>();
+        permissions.add("public_profile");
+        permissions.add("pages_show_list");
+        LoginManager.getInstance().logInWithReadPermissions(this, permissions);
     }
 }
