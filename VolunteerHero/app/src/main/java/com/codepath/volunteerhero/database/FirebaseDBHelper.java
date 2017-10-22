@@ -25,6 +25,7 @@ import java.util.List;
 public class FirebaseDBHelper {
     public static String TAG = FirebaseDBHelper.class.getSimpleName();
 
+    private static final String NODE_ID = "id";
     private static final String USERS_NODE = "users";
     private static final String EVENTS_NODE = "events";
     private static final String CARRIER_NODE = "carrier";
@@ -32,7 +33,7 @@ public class FirebaseDBHelper {
 
     private static FirebaseDBHelper instance;
     private static FirebaseClient firebaseClient;
-    private static DataChangeEventListener dataChangeEventListener;
+    private static List<DataChangeEventListener> dataChangeListeners;
 
     public Collection<? extends Event> geFireBaseEvents() {
         // TODO: Currently contains dummy code; Fill up with real code.
@@ -59,6 +60,7 @@ public class FirebaseDBHelper {
 
     public interface DataChangeEventListener {
         void onUserDataUpdated(User user);
+        void onEventDataUpdated(Event event);
     }
 
     public static FirebaseDBHelper getInstance() {
@@ -106,16 +108,50 @@ public class FirebaseDBHelper {
         dfReference.child(USERS_NODE).child(user.id).setValue(user);
     }
 
-    public void getUsersSubcribedEvents(User lookupUser, DataChangeEventListener listener) {
-        dataChangeEventListener = listener;
+    public void getUsersSubscribedEvents(User lookupUser, DataChangeEventListener listener) {
+        registerListener(listener);
+        firebaseClient.getFirebaseDatabase().child(USERS_NODE).orderByChild(NODE_ID).equalTo(lookupUser.id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                    User user = userSnapshot.getValue(User.class);
+                    notifyUserDataChangeEvent(user);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void getEventList(DataChangeEventListener listener) {
+        registerListener(listener);
+        firebaseClient.getFirebaseDatabase().child(EVENTS_NODE).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                    Event event = userSnapshot.getValue(Event.class);
+                    notifyEventDataChangeEvent(event);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void getUsersList(DataChangeEventListener listener) {
+        registerListener(listener);
         firebaseClient.getFirebaseDatabase().child(USERS_NODE).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                     User user = userSnapshot.getValue(User.class);
-                    if (dataChangeEventListener != null) {
-                        dataChangeEventListener.onUserDataUpdated(user);
-                    }
+                    notifyUserDataChangeEvent(user);
                 }
             }
 
@@ -139,5 +175,26 @@ public class FirebaseDBHelper {
 
     public void updateUsersSubscribedEvents(Subscription subscription) {
         firebaseClient.getFirebaseDatabase().child(SUBSCRIPTION_NODE).child(subscription.id).setValue(subscription);
+    }
+
+    private void registerListener(DataChangeEventListener listener) {
+        if (dataChangeListeners == null) {
+            dataChangeListeners = new ArrayList<>();
+        }
+        if(!dataChangeListeners.contains(listener)) {
+            dataChangeListeners.add(listener);
+        }
+    }
+
+    private void notifyUserDataChangeEvent(User user) {
+        for (DataChangeEventListener listener: dataChangeListeners) {
+            listener.onUserDataUpdated(user);
+        }
+    }
+
+    private void notifyEventDataChangeEvent(Event event) {
+        for (DataChangeEventListener listener: dataChangeListeners) {
+            listener.onEventDataUpdated(event);
+        }
     }
 }

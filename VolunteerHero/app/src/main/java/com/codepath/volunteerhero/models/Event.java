@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.google.android.gms.location.places.Place;
+import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.gson.annotations.SerializedName;
 
@@ -78,6 +79,7 @@ public class Event extends BaseModelWithId implements Serializable {
     @SerializedName("updated_at")
     public Date updatedAt;
 
+    @Exclude
     public String getLocation() {
         if (city == null || country == null) {
             return "Virtual";
@@ -85,6 +87,7 @@ public class Event extends BaseModelWithId implements Serializable {
         return city + ", " + country;
     }
 
+    @Exclude
     public String getTopics() {
         if (topics == null) {
             return "";
@@ -97,6 +100,7 @@ public class Event extends BaseModelWithId implements Serializable {
         return result.length() > 0 ? result.substring(0, result.length() - 2): "";
     }
 
+    @Exclude
     public String getActivities() {
         if (activities == null) {
             return "";
@@ -109,6 +113,7 @@ public class Event extends BaseModelWithId implements Serializable {
         return result.length() > 0 ? result.substring(0, result.length() - 2): "";
     }
 
+    @Exclude
     public Event updateFromPlace(Place place, Context context) throws IOException {
         this.latitude = place.getLatLng().latitude;
         this.longitude = place.getLatLng().longitude;
@@ -125,6 +130,7 @@ public class Event extends BaseModelWithId implements Serializable {
         return this;
     }
 
+    @Exclude
     public String getImageUrl() {
         if (eventHeaderImageUrl != null) {
             return eventHeaderImageUrl;
