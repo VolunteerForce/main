@@ -135,6 +135,21 @@ public class FirebaseDBHelper {
         dfReference.child(USERS_NODE).child(user.id).setValue(user);
     }
 
+    public void userUnSubscribeFromEvent(User user, Event subscribedEvent) {
+        DatabaseReference dfReference = firebaseClient.getFirebaseDatabase();
+
+        if (user.events != null) {
+            List<Event> updatedList = new ArrayList<>();
+            for (Event event: user.events) {
+                if (!event.id.equals(subscribedEvent.id)) {
+                    updatedList.add(event);
+                }
+            }
+            user.events = updatedList;
+        }
+        dfReference.child(USERS_NODE).child(user.id).setValue(user);
+    }
+
     public void getUsersSubscribedEvents(User lookupUser, DataChangeEventListener listener) {
         registerListener(listener);
         firebaseClient.getFirebaseDatabase().child(USERS_NODE).orderByChild(NODE_ID).equalTo(lookupUser.id).addValueEventListener(new ValueEventListener() {
