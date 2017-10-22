@@ -21,27 +21,18 @@ import com.codepath.volunteerhero.activities.EventDetailActivity;
 import com.codepath.volunteerhero.adapters.EventAdapter;
 import com.codepath.volunteerhero.data.DataProvider;
 import com.codepath.volunteerhero.data.EventDataProvider;
-import com.codepath.volunteerhero.models.BetterPlaceEventResponse;
 import com.codepath.volunteerhero.models.Event;
-import com.codepath.volunteerhero.networking.BetterPlaceClient;
-import com.codepath.volunteerhero.storage.LocalStorage;
 import com.codepath.volunteerhero.utils.EndlessRecyclerViewScrollListener;
 import com.codepath.volunteerhero.utils.VolunteerHeroConstants;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.parceler.Parcels;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
 
 /**
  * Fragment to list the volunteer opportunities
@@ -134,7 +125,8 @@ public class OpportunitiesListFragment extends Fragment implements DataProvider.
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 Toast.makeText(getActivity(), "Loading more events", Toast.LENGTH_SHORT).show();
 //                populateEventList(page);
-                EventDataProvider.getInstance().loadMoreData();
+                loadMoreData();
+
             }
         };
 
@@ -145,7 +137,7 @@ public class OpportunitiesListFragment extends Fragment implements DataProvider.
             Toast.makeText(getActivity(), "Refreshing", Toast.LENGTH_SHORT).show();
 //            populateEventList(0);
 
-            EventDataProvider.getInstance().startDataLoad();
+            startDataLoad();
         });
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvEventList.getContext(),
@@ -156,10 +148,19 @@ public class OpportunitiesListFragment extends Fragment implements DataProvider.
         rvEventList.addOnScrollListener(mScrollListener);
 //        populateEventList(0);
 
+        startDataLoad();
+
+    }
+
+    public void startDataLoad() {
         EventDataProvider.getInstance().startDataLoad();
     }
 
-    public void populateEventList2(int page) {
+    public void loadMoreData() {
+        EventDataProvider.getInstance().loadMoreData();
+    }
+
+    /*public void populateEventList2(int page) {
         if (page == 0) {
             // READ from DB first;
 
@@ -193,7 +194,7 @@ public class OpportunitiesListFragment extends Fragment implements DataProvider.
                 }
             }
         }, page);
-    }
+    }*/
 
     @Override
     public void onAttach(Context context) {

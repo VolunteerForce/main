@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.codepath.volunteerhero.fragments.OpportunitiesListFragment;
 import com.codepath.volunteerhero.fragments.OpportunitiesMapFragment;
+import com.codepath.volunteerhero.fragments.UserSubscribedListFragment;
 
 
 /**
@@ -15,8 +16,8 @@ import com.codepath.volunteerhero.fragments.OpportunitiesMapFragment;
 
 public class EventFragmentPagerAdapter extends FragmentStatePagerAdapter{
 
-    private static final int PAGE_COUNT = 2;
-    private String tabTitles[] = new String[] { "Event List", "Map View"};
+    private static final int PAGE_COUNT = 3;
+    private String tabTitles[] = new String[] { "Event List", "Map View", "My Subscribed"};
     private Context mContext;
 
     public EventFragmentPagerAdapter(FragmentManager fm, Context context) {
@@ -39,8 +40,10 @@ public class EventFragmentPagerAdapter extends FragmentStatePagerAdapter{
         Fragment frag;
         if (position == 0) {
             frag = OpportunitiesListFragment.newInstance("List", "string2");
-        } else {
+        } else if (position == 1){
             frag = OpportunitiesMapFragment.newInstance("Map", "string2");
+        } else {
+            frag = UserSubscribedListFragment.newInstance("List", "string2");
         }
         return frag;
     }
