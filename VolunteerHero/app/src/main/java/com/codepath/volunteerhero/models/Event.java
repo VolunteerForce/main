@@ -16,7 +16,6 @@ import org.parceler.Parcel;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -50,14 +49,12 @@ public class Event extends BaseModelWithId implements Serializable {
 
     public String country;
 
-    @NonNull
     public List<String> topics;
 
     // Main image of the event.
     @Nullable
     public String eventHeaderImageUrl;
 
-    @NonNull
     public List<String> imageUrls;
 
     // Whether an event is in person or virtual
@@ -71,13 +68,15 @@ public class Event extends BaseModelWithId implements Serializable {
 
     public int vacancies;
 
-    public ArrayList<String> activities;
+    public List<String> activities;
 
     @SerializedName("created_at")
     public Date createdAt;
 
     @SerializedName("updated_at")
     public Date updatedAt;
+
+    public String imageUrl;
 
     @Exclude
     public String getLocation() {
