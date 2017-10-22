@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.codepath.volunteerhero.R;
+import com.codepath.volunteerhero.VolunteerHeroApplication;
+import com.codepath.volunteerhero.database.FirebaseDBHelper;
 import com.codepath.volunteerhero.models.Event;
 import com.codepath.volunteerhero.utils.VolunteerHeroConstants;
 
@@ -82,8 +84,8 @@ public class EventDetailFragment extends Fragment {
     @OnClick(R.id.btnSubscribe)
     void subscribe() {
         //TODO: (tejal) save to firebase (use confirm dialog?)
-        /*FirebaseDBHelper helper = FirebaseDBHelper.getInstance();
-        helper.addUsersSubscribedEvent(VolunteerHeroApplication.getLoggedInUser(), mEvent);*/
+        FirebaseDBHelper helper = FirebaseDBHelper.getInstance();
+        helper.addUsersSubscribedEvent(VolunteerHeroApplication.getLoggedInUser(), mEvent);
     }
 
     @OnClick (R.id.ibShare)

@@ -4,8 +4,12 @@ import com.codepath.volunteerhero.models.Event;
 import com.codepath.volunteerhero.models.Subscription;
 import com.codepath.volunteerhero.models.User;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,6 +25,11 @@ public class FirebaseDBHelper {
 
     private static FirebaseDBHelper instance;
     private static FirebaseClient firebaseClient;
+    private static DataChangeEventListener dataChangeEventListener;
+
+    public interface DataChangeEventListener {
+        void onUserDataUpdated(User user);
+    }
 
     public static FirebaseDBHelper getInstance() {
         if (instance == null) {
@@ -56,8 +65,34 @@ public class FirebaseDBHelper {
     public void addUsersSubscribedEvent(User user, Event subscribedEvent) {
         DatabaseReference dfReference = firebaseClient.getFirebaseDatabase();
 
-        Subscription subscription = new Subscription();
-        dfReference.child(SUBSCRIPTION_NODE).child(subscription.id).child("events").push().setValue(subscribedEvent);
+        if (user.events == null) {
+            List<Event> events = new ArrayList<>();
+            events.add(subscribedEvent);
+            user.events = events;
+        } else {
+            user.events.add(subscribedEvent);
+        }
+        dfReference.child(USERS_NODE).child(user.id).setValue(user);
+    }
+
+    public void getUsersSubcribedEvents(User lookupUser, DataChangeEventListener listener) {
+        dataChangeEventListener = listener;
+        firebaseClient.getFirebaseDatabase().child(USERS_NODE).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                    User user = userSnapshot.getValue(User.class);
+                    if (dataChangeEventListener != null) {
+                        dataChangeEventListener.onUserDataUpdated(user);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void addUsersSubscribedEvents(User user, List<Event> subscribedEvents) {

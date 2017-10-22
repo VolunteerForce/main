@@ -5,17 +5,21 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.codepath.volunteerhero.R;
+import com.codepath.volunteerhero.VolunteerHeroApplication;
 import com.codepath.volunteerhero.adapters.EventFragmentPagerAdapter;
+import com.codepath.volunteerhero.database.FirebaseDBHelper;
+import com.codepath.volunteerhero.models.User;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,11 +37,11 @@ public class OpportunitiesListActivity extends BaseActivity {
     @BindView(R.id.fab)
     FloatingActionButton fab;
 
-    @BindView(R.id.drawer_layout)
-    DrawerLayout drawerLayout;
-
-    @BindView(R.id.navigation_view)
-    NavigationView drawerNavView;
+//    @BindView(R.id.drawer_layout)
+//    DrawerLayout drawerLayout;
+//
+//    @BindView(R.id.navigation_view)
+//    NavigationView drawerNavView;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -62,7 +66,7 @@ public class OpportunitiesListActivity extends BaseActivity {
         tabLayout.setupWithViewPager(mViewPager);
 
         // Setup drawer view
-        setupDrawerContent(drawerNavView);
+        //setupDrawerContent(drawerNavView);
 
         // setup menu icon
         final ActionBar actionBar = getSupportActionBar();
@@ -70,7 +74,8 @@ public class OpportunitiesListActivity extends BaseActivity {
             actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_24dp);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        drawerLayout.closeDrawers();
+
+        //drawerLayout.closeDrawers();
     }
 
     @OnClick(R.id.fab)
@@ -83,7 +88,7 @@ public class OpportunitiesListActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                drawerLayout.openDrawer(GravityCompat.START);
+                //drawerLayout.openDrawer(GravityCompat.START);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -101,7 +106,7 @@ public class OpportunitiesListActivity extends BaseActivity {
                 showLoginActivity();
                 break;
             default:
-                drawerLayout.closeDrawers();
+                //drawerLayout.closeDrawers();
                 break;
         }
 
@@ -110,7 +115,7 @@ public class OpportunitiesListActivity extends BaseActivity {
         // Set action bar title
         setTitle(menuItem.getTitle());
         // Close the navigation drawer
-        drawerLayout.closeDrawers();
+        //drawerLayout.closeDrawers();
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
@@ -124,5 +129,13 @@ public class OpportunitiesListActivity extends BaseActivity {
     private void showLoginActivity() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+    }
+
+    // Helper method to fetch all users & events
+    private void getUserList() {
+        List<User> users = new ArrayList<>();
+        FirebaseDBHelper.getInstance().getUsersSubcribedEvents(VolunteerHeroApplication.getLoggedInUser(), user -> {
+            users.add(user);
+        });
     }
 }

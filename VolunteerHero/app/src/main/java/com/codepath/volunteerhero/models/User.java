@@ -7,6 +7,8 @@ import com.google.firebase.database.IgnoreExtraProperties;
 
 import org.parceler.Parcel;
 
+import java.util.List;
+
 /**
  * Created by jan_spidlen on 10/10/17.
  */
@@ -28,6 +30,8 @@ public class User {
 
     @Nullable
     public String profileImageUrl;
+
+    public List<Event> events;
 
     public User() {
         //required default constructor
