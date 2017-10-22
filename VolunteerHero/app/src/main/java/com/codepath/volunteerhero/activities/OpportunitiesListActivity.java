@@ -5,10 +5,14 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.codepath.volunteerhero.R;
 import com.codepath.volunteerhero.VolunteerHeroApplication;
@@ -37,11 +41,11 @@ public class OpportunitiesListActivity extends BaseActivity {
     @BindView(R.id.fab)
     FloatingActionButton fab;
 
-//    @BindView(R.id.drawer_layout)
-//    DrawerLayout drawerLayout;
-//
-//    @BindView(R.id.navigation_view)
-//    NavigationView drawerNavView;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
+
+    @BindView(R.id.navigation_view)
+    NavigationView drawerNavView;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -66,16 +70,17 @@ public class OpportunitiesListActivity extends BaseActivity {
         tabLayout.setupWithViewPager(mViewPager);
 
         // Setup drawer view
-        //setupDrawerContent(drawerNavView);
+        setupDrawerContent(drawerNavView);
 
         // setup menu icon
         final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_24dp);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_nav_24dp);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
-        //drawerLayout.closeDrawers();
+        View headerView = drawerNavView.getHeaderView(0);
+        TextView userNameText = headerView.findViewById(R.id.nav_user_name);
+        userNameText.setText(VolunteerHeroApplication.getLoggedInUser().name);
     }
 
     @OnClick(R.id.fab)
@@ -88,10 +93,19 @@ public class OpportunitiesListActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                //drawerLayout.openDrawer(GravityCompat.START);
+                drawerLayout.openDrawer(GravityCompat.START);
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     public void selectDrawerItem(MenuItem menuItem) {
@@ -106,7 +120,7 @@ public class OpportunitiesListActivity extends BaseActivity {
                 showLoginActivity();
                 break;
             default:
-                //drawerLayout.closeDrawers();
+                drawerLayout.closeDrawers();
                 break;
         }
 
@@ -115,7 +129,7 @@ public class OpportunitiesListActivity extends BaseActivity {
         // Set action bar title
         setTitle(menuItem.getTitle());
         // Close the navigation drawer
-        //drawerLayout.closeDrawers();
+        drawerLayout.closeDrawers();
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
