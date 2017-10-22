@@ -31,6 +31,8 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
+import static com.codepath.volunteerhero.utils.Utils.saveBitmapToTempImage;
+
 /**
  * Created by jan_spidlen on 10/15/17.
  */
@@ -39,8 +41,6 @@ public class CreateEventFragmentController implements DatePickerDialog.OnDateSet
         TextWatcher, Callback<ImageResponse> {
 
     public Bitmap decodeImage(Intent data, File file) {
-
-        uploadImage(file);
         final boolean isCamera;
         if (data == null || data.getData() == null) {
             isCamera = true;
@@ -65,7 +65,6 @@ public class CreateEventFragmentController implements DatePickerDialog.OnDateSet
             }
         }
 
-//        uploadImage(bmp);
         return bmp;
     }
 
@@ -80,11 +79,8 @@ public class CreateEventFragmentController implements DatePickerDialog.OnDateSet
     }
 
     public void uploadImage(Bitmap bmp) {
-        UploadService uploadService = new UploadService(view.getActivity());
-
-        Upload upload = new Upload();
-        upload.imageBase64 = Utils.encodeToBase64(bmp, Bitmap.CompressFormat.JPEG, 100);
-        uploadService.execute(upload, this);
+        File f = Utils.saveBitmapToTempImage(bmp);
+        uploadImage(f);
     }
 
     @Override

@@ -1,11 +1,17 @@
 package com.codepath.volunteerhero.utils;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.util.Base64;
 
 import com.codepath.volunteerhero.models.User;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Random;
 
 /**
@@ -24,6 +30,28 @@ public class Utils {
             randomStringBuilder.append(tempChar);
         }
         return randomStringBuilder.toString() + ".jpg";
+    }
+
+    public static File saveBitmapToTempImage(Bitmap bmp) {
+        File fileToStoreImage = getExternalStorageRandomFile();
+        fileToStoreImage.getParentFile().mkdirs();
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(fileToStoreImage.getAbsolutePath());
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
+            fileOutputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return fileToStoreImage;
+    }
+
+    public static File getExternalStorageRandomFile() {
+        final File root = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES);
+        return new File(root, "share_image_" + System.currentTimeMillis() + ".png");
     }
 
     public static String encodeToBase64(Bitmap image,
