@@ -6,4 +6,5 @@
     <color name="lightBlue">#E3F2FD</color>
     <color name="midGrey">#BDBDBD</color>
     <color name="white">#FFF</color>
+    <color name="see_through_grey">#61000000</color>
 </resources>

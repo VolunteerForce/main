@@ -5,9 +5,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -23,12 +21,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 
 import com.codepath.volunteerhero.R;
 import com.codepath.volunteerhero.controllers.CreateEventFragmentController;
-import com.codepath.volunteerhero.data.EventDataProvider;
-import com.codepath.volunteerhero.models.Event;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,18 +35,14 @@ import butterknife.OnClick;
 import com.codepath.volunteerhero.utils.NetworkUtils;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import static android.R.attr.data;
-import static android.R.attr.imageButtonStyle;
 import static android.app.Activity.RESULT_OK;
 import static android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION;
 import static android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
@@ -82,6 +76,11 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
     @BindView(R.id.create_event_button)
     Button createEventButton;
 
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
+
+    @BindView(R.id.progressBarLayout)
+    FrameLayout progressBarLayout;
 
     CreateEventFragmentController controller;
 
@@ -102,6 +101,7 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
 
         controller = new CreateEventFragmentController(this, this.getContext());
         setUpTextListeners();
+        hideSpinnerEnableCreateButton();
         return view;
     }
 
@@ -143,10 +143,8 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
 
     @OnClick(R.id.create_event_button)
     void createEvent() {
-//        Event event =
+        showSpinnerAndDisableCreateButton();
         controller.startEventCreation();
-//        EventDataProvider.getInstance().addOrUpdateData(event);
-//        getActivity().getSupportFragmentManager().popBackStack();
     }
 
     @OnClick(R.id.event_date_button)
@@ -169,12 +167,6 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
     }
 
 
-//    @OnClick(R.id.upload_cover_image_button)
-//    void uploadCoverPhoto() {
-//        openImageIntent();
-//    }
-
-
     @Override
     public String getTitle() {
         return eventName.getText().toString();
@@ -192,7 +184,7 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
 
     @Override
     public void imageUploadFailed() {
-        maybeHideSpinnerEnableCreateButton();
+        hideSpinnerEnableCreateButton();
         NetworkUtils.showRetryableError(this.getView(),
                 R.string.cover_photo_upload_failed, (v) -> {
                     controller.startEventCreation();
@@ -201,16 +193,20 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
 
     @Override
     public void eventCreatedSuccessfully() {
-        maybeHideSpinnerEnableCreateButton();
+        hideSpinnerEnableCreateButton();
         getActivity().getSupportFragmentManager().popBackStack();
     }
 
     void showSpinnerAndDisableCreateButton() {
         createEventButton.setEnabled(false);
+        progressBarLayout.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
     }
 
-    void maybeHideSpinnerEnableCreateButton() {
+    void hideSpinnerEnableCreateButton() {
         createEventButton.setEnabled(true);
+        progressBarLayout.setVisibility(View.GONE);
+        progressBar.setVisibility(View.GONE);
     }
 
     @OnClick(R.id.upload_cover_image_button)
