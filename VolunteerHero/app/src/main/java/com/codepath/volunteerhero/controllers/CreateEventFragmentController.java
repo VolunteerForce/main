@@ -13,10 +13,13 @@ import android.util.Log;
 import android.view.View;
 
 import com.codepath.volunteerhero.R;
+import com.codepath.volunteerhero.VolunteerHeroApplication;
 import com.codepath.volunteerhero.data.EventDataProvider;
+import com.codepath.volunteerhero.database.FirebaseDBHelper;
 import com.codepath.volunteerhero.imgur.ImageResponse;
 import com.codepath.volunteerhero.imgur.Upload;
 import com.codepath.volunteerhero.imgur.UploadService;
+import com.codepath.volunteerhero.models.Carrier;
 import com.codepath.volunteerhero.models.Event;
 import com.codepath.volunteerhero.utils.NetworkUtils;
 import com.codepath.volunteerhero.utils.Utils;
@@ -176,13 +179,17 @@ public class CreateEventFragmentController implements DatePickerDialog.OnDateSet
         event.description = view.getDescription();
         event.id = "id:" + rnd.nextInt();
         event.eventHeaderImageUrl = link;
-//        event.
 
         try {
             event.updateFromPlace(lastSelectedPlace, context);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        event.carrier = new Carrier();
+        event.creator = VolunteerHeroApplication.getLoggedInUser();
+        Log.d("jenda", "event.creator " + event.creator );
+        event = FirebaseDBHelper.getInstance().addEvent(event);
         EventDataProvider.getInstance().addOrUpdateData(event);
         
         view.eventCreatedSuccessfully();
@@ -191,7 +198,6 @@ public class CreateEventFragmentController implements DatePickerDialog.OnDateSet
 
     @Override
     public void failure(RetrofitError error) {
-
         view.imageUploadFailed();
         Log.d("jenda", "failure " + error.toString());
     }

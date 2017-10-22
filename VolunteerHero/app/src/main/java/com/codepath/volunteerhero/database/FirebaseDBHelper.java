@@ -50,12 +50,13 @@ public class FirebaseDBHelper {
         return dbUser;
     }
 
-    public void addEvent(Event event) {
+    public Event addEvent(Event event) {
         DatabaseReference dfReference = firebaseClient.getFirebaseDatabase();
 
         event.id = dfReference.child(EVENTS_NODE).push().getKey();
         event.carrier.id = dfReference.child(EVENTS_NODE).child(CARRIER_NODE).push().getKey();
         dfReference.child(EVENTS_NODE).child(event.id).setValue(event);
+        return event;
     }
 
     public void updateEvent(Event event) {
