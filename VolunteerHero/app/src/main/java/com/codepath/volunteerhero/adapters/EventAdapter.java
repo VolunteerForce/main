@@ -71,11 +71,16 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     public void addAll(List<Event> events) {
         mEventsList.addAll(events);
-        // TODO: Add sorting based on date.
-//        Collections.sort(mEventsList, (i1, i2) -> {
-//
-//            return -1;
-//        });
+
+        // Sorting based on updated date -> this helps with creating our own events.
+        Collections.sort(mEventsList, (i1, i2) -> {
+            if (i1.updatedAt.getTime() == i2.updatedAt.getTime()) {
+                return 0;
+            } else if (i1.updatedAt.getTime() < i2.updatedAt.getTime()) {
+                return 1;
+            }
+            return  -1;
+        });
         notifyDataSetChanged();
     }
 

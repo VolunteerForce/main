@@ -9,12 +9,14 @@ import android.util.Log;
 
 import com.google.android.gms.location.places.Place;
 import com.google.firebase.database.IgnoreExtraProperties;
+import com.google.gson.annotations.SerializedName;
 
 import org.parceler.Parcel;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -23,7 +25,7 @@ import java.util.Locale;
  */
 @IgnoreExtraProperties
 @Parcel(analyze={Event.class})
-public class Event extends BaseModelWithId implements Serializable{
+public class Event extends BaseModelWithId implements Serializable {
 
     // The organization of the event
     @NonNull
@@ -69,6 +71,12 @@ public class Event extends BaseModelWithId implements Serializable{
     public int vacancies;
 
     public ArrayList<String> activities;
+
+    @SerializedName("created_at")
+    public Date createdAt;
+
+    @SerializedName("updated_at")
+    public Date updatedAt;
 
     public String getLocation() {
         if (city == null || country == null) {

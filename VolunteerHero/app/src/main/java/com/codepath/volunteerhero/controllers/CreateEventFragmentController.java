@@ -187,6 +187,7 @@ public class CreateEventFragmentController implements DatePickerDialog.OnDateSet
         }
 
         event.carrier = new Carrier();
+        event.createdAt = event.updatedAt = new Date();
         event.creator = VolunteerHeroApplication.getLoggedInUser();
         Log.d("jenda", "event.creator " + event.creator );
         event = FirebaseDBHelper.getInstance().addEvent(event);
