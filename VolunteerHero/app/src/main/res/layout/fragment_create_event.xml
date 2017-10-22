@@ -64,6 +64,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/sectionDivider2"
         android:layout_marginTop="15dp"
+        android:visibility="gone"
         android:text="@string/event_type_button_text" />
 
     <Button

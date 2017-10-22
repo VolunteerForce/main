@@ -55,6 +55,8 @@ public class CreateEventFragmentController implements DatePickerDialog.OnDateSet
         android.view.View getView();
         void imageUploadFailed();
         void eventCreatedSuccessfully();
+
+        void onDatePicked(Calendar calendar);
     }
     private final View view;
     private Context context;
@@ -73,7 +75,7 @@ public class CreateEventFragmentController implements DatePickerDialog.OnDateSet
         Log.d("jenda", "date");
         calendar = Calendar.getInstance();
         calendar.set(year, monthOfYear, dayOfMonth);
-
+        this.view.onDatePicked(calendar);
         maybeEnableCreateButton();
     }
 

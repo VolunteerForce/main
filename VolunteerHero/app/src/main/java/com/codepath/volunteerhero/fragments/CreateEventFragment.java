@@ -35,10 +35,12 @@ import butterknife.OnClick;
 import com.codepath.volunteerhero.utils.NetworkUtils;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -72,7 +74,7 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
     @BindView(R.id.event_address_button)
     Button eventAddressButton;
     @BindView(R.id.event_date_button)
-    Button eventDate;
+    Button eventDateButton;
     @BindView(R.id.create_event_button)
     Button createEventButton;
 
@@ -121,7 +123,9 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
 
         switch (requestCode) {
             case PLACE_PICKER_REQUEST:
-                controller.setPlace(PlacePicker.getPlace(this.getActivity(), data));
+                Place place = PlacePicker.getPlace(this.getActivity(), data);
+                eventAddressButton.setText(place.getAddress());
+                controller.setPlace(place);
                 break;
             case IMAGE_OR_CAMERA_REQUEST_CODE:
                 Bitmap bmp = controller.decodeImage(data, file);
@@ -195,6 +199,12 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
     public void eventCreatedSuccessfully() {
         hideSpinnerEnableCreateButton();
         getActivity().getSupportFragmentManager().popBackStack();
+    }
+
+    @Override
+    public void onDatePicked(Calendar calendar) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        this.eventDateButton.setText(format.format(calendar.getTime()));
     }
 
     void showSpinnerAndDisableCreateButton() {
