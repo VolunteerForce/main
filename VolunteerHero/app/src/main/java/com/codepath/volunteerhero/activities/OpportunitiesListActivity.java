@@ -17,6 +17,8 @@ import android.widget.TextView;
 import com.codepath.volunteerhero.R;
 import com.codepath.volunteerhero.VolunteerHeroApplication;
 import com.codepath.volunteerhero.adapters.EventFragmentPagerAdapter;
+import com.codepath.volunteerhero.database.FirebaseDBHelper;
+import com.codepath.volunteerhero.models.Event;
 import com.codepath.volunteerhero.models.User;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
@@ -145,10 +147,32 @@ public class OpportunitiesListActivity extends BaseActivity {
     }
 
     // Helper method to fetch all users & events
-    private void getUserList() {
+    private void getSubscribedEvents() {
         List<User> users = new ArrayList<>();
-//        FirebaseDBHelper.getInstance().getUsersSubscribedEvents(VolunteerHeroApplication.getLoggedInUser(), user -> {
-//            users.add(user);
-//        });
+        FirebaseDBHelper.getInstance().getUsersSubscribedEvents(VolunteerHeroApplication.getLoggedInUser(), new FirebaseDBHelper.DataChangeEventListener() {
+            @Override
+            public void onUserDataUpdated(User user) {
+                users.add(user);
+            }
+
+            @Override
+            public void onEventDataUpdated(Event event) {
+
+            }
+        });
+    }
+
+    private void getEventList() {
+        List<Event> events = new ArrayList<>();
+        FirebaseDBHelper.getInstance().getEventList(new FirebaseDBHelper.DataChangeEventListener() {
+            @Override
+            public void onUserDataUpdated(User user) {
+            }
+
+            @Override
+            public void onEventDataUpdated(Event event) {
+                events.add(event);
+            }
+        });
     }
 }
