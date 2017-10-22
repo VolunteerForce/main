@@ -17,8 +17,6 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-import static com.facebook.GraphRequest.TAG;
-
 /**
  * Created by jan_spidlen on 10/17/17.
  */

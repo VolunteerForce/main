@@ -29,10 +29,25 @@ public class BetterPlaceClient {
     }
 
     public void getEvents(Callback callback, int page) {
-        HttpUrl.Builder urlBuilder = HttpUrl.parse(BETTER_PLACE_URL).newBuilder();
-        urlBuilder.addQueryParameter("page", String.valueOf(page));
-        String url = urlBuilder.build().toString();
+        getEvents(callback, page, null, null);
+    }
 
+    public void getEvents(Callback callback, int page, String location, String searchQ) {
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(BETTER_PLACE_URL).newBuilder();
+        if (location != null) {
+            urlBuilder.addQueryParameter("around", location);
+        }
+        if (searchQ != null) {
+            urlBuilder.addQueryParameter("q", searchQ);
+        }
+        urlBuilder.addQueryParameter("page", String.valueOf(page));
+
+        getEventsInternal(callback, urlBuilder);
+    }
+
+    public void getEventsInternal(Callback callback, HttpUrl.Builder urlBuilder){
+
+        String url = urlBuilder.build().toString();
         Request request = new Request.Builder()
                 .url(url)
                 .build();
