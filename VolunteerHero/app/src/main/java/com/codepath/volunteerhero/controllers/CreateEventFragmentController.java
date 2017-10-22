@@ -30,6 +30,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 import retrofit.Callback;
@@ -57,6 +58,8 @@ public class CreateEventFragmentController implements DatePickerDialog.OnDateSet
         void eventCreatedSuccessfully();
 
         void onDatePicked(Calendar calendar);
+
+        List<String> getSelectedTopics();
     }
     private final View view;
     private Context context;
@@ -188,6 +191,7 @@ public class CreateEventFragmentController implements DatePickerDialog.OnDateSet
             e.printStackTrace();
         }
 
+        event.topics = view.getSelectedTopics();
         event.carrier = new Carrier();
         event.createdAt = event.updatedAt = new Date();
         event.creator = VolunteerHeroApplication.getLoggedInUser();

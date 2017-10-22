@@ -15,6 +15,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,12 +27,14 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
 import com.codepath.volunteerhero.R;
+import com.codepath.volunteerhero.adapters.TopicAdapter;
 import com.codepath.volunteerhero.controllers.CreateEventFragmentController;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import com.codepath.volunteerhero.models.Topics;
 import com.codepath.volunteerhero.utils.NetworkUtils;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -69,8 +72,8 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
     @BindView(R.id.event_description_edit_text)
     EditText eventDescription;
 
-    @BindView(R.id.event_type_button)
-    Button eventTypeButton;
+//    @BindView(R.id.event_type_button)
+//    Button eventTypeButton;
     @BindView(R.id.event_address_button)
     Button eventAddressButton;
     @BindView(R.id.event_date_button)
@@ -84,7 +87,11 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
     @BindView(R.id.progressBarLayout)
     FrameLayout progressBarLayout;
 
+    @BindView(R.id.topics_recycler_view)
+    RecyclerView topicsRecyclerView;
+
     CreateEventFragmentController controller;
+    TopicAdapter topicAdapter;
 
     public static CreateEventFragment newInstance() {
         CreateEventFragment fragment = new CreateEventFragment();
@@ -103,7 +110,11 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
 
         controller = new CreateEventFragmentController(this, this.getContext());
         setUpTextListeners();
-        hideSpinnerEnableCreateButton();
+//        hideSpinnerEnableCreateButton();
+
+        topicAdapter = new TopicAdapter(this.getContext(),Topics.getAvailableTopics());
+        topicsRecyclerView.setAdapter(topicAdapter);
+        topicAdapter.notifyDataSetChanged();
         return view;
     }
 
@@ -205,6 +216,13 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
     public void onDatePicked(Calendar calendar) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         this.eventDateButton.setText(format.format(calendar.getTime()));
+    }
+
+    @Override
+    public List<String> getSelectedTopics() {
+        List<String> topics = new ArrayList<>();
+        topics.addAll(topicAdapter.getSelectedTopics());
+        return topics;
     }
 
     void showSpinnerAndDisableCreateButton() {

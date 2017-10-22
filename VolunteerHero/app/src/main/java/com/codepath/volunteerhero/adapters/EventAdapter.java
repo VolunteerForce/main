@@ -101,7 +101,7 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         notifyDataSetChanged();
     }
 
-    public class EventView extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class EventView extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.tvOrgName)
         TextView tvOrgName;

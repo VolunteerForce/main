@@ -50,7 +50,7 @@ public class Event extends BaseModelWithId implements Serializable {
     public String country;
 
     @NonNull
-    public ArrayList<String> topics;
+    public List<String> topics;
 
     // Main image of the event.
     @Nullable
