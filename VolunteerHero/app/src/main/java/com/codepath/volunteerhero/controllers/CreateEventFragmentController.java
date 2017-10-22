@@ -13,8 +13,12 @@ import android.util.Log;
 import android.view.View;
 
 import com.codepath.volunteerhero.R;
+import com.codepath.volunteerhero.imgur.ImageResponse;
+import com.codepath.volunteerhero.imgur.Upload;
+import com.codepath.volunteerhero.imgur.UploadService;
 import com.codepath.volunteerhero.models.Event;
 import com.codepath.volunteerhero.utils.NetworkUtils;
+import com.codepath.volunteerhero.utils.Utils;
 import com.google.android.gms.location.places.Place;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
@@ -23,15 +27,20 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
 /**
  * Created by jan_spidlen on 10/15/17.
  */
 
 public class CreateEventFragmentController implements DatePickerDialog.OnDateSetListener,
-        TextWatcher {
+        TextWatcher, Callback<ImageResponse> {
 
     public Bitmap decodeImage(Intent data, File file) {
 
+        uploadImage(file);
         final boolean isCamera;
         if (data == null || data.getData() == null) {
             isCamera = true;
@@ -56,7 +65,37 @@ public class CreateEventFragmentController implements DatePickerDialog.OnDateSet
             }
         }
 
+//        uploadImage(bmp);
         return bmp;
+    }
+
+
+    public void uploadImage(File f) {
+
+        UploadService uploadService = new UploadService(view.getActivity());
+        Upload upload = new Upload();
+        upload.image = f;
+        uploadService.execute(upload, this);
+
+    }
+
+    public void uploadImage(Bitmap bmp) {
+        UploadService uploadService = new UploadService(view.getActivity());
+
+        Upload upload = new Upload();
+        upload.imageBase64 = Utils.encodeToBase64(bmp, Bitmap.CompressFormat.JPEG, 100);
+        uploadService.execute(upload, this);
+    }
+
+    @Override
+    public void success(ImageResponse imageResponse, Response response) {
+        Log.d("jenda", "imageResponse " + imageResponse.toString());
+    }
+
+    @Override
+    public void failure(RetrofitError error) {
+
+        Log.d("jenda", "failure " + error.toString());
     }
 
     public interface View {

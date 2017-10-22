@@ -128,6 +128,14 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
         }
         if (requestCode == IMAGE_OR_CAMERA_REQUEST_CODE) {
 
+
+//            Client ID:
+//
+//            c8dfa5f32ff1fe5
+//            Client secret:
+//
+//            11c24cb4a34bf812ac7e14fbd19963d038965d0c
+
             Log.d("jenda", "bmp inside ");
             final boolean isCamera;
             if (data == null || data.getData() == null) {
