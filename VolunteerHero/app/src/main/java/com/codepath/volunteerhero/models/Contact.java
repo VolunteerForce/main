@@ -13,11 +13,11 @@ import java.io.Serializable;
 @Parcel(analyze={Contact.class})
 public class Contact extends BaseModelWithId implements Serializable {
 
-    String name;
+    public String name;
 
-    String phone;
+    public String phone;
 
-    String email;
+    public String email;
     public Contact() {
         //required
     }

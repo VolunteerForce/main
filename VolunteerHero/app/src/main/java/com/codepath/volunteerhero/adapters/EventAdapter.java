@@ -122,7 +122,7 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         }
 
         public void bind(Event event) {
-            if (event.carrier != null) {
+            if (event.carrier != null && event.carrier.name != null) {
                 tvOrgName.setText(event.carrier.name);
             } else {
                 tvOrgName.setText(event.title);

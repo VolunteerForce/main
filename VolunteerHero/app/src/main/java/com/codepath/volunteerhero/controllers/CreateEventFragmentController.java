@@ -20,6 +20,7 @@ import com.codepath.volunteerhero.imgur.ImageResponse;
 import com.codepath.volunteerhero.imgur.Upload;
 import com.codepath.volunteerhero.imgur.UploadService;
 import com.codepath.volunteerhero.models.Carrier;
+import com.codepath.volunteerhero.models.Contact;
 import com.codepath.volunteerhero.models.Event;
 import com.codepath.volunteerhero.utils.NetworkUtils;
 import com.codepath.volunteerhero.utils.Utils;
@@ -190,11 +191,15 @@ public class CreateEventFragmentController implements DatePickerDialog.OnDateSet
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         event.topics = view.getSelectedTopics();
         event.carrier = new Carrier();
         event.createdAt = event.updatedAt = new Date();
         event.creator = VolunteerHeroApplication.getLoggedInUser();
+
+        event.contact = new Contact();
+        event.contact.email = VolunteerHeroApplication.getLoggedInUser().email;
+        event.contact.name = VolunteerHeroApplication.getLoggedInUser().name;
+
         Log.d("jenda", "event.creator " + event.creator );
         event = FirebaseDBHelper.getInstance().addEvent(event);
         EventDataProvider.getInstance().addOrUpdateData(event);
