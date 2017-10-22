@@ -63,6 +63,9 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
     private static final int IMAGE_OR_CAMERA_REQUEST_CODE = 2;
     private static final int PLACE_PICKER_REQUEST = 3;
 
+    private File file;
+    private Bitmap bitmap;
+
     @BindView(R.id.upload_cover_image_button)
     ImageButton coverPhotoButton;
     @BindView(R.id.event_name_edit_text)
@@ -109,7 +112,6 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         Log.d("jenda", "onActivityResult " + resultCode + " " + requestCode);
 
         if (resultCode != RESULT_OK) {
@@ -126,43 +128,6 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
                 coverPhotoButton.setImageBitmap(bmp);
                 break;
         }
-        if (requestCode == IMAGE_OR_CAMERA_REQUEST_CODE) {
-
-
-//            Client ID:
-//
-//            c8dfa5f32ff1fe5
-//            Client secret:
-//
-//            11c24cb4a34bf812ac7e14fbd19963d038965d0c
-
-            Log.d("jenda", "bmp inside ");
-            final boolean isCamera;
-            if (data == null || data.getData() == null) {
-                isCamera = true;
-            } else {
-                final String action = data.getAction();
-                if (action == null) {
-                    isCamera = false;
-                } else {
-                    isCamera = action.equals(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                }
-            }
-            Bitmap bmp = null;
-            if (isCamera) {
-                bmp = BitmapFactory.decodeFile(file.getAbsolutePath());
-            } else {
-                Uri selectedImageUri = data == null ? null : data.getData();
-                try {
-                    bmp = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImageUri);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    NetworkUtils.showNonretryableError(this.getView(), R.string.cannot_decode_image);
-                }
-            }
-
-            Log.d("jenda", "bmp " + bmp.getByteCount());
-        }
     }
 
     @OnClick(R.id.event_address_button)
@@ -178,9 +143,10 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
 
     @OnClick(R.id.create_event_button)
     void createEvent() {
-        Event event = controller.createEvent();
-        EventDataProvider.getInstance().addOrUpdateData(event);
-        getActivity().getSupportFragmentManager().popBackStack();
+//        Event event =
+        controller.startEventCreation();
+//        EventDataProvider.getInstance().addOrUpdateData(event);
+//        getActivity().getSupportFragmentManager().popBackStack();
     }
 
     @OnClick(R.id.event_date_button)
@@ -203,11 +169,10 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
     }
 
 
-    @OnClick(R.id.upload_cover_image_button)
-    void uploadCoverPhoto() {
-
-        openImageIntent();
-    }
+//    @OnClick(R.id.upload_cover_image_button)
+//    void uploadCoverPhoto() {
+//        openImageIntent();
+//    }
 
 
     @Override
@@ -225,11 +190,31 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
         createEventButton.setEnabled(enabled);
     }
 
+    @Override
+    public void imageUploadFailed() {
+        maybeHideSpinnerEnableCreateButton();
+        NetworkUtils.showRetryableError(this.getView(),
+                R.string.cover_photo_upload_failed, (v) -> {
+                    controller.startEventCreation();
+                });
+    }
 
-    private File file;
-    private String fullPath;
+    @Override
+    public void eventCreatedSuccessfully() {
+        maybeHideSpinnerEnableCreateButton();
+        getActivity().getSupportFragmentManager().popBackStack();
+    }
 
-    private void openImageIntent() {
+    void showSpinnerAndDisableCreateButton() {
+        createEventButton.setEnabled(false);
+    }
+
+    void maybeHideSpinnerEnableCreateButton() {
+        createEventButton.setEnabled(true);
+    }
+
+    @OnClick(R.id.upload_cover_image_button)
+    void openImageIntent() {
 
         // TODO(jan.spidlen): Properly handle permissions.
         if (ContextCompat.checkSelfPermission(getActivity(),

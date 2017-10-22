@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.codepath.volunteerhero.R;
+import com.codepath.volunteerhero.data.EventDataProvider;
 import com.codepath.volunteerhero.imgur.ImageResponse;
 import com.codepath.volunteerhero.imgur.Upload;
 import com.codepath.volunteerhero.imgur.UploadService;
@@ -26,6 +27,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -40,60 +42,6 @@ import static com.codepath.volunteerhero.utils.Utils.saveBitmapToTempImage;
 public class CreateEventFragmentController implements DatePickerDialog.OnDateSetListener,
         TextWatcher, Callback<ImageResponse> {
 
-    public Bitmap decodeImage(Intent data, File file) {
-        final boolean isCamera;
-        if (data == null || data.getData() == null) {
-            isCamera = true;
-        } else {
-            final String action = data.getAction();
-            if (action == null) {
-                isCamera = false;
-            } else {
-                isCamera = action.equals(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-            }
-        }
-        Bitmap bmp = null;
-        if (isCamera) {
-            bmp = BitmapFactory.decodeFile(file.getAbsolutePath());
-        } else {
-            Uri selectedImageUri = data == null ? null : data.getData();
-            try {
-                bmp = MediaStore.Images.Media.getBitmap(view.getActivity().getContentResolver(), selectedImageUri);
-            } catch (IOException e) {
-                e.printStackTrace();
-                NetworkUtils.showNonretryableError(view.getView(), R.string.cannot_decode_image);
-            }
-        }
-
-        return bmp;
-    }
-
-
-    public void uploadImage(File f) {
-
-        UploadService uploadService = new UploadService(view.getActivity());
-        Upload upload = new Upload();
-        upload.image = f;
-        uploadService.execute(upload, this);
-
-    }
-
-    public void uploadImage(Bitmap bmp) {
-        File f = Utils.saveBitmapToTempImage(bmp);
-        uploadImage(f);
-    }
-
-    @Override
-    public void success(ImageResponse imageResponse, Response response) {
-        Log.d("jenda", "imageResponse " + imageResponse.toString());
-    }
-
-    @Override
-    public void failure(RetrofitError error) {
-
-        Log.d("jenda", "failure " + error.toString());
-    }
-
     public interface View {
         String getTitle();
         String getDescription();
@@ -102,9 +50,12 @@ public class CreateEventFragmentController implements DatePickerDialog.OnDateSet
         Context getActivity();
 
         android.view.View getView();
+        void imageUploadFailed();
+        void eventCreatedSuccessfully();
     }
     private final View view;
     private Context context;
+    private Bitmap bitmap;
     Place lastSelectedPlace;
     Calendar calendar;
 
@@ -139,17 +90,13 @@ public class CreateEventFragmentController implements DatePickerDialog.OnDateSet
         view.setCreateEventButtonEnabled(enabled);
     }
 
-    public Event createEvent() {
-        Event event = new Event();
-        event.title = view.getTitle();
-        event.description = view.getDescription();
 
-        try {
-            event.updateFromPlace(lastSelectedPlace, context);
-        } catch (IOException e) {
-            e.printStackTrace();
+    public void startEventCreation() {
+        if (bitmap != null) {
+            uploadImage(bitmap);
+        } else {
+            createEventAndSave(null);
         }
-        return event;
     }
 
     @Override
@@ -164,5 +111,92 @@ public class CreateEventFragmentController implements DatePickerDialog.OnDateSet
     @Override
     public void afterTextChanged(Editable s) {
         maybeEnableCreateButton();
+    }
+
+
+    public Bitmap decodeImage(Intent data, File file) {
+        final boolean isCamera;
+        if (data == null || data.getData() == null) {
+            isCamera = true;
+        } else {
+            final String action = data.getAction();
+            if (action == null) {
+                isCamera = false;
+            } else {
+                isCamera = action.equals(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+            }
+        }
+
+        if (isCamera) {
+            bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+        } else {
+            Uri selectedImageUri = data == null ? null : data.getData();
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(
+                        view.getActivity().getContentResolver(), selectedImageUri);
+            } catch (IOException e) {
+                e.printStackTrace();
+                NetworkUtils.showNonretryableError(view.getView(), R.string.cannot_decode_image);
+            }
+        }
+
+        return bitmap;
+    }
+
+
+    public void uploadImage(File f) {
+        UploadService uploadService = new UploadService(view.getActivity());
+        Upload upload = new Upload();
+        upload.image = f;
+        uploadService.execute(upload, this);
+
+    }
+
+    public void uploadImage(Bitmap bmp) {
+        File f = Utils.saveBitmapToTempImage(bmp);
+        uploadImage(f);
+    }
+
+    @Override
+    public void success(ImageResponse imageResponse, Response response) {
+        Log.d("jenda", "imageResponse " + imageResponse.toString());
+        if (imageResponse.success) {
+            createEventAndSave(imageResponse.data.link);
+        } else {
+            view.imageUploadFailed();
+        }
+    }
+
+    Random rnd = new Random();
+
+
+    public Event createEventAndSave(String link) {
+        Event event = new Event();
+        event.title = view.getTitle();
+        event.description = view.getDescription();
+        event.id = "id:" + rnd.nextInt();
+        event.eventHeaderImageUrl = link;
+//        event.
+
+        try {
+            event.updateFromPlace(lastSelectedPlace, context);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        EventDataProvider.getInstance().addOrUpdateData(event);
+        
+        view.eventCreatedSuccessfully();
+        return event;
+    }
+
+    @Override
+    public void failure(RetrofitError error) {
+
+        view.imageUploadFailed();
+        Log.d("jenda", "failure " + error.toString());
+    }
+
+    public Bitmap getBitmap() {
+        return bitmap;
     }
 }

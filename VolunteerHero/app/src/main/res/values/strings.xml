@@ -28,4 +28,5 @@
     <string name="string_event_name">Event Name</string>
     <string name="string_category">Category</string>
     <string name="string_logout">Log Out</string>
+    <string name="cover_photo_upload_failed">Cover image upload failed.</string>
 </resources>

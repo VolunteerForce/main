@@ -118,14 +118,17 @@ public class Event extends BaseModelWithId implements Serializable{
     }
 
     public String getImageUrl() {
-        List<Link> imageLinks = image.links;
-        String imageUrl;
-        if (imageLinks != null || imageLinks.size() > 0) {
-            imageUrl = imageLinks.get(imageLinks.size() -1).href;}
-        else {
-            imageUrl = null;
+        if (eventHeaderImageUrl != null) {
+            return eventHeaderImageUrl;
         }
-        return imageUrl;
+        if (image == null || image.links == null) {
+            return  null;
+        }
+        List<Link> imageLinks = image.links;
+        if (!image.links.isEmpty()) {
+            return imageLinks.get(imageLinks.size() -1).href;
+        }
+        return null;
     }
 
     public Event() {

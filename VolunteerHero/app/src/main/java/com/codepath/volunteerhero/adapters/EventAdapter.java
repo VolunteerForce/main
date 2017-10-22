@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.codepath.volunteerhero.R;
 import com.codepath.volunteerhero.models.Event;
 
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -70,6 +71,11 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     public void addAll(List<Event> events) {
         mEventsList.addAll(events);
+        // TODO: Add sorting based on date.
+//        Collections.sort(mEventsList, (i1, i2) -> {
+//
+//            return -1;
+//        });
         notifyDataSetChanged();
     }
 
