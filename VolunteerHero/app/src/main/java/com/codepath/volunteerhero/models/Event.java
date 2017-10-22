@@ -144,6 +144,11 @@ public class Event extends BaseModelWithId implements Serializable {
         return null;
     }
 
+    @Exclude
+    public String getId() {
+        return id;
+    }
+
     public Event() {
         //required default constructor
     }
