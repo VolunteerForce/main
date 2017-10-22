@@ -1,5 +1,8 @@
 package com.codepath.volunteerhero.database;
 
+import com.codepath.volunteerhero.VolunteerHeroApplication;
+import com.codepath.volunteerhero.models.Carrier;
+import com.codepath.volunteerhero.models.Contact;
 import com.codepath.volunteerhero.models.Event;
 import com.codepath.volunteerhero.models.Subscription;
 import com.codepath.volunteerhero.models.User;
@@ -9,7 +12,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,6 +33,29 @@ public class FirebaseDBHelper {
     private static FirebaseDBHelper instance;
     private static FirebaseClient firebaseClient;
     private static DataChangeEventListener dataChangeEventListener;
+
+    public Collection<? extends Event> geFireBaseEvents() {
+        // TODO: Currently contains dummy code; Fill up with real code.
+        Event event = new Event();
+
+        event.title = "This is dummy event from Firebase";
+        event.description = "blabla";
+        event.id = "id:" + System.currentTimeMillis();
+        event.eventHeaderImageUrl = "https://images.pexels.com/photos/207962/pexels-photo-207962.jpeg";
+
+        event.topics = new ArrayList<>();
+        event.topics.add("Dummy topic");
+        event.carrier = new Carrier();
+        event.createdAt = event.updatedAt = new Date();
+        event.creator = VolunteerHeroApplication.getLoggedInUser();
+
+        event.contact = new Contact();
+        event.contact.email = VolunteerHeroApplication.getLoggedInUser().email;
+        event.contact.name = VolunteerHeroApplication.getLoggedInUser().name;
+        List<Event> events = new ArrayList<>();
+        events.add(event);
+        return events;
+    }
 
     public interface DataChangeEventListener {
         void onUserDataUpdated(User user);
