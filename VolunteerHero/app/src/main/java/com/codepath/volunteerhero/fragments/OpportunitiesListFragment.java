@@ -219,20 +219,26 @@ public class OpportunitiesListFragment extends Fragment implements DataProvider.
     @Override
     public void dataChanged(List<Event> data) {
         mEventAdapter.updateAll(data);
-        srSwipeContainer.setRefreshing(false);
+        if (srSwipeContainer != null) {
+            srSwipeContainer.setRefreshing(false);
+        }
     }
 
     @Override
     public void dataAdded(List<Event> data) {
         Log.d("jenda", "dataAdded " + data);
         mEventAdapter.addAll(data);
-        srSwipeContainer.setRefreshing(false);
+        if (srSwipeContainer != null) {
+            srSwipeContainer.setRefreshing(false);
+        }
     }
 
     @Override
     public void dataRemoved(List<Event> data) {
         mEventAdapter.removeAll(data);
-        srSwipeContainer.setRefreshing(false);
+        if (srSwipeContainer != null) {
+            srSwipeContainer.setRefreshing(false);
+        }
     }
 
     @Override

@@ -84,6 +84,9 @@ public class FirebaseDBHelper {
     }
 
     public void getUser(FirebaseUser user, DataChangeEventListener listener) {
+        if (user == null) {
+            return;
+        }
         registerListener(listener);
         // add or update user
         firebaseClient.getFirebaseDatabase().child(USERS_NODE).orderByChild(NODE_ID).equalTo(user.getUid()).addValueEventListener(new ValueEventListener() {
