@@ -1,6 +1,7 @@
 package com.codepath.volunteerhero.fragments;
 
 import android.util.Log;
+import android.view.View;
 
 import com.codepath.volunteerhero.VolunteerHeroApplication;
 import com.codepath.volunteerhero.database.FirebaseDBHelper;
@@ -75,5 +76,12 @@ public class UserSubscribedListFragment extends OpportunitiesListFragment {
     @Override
     public void loadMoreData() {
         //pagination not available for firebase yet
+    }
+
+    @Override
+    public void onItemLongClick(View itemView, Event event){
+        Log.d(TAG, "User unsubscribed from event");
+        FirebaseDBHelper helper = FirebaseDBHelper.getInstance();
+        helper.userUnSubscribeFromEvent(VolunteerHeroApplication.getLoggedInUser(), event);
     }
 }

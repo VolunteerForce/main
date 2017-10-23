@@ -235,4 +235,9 @@ public class OpportunitiesListFragment extends Fragment implements DataProvider.
         i.putExtra(VolunteerHeroConstants.EXTRA_EVENT, Parcels.wrap(event));
         getActivity().startActivity(i);
     }
+
+    @Override
+    public void onItemLongClick(View itemView, Event event) {
+        // Do nothing
+    }
 }

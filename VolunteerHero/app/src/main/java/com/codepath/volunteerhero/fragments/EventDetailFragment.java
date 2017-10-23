@@ -69,7 +69,7 @@ public class EventDetailFragment extends Fragment {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_event_detail,
                 container, false);
 
-        mEvent = Parcels.unwrap(getActivity().getIntent().getParcelableExtra(VolunteerHeroConstants.EXTRA_EVENT));
+        mEvent = (Event)Parcels.unwrap(getActivity().getIntent().getParcelableExtra(VolunteerHeroConstants.EXTRA_EVENT));
         ButterKnife.bind(this, view);
         return view;
     }
@@ -83,7 +83,7 @@ public class EventDetailFragment extends Fragment {
 
     @OnClick(R.id.btnSubscribe)
     void subscribe() {
-        //TODO: (tejal) save to firebase (use confirm dialog?)
+        //TODO: use confirm dialog?)
         FirebaseDBHelper helper = FirebaseDBHelper.getInstance();
         helper.addUsersSubscribedEvent(VolunteerHeroApplication.getLoggedInUser(), mEvent);
     }

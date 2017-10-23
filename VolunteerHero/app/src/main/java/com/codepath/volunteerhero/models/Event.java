@@ -24,7 +24,7 @@ import java.util.Locale;
  * Created by jan_spidlen on 10/10/17.
  */
 @IgnoreExtraProperties
-@Parcel(analyze={Event.class})
+@Parcel(analyze = {Event.class, BaseModelWithId.class})
 public class Event extends BaseModelWithId implements Serializable {
 
     // The organization of the event

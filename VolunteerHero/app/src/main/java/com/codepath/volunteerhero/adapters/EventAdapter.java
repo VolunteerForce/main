@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
  * Created by dharinic on 10/13/17.
  */
 
-public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Event> mEventsList;
     private Context mContext;
@@ -37,6 +37,7 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     // Interface for item click
     public interface OnItemClickListener {
         void onItemClick(View itemView, Event event);
+        void onItemLongClick(View itemView, Event event);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -79,7 +80,7 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             } else if (i1.updatedAt.getTime() < i2.updatedAt.getTime()) {
                 return 1;
             }
-            return  -1;
+            return -1;
         });
         notifyDataSetChanged();
     }
@@ -90,18 +91,18 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     }
 
     public void updateAll(List<Event> events) {
-        for(Event e: events) {
+        for (Event e : events) {
             mEventsList.replaceAll(event -> {
                 if (e.id.equals(event.id)) {
                     return e;
                 }
-               return event;
+                return event;
             });
         }
         notifyDataSetChanged();
     }
 
-    public class EventView extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class EventView extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         @BindView(R.id.tvOrgName)
         TextView tvOrgName;
@@ -119,6 +120,7 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
         }
 
         public void bind(Event event) {
@@ -143,6 +145,16 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 Event e = mEventsList.get(position);
                 mListener.onItemClick(itemView, e);
             }
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                Event e = mEventsList.get(position);
+                mListener.onItemLongClick(itemView, e);
+            }
+            return false;
         }
     }
 }
