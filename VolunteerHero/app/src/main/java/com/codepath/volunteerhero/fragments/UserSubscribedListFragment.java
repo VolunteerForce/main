@@ -53,6 +53,7 @@ public class UserSubscribedListFragment extends OpportunitiesListFragment {
                         subscribedEvents.addAll(user.events);
                         dataAdded(subscribedEvents);
                     }
+                    VolunteerHeroApplication.setLoggedInUser(user);
                 }
             }
 

@@ -10,7 +10,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.codepath.volunteerhero.R;
+import com.codepath.volunteerhero.VolunteerHeroApplication;
 import com.codepath.volunteerhero.models.Event;
+import com.codepath.volunteerhero.models.User;
 
 import java.util.Collections;
 import java.util.List;
@@ -132,6 +134,9 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             tvLocation.setText(event.getLocation());
             tvTopics.setText(event.getTopics());
 
+            if (hasUserSubscribedToEvent(event)) {
+                itemView.setBackgroundColor(mContext.getResources().getColor(R.color.lightBlue));
+            }
 
             Glide.with(mContext).load(event.getImageUrl())
                     .into(ivOrgPic);
@@ -153,6 +158,19 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             if (position != RecyclerView.NO_POSITION) {
                 Event e = mEventsList.get(position);
                 mListener.onItemLongClick(itemView, e);
+            }
+            return false;
+        }
+
+        private boolean hasUserSubscribedToEvent(Event event) {
+            User currentUser = VolunteerHeroApplication.getLoggedInUser();
+            List<Event> userEvents = currentUser.events;
+            if (userEvents != null && !userEvents.isEmpty()) {
+                for (Event e : userEvents) {
+                    if (e.id.equals(event.id)) {
+                        return true;
+                    }
+                }
             }
             return false;
         }

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,9 +17,12 @@ import com.codepath.volunteerhero.R;
 import com.codepath.volunteerhero.VolunteerHeroApplication;
 import com.codepath.volunteerhero.database.FirebaseDBHelper;
 import com.codepath.volunteerhero.models.Event;
+import com.codepath.volunteerhero.models.User;
 import com.codepath.volunteerhero.utils.VolunteerHeroConstants;
 
 import org.parceler.Parcels;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,6 +62,11 @@ public class EventDetailFragment extends Fragment {
     @BindView(R.id.tvContactName)
     TextView tvContactName;
 
+    @BindView(R.id.btnSubscribe)
+    Button btnSubscribe;
+
+    boolean userHasSubscribed;
+
     public static EventDetailFragment newInstance() {
         EventDetailFragment fragment = new EventDetailFragment();
         return fragment;
@@ -83,9 +92,14 @@ public class EventDetailFragment extends Fragment {
 
     @OnClick(R.id.btnSubscribe)
     void subscribe() {
-        //TODO: use confirm dialog?)
-        FirebaseDBHelper helper = FirebaseDBHelper.getInstance();
-        helper.addUsersSubscribedEvent(VolunteerHeroApplication.getLoggedInUser(), mEvent);
+        //TODO: use confirm dialog?
+        if (!userHasSubscribed) {
+            FirebaseDBHelper helper = FirebaseDBHelper.getInstance();
+            helper.addUsersSubscribedEvent(VolunteerHeroApplication.getLoggedInUser(), mEvent);
+        } else {
+            FirebaseDBHelper helper = FirebaseDBHelper.getInstance();
+            helper.userUnSubscribeFromEvent(VolunteerHeroApplication.getLoggedInUser(), mEvent);
+        }
     }
 
     @OnClick (R.id.ibShare)
@@ -97,7 +111,11 @@ public class EventDetailFragment extends Fragment {
     }
 
     void populateFragmentWithData() {
+
+        userHasSubscribed = hasUserSubscribedToEvent();
         Log.e(TAG, ".. event = " + mEvent.title );
+
+        btnSubscribe.setText(userHasSubscribed? getString(R.string.unsubscribe) : getString(R.string.subscribe));
 
         tvTitle.setText(mEvent.title);
         tvLocation.setText(mEvent.getLocation());
@@ -111,5 +129,19 @@ public class EventDetailFragment extends Fragment {
         tvContactName.setText(mEvent.contact.getName());
 
      }
+
+    private boolean hasUserSubscribedToEvent() {
+
+        User currentUser = VolunteerHeroApplication.getLoggedInUser();
+        List<Event> userEvents = currentUser.events;
+        if (userEvents != null && !userEvents.isEmpty()) {
+            for (Event e : userEvents) {
+                if (e.id.equals(mEvent.id)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
 }

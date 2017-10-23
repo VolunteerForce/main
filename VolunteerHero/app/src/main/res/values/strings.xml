@@ -29,10 +29,11 @@
     <string name="string_category">Category</string>
     <string name="string_logout">Log Out</string>
     <string name="cover_photo_upload_failed">Cover image upload failed.</string>
-
     <string name="action_filter">Filter</string>
     <string name="string_query">Query</string>
     <string name="string_lat_long">Lat, Long</string>
     <string name="save_button_text">Save</string>
     <string name="cancel_button_text">Cancel</string>
+    <string name="unsubscribe">Unsubscribe</string>
+
 </resources>
