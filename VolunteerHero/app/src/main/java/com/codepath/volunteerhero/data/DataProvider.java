@@ -3,18 +3,14 @@ package com.codepath.volunteerhero.data;
 import android.util.Log;
 
 import com.codepath.volunteerhero.models.BaseModelWithId;
-import com.codepath.volunteerhero.models.Event;
+import com.codepath.volunteerhero.settings.Filter;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import static android.R.attr.data;
-import static android.R.attr.id;
 
 /**
  * Created by jan_spidlen on 10/17/17.
@@ -77,14 +73,14 @@ public abstract class DataProvider<T extends BaseModelWithId> {
         }
     }
 
-    public synchronized void startDataLoad() {
+    public synchronized void startDataLoad(Filter filter) {
         Log.d("jenda", "startDataLoad requested");
         if (state.loading) {
             return;
         }
         wipeData();
         state.page = 1;
-        loadData();
+        loadData(filter);
     }
 
     protected void onFinish() {
@@ -92,20 +88,20 @@ public abstract class DataProvider<T extends BaseModelWithId> {
         state.loading = false;
     }
 
-    public synchronized void loadMoreData() {
+    public synchronized void loadMoreData(Filter filter) {
         Log.d("jenda", "loadMoreData requested");
-        loadData();
+        loadData(filter);
     }
 
-    protected synchronized void loadData() {
+    protected synchronized void loadData(Filter filter) {
         if (state.loading) {
             return;
         }
         state.loading = true;
-        loadDataInternal();
+        loadDataInternal(filter);
     }
 
-    protected abstract void loadDataInternal();
+    protected abstract void loadDataInternal(Filter filter);
 
     public synchronized void wipeData() {
         List<T> data= new ArrayList<T>(dataStorage.values());

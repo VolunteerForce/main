@@ -22,6 +22,8 @@ import com.codepath.volunteerhero.adapters.EventAdapter;
 import com.codepath.volunteerhero.data.DataProvider;
 import com.codepath.volunteerhero.data.EventDataProvider;
 import com.codepath.volunteerhero.models.Event;
+import com.codepath.volunteerhero.settings.Filter;
+import com.codepath.volunteerhero.settings.FilterSettings;
 import com.codepath.volunteerhero.utils.EndlessRecyclerViewScrollListener;
 import com.codepath.volunteerhero.utils.VolunteerHeroConstants;
 
@@ -153,11 +155,13 @@ public class OpportunitiesListFragment extends Fragment implements DataProvider.
     }
 
     public void startDataLoad() {
-        EventDataProvider.getInstance().startDataLoad();
+        Filter filter = FilterSettings.getInstance(this.getContext()).retrieveFilter();
+        EventDataProvider.getInstance().startDataLoad(filter);
     }
 
     public void loadMoreData() {
-        EventDataProvider.getInstance().loadMoreData();
+        Filter filter = FilterSettings.getInstance(this.getContext()).retrieveFilter();
+        EventDataProvider.getInstance().loadMoreData(filter);
     }
 
     /*public void populateEventList2(int page) {
@@ -215,17 +219,20 @@ public class OpportunitiesListFragment extends Fragment implements DataProvider.
     @Override
     public void dataChanged(List<Event> data) {
         mEventAdapter.updateAll(data);
+        srSwipeContainer.setRefreshing(false);
     }
 
     @Override
     public void dataAdded(List<Event> data) {
         Log.d("jenda", "dataAdded " + data);
         mEventAdapter.addAll(data);
+        srSwipeContainer.setRefreshing(false);
     }
 
     @Override
     public void dataRemoved(List<Event> data) {
         mEventAdapter.removeAll(data);
+        srSwipeContainer.setRefreshing(false);
     }
 
     @Override

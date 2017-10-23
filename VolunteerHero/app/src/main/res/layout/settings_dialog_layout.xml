@@ -19,7 +19,7 @@
             android:id="@+id/query_label_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/string_query"
+            android:text="@string/string_search_query"
             android:textSize="@dimen/settings_dialog_text_size"
             android:textStyle="bold"
             android:textColor="@color/colorPrimary"
@@ -44,13 +44,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/query_input_layout"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/loc_label_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/string_query"
+            android:text="@string/string_loc_query"
             android:textSize="@dimen/settings_dialog_text_size"
             android:textStyle="bold"
             android:textColor="@color/colorPrimary"

@@ -2,6 +2,7 @@ package com.codepath.volunteerhero.data;
 
 import com.codepath.volunteerhero.database.FirebaseDBHelper;
 import com.codepath.volunteerhero.models.Event;
+import com.codepath.volunteerhero.settings.Filter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +23,8 @@ public class EventDataProvider extends DataProvider<Event> {
     }
 
     @Override
-    protected void loadDataInternal() {
-        BetterPlaceDataProvider.getInstance().loadData(state.page, data -> {
+    protected void loadDataInternal(Filter filter) {
+        BetterPlaceDataProvider.getInstance().loadData(state.page, filter, data -> {
             List<Event> mergedData = new ArrayList<>();
             mergedData.addAll(data);
             mergedData.addAll(FirebaseDBHelper.getInstance().geFireBaseEvents());

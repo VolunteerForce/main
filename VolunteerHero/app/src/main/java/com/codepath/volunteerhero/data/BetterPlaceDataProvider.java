@@ -6,6 +6,7 @@ import android.util.Log;
 import com.codepath.volunteerhero.models.BetterPlaceEventResponse;
 import com.codepath.volunteerhero.models.Event;
 import com.codepath.volunteerhero.networking.BetterPlaceClient;
+import com.codepath.volunteerhero.settings.Filter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,7 +37,7 @@ public class BetterPlaceDataProvider {
     private BetterPlaceClient client = BetterPlaceClient.getInstance();
     private Handler mHandler = new Handler();
 
-    public void loadData(final int page, final DataLoadedCallback dataLoadedCallback) {
+    public void loadData(final int page, Filter filter, final DataLoadedCallback dataLoadedCallback) {
 
         client.getEvents(new Callback() {
             @Override
@@ -69,6 +70,6 @@ public class BetterPlaceDataProvider {
                     e.printStackTrace();
                 }
             }
-        }, page);
+        }, page, filter.getLocationQuery(), filter.getSearchQuery());
     }
 }
