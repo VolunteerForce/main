@@ -10,6 +10,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -18,6 +20,7 @@ import com.codepath.volunteerhero.R;
 import com.codepath.volunteerhero.VolunteerHeroApplication;
 import com.codepath.volunteerhero.adapters.EventFragmentPagerAdapter;
 import com.codepath.volunteerhero.database.FirebaseDBHelper;
+import com.codepath.volunteerhero.fragments.SettingsDialogFragment;
 import com.codepath.volunteerhero.models.Event;
 import com.codepath.volunteerhero.models.User;
 import com.facebook.login.LoginManager;
@@ -35,6 +38,7 @@ import butterknife.OnClick;
  * Main activity to browse list of opportunities
  */
 public class OpportunitiesListActivity extends BaseActivity {
+    public static String FILTER_DIALOG_TAG = "FILTER_DIALOG";
 
     @BindView(R.id.viewpager)
     ViewPager mViewPager;
@@ -92,10 +96,20 @@ public class OpportunitiesListActivity extends BaseActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.action_menu, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
+                return true;
+            case R.id.action_filter:
+                showSettingsDialog();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -145,6 +159,11 @@ public class OpportunitiesListActivity extends BaseActivity {
     private void showLoginActivity() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+    }
+
+    private void showSettingsDialog() {
+        SettingsDialogFragment filterSettings = SettingsDialogFragment.newInstance("Filter options");
+        filterSettings.show(getFragmentManager(), FILTER_DIALOG_TAG);
     }
 
     // Helper method to fetch all users & events
