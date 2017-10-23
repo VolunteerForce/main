@@ -136,6 +136,8 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             if (hasUserSubscribedToEvent(event)) {
                 itemView.setBackgroundColor(mContext.getResources().getColor(R.color.lightBlue));
+            } else {
+                itemView.setBackgroundColor(mContext.getResources().getColor(R.color.white));
             }
 
             Glide.with(mContext).load(event.getImageUrl())
