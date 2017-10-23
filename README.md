@@ -100,6 +100,11 @@ Be not the hero your city needs, be the hero it deserves!
 
 Running doc here: https://docs.google.com/document/d/1F_mepCT9BaTCb3PPIhYkbBqLBUz3xmzM814sY_sGzK4/edit#
 
+# Week of Oct 22 2017
+
+<img src='https://github.com/VolunteerForce/main/blob/master/VolunteerHero.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+
 # Week of Oct 15 2017
 
 <img src='https://github.com/VolunteerForce/main/blob/master/codepath-volunteerhero-sub-1.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
