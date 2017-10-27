@@ -1,7 +1,10 @@
 package com.codepath.volunteerhero.activities;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -15,6 +18,7 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -23,8 +27,11 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import butterknife.BindView;
 
@@ -123,7 +130,7 @@ public class LoginActivity extends BaseActivity {
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "signInWithCredential:success");
-                        onLoginSuccess();
+                        onLoginSuccess(token);
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -140,7 +147,7 @@ public class LoginActivity extends BaseActivity {
         startActivity(intent);
     }
 
-    private void onLoginSuccess() {
+    private void onLoginSuccess(AccessToken token) {
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
         FirebaseDBHelper.getInstance().getUser(user, new FirebaseDBHelper.DataChangeEventListener() {
@@ -167,6 +174,37 @@ public class LoginActivity extends BaseActivity {
                 showOpportunitiesListActivity();
             }
         });
+
+        fetchUserProfile(token);
+    }
+
+    private void fetchUserProfile(AccessToken token) {
+        GraphRequest request = GraphRequest.newMeRequest(
+                token,
+                (object, response) -> {
+                    if (response.getError() == null) {
+                        try {
+                            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                            StrictMode.setThreadPolicy(policy);
+                            String profilePicUrl = object.getJSONObject("picture").getJSONObject("data").getString("url");
+
+                            URL imageUrl = new URL(profilePicUrl);
+                            HttpsURLConnection httpsConn = (HttpsURLConnection) imageUrl.openConnection();
+                            HttpsURLConnection.setFollowRedirects(true);
+                            httpsConn.setInstanceFollowRedirects(true);
+                            Bitmap fbImage = BitmapFactory.decodeStream(httpsConn.getInputStream());
+                            FirebaseDBHelper.getInstance().uploadFile(VolunteerHeroApplication.getLoggedInUser(), fbImage);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Error fetching profile pic", Toast.LENGTH_LONG).show();
+                    }
+                });
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id,picture.width(150).height(150)");
+        request.setParameters(parameters);
+        request.executeAsync();
     }
 
     private void addPermissions() {
