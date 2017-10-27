@@ -137,7 +137,5 @@ dependencies {
 
     compile 'com.squareup.retrofit:retrofit:1.9.0'
 //    compile 'com.bignerdranch.android:recyclerview-multiselect:0.2'
-
-    compile 'de.hdodenhof:circleimageview:2.2.0'
 }
 

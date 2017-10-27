@@ -1,5 +1,8 @@
 package com.codepath.volunteerhero.database;
 
+import android.graphics.Bitmap;
+import android.net.Uri;
+
 import com.codepath.volunteerhero.VolunteerHeroApplication;
 import com.codepath.volunteerhero.models.Carrier;
 import com.codepath.volunteerhero.models.Contact;
@@ -11,7 +14,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -28,9 +35,12 @@ public class FirebaseDBHelper {
     private static final String EVENTS_NODE = "events";
     private static final String CARRIER_NODE = "carrier";
     private static final String SUBSCRIPTION_NODE = "subscription";
+    private static final String PROFILE_IMAGE_LOC = "/profile.jpg";
 
     private static FirebaseDBHelper instance;
     private static FirebaseClient firebaseClient;
+    private static StorageReference storageReference;
+    private static ImageDownloadListener imageDownloadListener;
     private static List<DataChangeEventListener> dataChangeListeners;
 
     public Collection<? extends Event> geFireBaseEvents() {
@@ -63,6 +73,11 @@ public class FirebaseDBHelper {
         void onUserInfoNotFound(FirebaseUser firebaseUser);
     }
 
+    public interface ImageDownloadListener {
+        void onSuccess(byte[] result);
+        void onFailure(Exception exception);
+    }
+
     public static FirebaseDBHelper getInstance() {
         if (instance == null) {
             instance = new FirebaseDBHelper();
@@ -72,6 +87,11 @@ public class FirebaseDBHelper {
 
     private FirebaseDBHelper() {
         firebaseClient = FirebaseClient.getInstance();
+        storageReference = FirebaseStorage.getInstance().getReference();
+    }
+
+    public StorageReference getStorageReference() {
+        return FirebaseStorage.getInstance().getReference();
     }
 
     public User saveUser(FirebaseUser user) {
@@ -220,6 +240,31 @@ public class FirebaseDBHelper {
 
     public void updateUsersSubscribedEvents(Subscription subscription) {
         firebaseClient.getFirebaseDatabase().child(SUBSCRIPTION_NODE).child(subscription.id).setValue(subscription);
+    }
+
+    public void uploadFile(User user, Bitmap bitmap) {
+        StorageReference locationRef = storageReference.child(user.id + PROFILE_IMAGE_LOC);
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+        byte[] data = outputStream.toByteArray();
+
+        UploadTask uploadTask = locationRef.putBytes(data);
+        uploadTask.addOnFailureListener(exception -> {
+            // Handle unsuccessful uploads
+        }).addOnSuccessListener(taskSnapshot -> {
+            // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+            Uri downloadUrl = taskSnapshot.getDownloadUrl();
+        });
+    }
+
+    public void getProfileImage(User user, final ImageDownloadListener listener) {
+        imageDownloadListener = listener;
+        FirebaseDBHelper.getInstance().getStorageReference()
+                .child(user.id + PROFILE_IMAGE_LOC)
+                .getBytes(Long.MAX_VALUE)
+                .addOnSuccessListener(imageDownloadListener::onSuccess)
+                .addOnFailureListener(imageDownloadListener::onFailure);
     }
 
     private void registerListener(DataChangeEventListener listener) {

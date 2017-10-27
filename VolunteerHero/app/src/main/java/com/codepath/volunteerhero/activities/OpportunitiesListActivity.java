@@ -1,5 +1,6 @@
 package com.codepath.volunteerhero.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -14,8 +15,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.codepath.volunteerhero.R;
 import com.codepath.volunteerhero.VolunteerHeroApplication;
 import com.codepath.volunteerhero.adapters.EventFragmentPagerAdapter;
@@ -23,6 +28,7 @@ import com.codepath.volunteerhero.database.FirebaseDBHelper;
 import com.codepath.volunteerhero.fragments.SettingsDialogFragment;
 import com.codepath.volunteerhero.models.Event;
 import com.codepath.volunteerhero.models.User;
+import com.codepath.volunteerhero.utils.CircularTransformation;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -59,6 +65,8 @@ public class OpportunitiesListActivity extends BaseActivity {
     @BindView(R.id.sliding_tabs)
     TabLayout tabLayout;
 
+    ImageView profileImageView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +95,30 @@ public class OpportunitiesListActivity extends BaseActivity {
         View headerView = drawerNavView.getHeaderView(0);
         TextView userNameText = headerView.findViewById(R.id.nav_user_name);
         userNameText.setText(VolunteerHeroApplication.getLoggedInUser().name);
+        profileImageView = headerView.findViewById(R.id.profile_image_view);
+        loadProfileImage();
+    }
+
+    private void loadProfileImage() {
+        final Context mContext = this;
+        FirebaseDBHelper.getInstance().getProfileImage(VolunteerHeroApplication.getLoggedInUser(), new FirebaseDBHelper.ImageDownloadListener() {
+            @Override
+            public void onSuccess(byte[] result) {
+                RequestOptions options = new RequestOptions();
+                options.transform(new CircularTransformation(mContext));
+
+                Glide.with(mContext)
+                        .asBitmap()
+                        .apply(options)
+                        .load(result)
+                        .into(profileImageView);
+            }
+
+            @Override
+            public void onFailure(Exception exception) {
+                Toast.makeText(mContext, "Error loading profile pic", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @OnClick(R.id.fab)
