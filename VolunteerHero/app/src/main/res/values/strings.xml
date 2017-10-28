@@ -41,5 +41,6 @@
     <string name="undelete">Undelete</string>
     <string name="shareButton">Share button</string>
     <string name="eventImage">Event image</string>
+    <string name="orgName">orgName</string>
 
 </resources>

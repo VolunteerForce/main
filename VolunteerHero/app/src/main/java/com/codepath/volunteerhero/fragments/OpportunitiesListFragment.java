@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -244,7 +246,14 @@ public class OpportunitiesListFragment extends Fragment implements DataProvider.
     @Override
     public void onItemClick(View itemView, Event event) {
         // open detail activity
-        getActivity().startActivity(EventDetailActivity.getIntent(getContext(), event));
+        Intent intent = new Intent(getActivity(), EventDetailActivity.class);
+        intent.putExtra(VolunteerHeroConstants.EXTRA_EVENT, Parcels.wrap(event));
+        Pair<View, String> p1 = Pair.create((View)itemView.findViewById(R.id.ivOrgPic), getString(R.string.eventImage));
+        Pair<View, String> p2 = Pair.create((View)itemView.findViewById(R.id.tvOrgName), getString(R.string.orgName));
+
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), p1, p2);
+
+        getActivity().startActivity(intent, options.toBundle());
     }
 
     @Override
