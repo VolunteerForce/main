@@ -13,7 +13,6 @@ import com.codepath.volunteerhero.activities.EventDetailActivity;
 import com.codepath.volunteerhero.data.DataProvider;
 import com.codepath.volunteerhero.data.EventDataProvider;
 import com.codepath.volunteerhero.models.Event;
-import com.codepath.volunteerhero.storage.LocalStorage;
 import com.codepath.volunteerhero.utils.MapUtils;
 import com.codepath.volunteerhero.utils.Utils;
 import com.google.android.gms.maps.GoogleMap;
@@ -26,7 +25,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -80,11 +78,15 @@ public class OpportunitiesMapFragment extends Fragment implements GoogleMap.OnMa
     Map<String, Marker> markersByEventIds = new HashMap<>();
 
     public void addPin(Event e) {
-        Marker m = MapUtils.addPin(map, new LatLng(e.latitude, e.longitude),
-                Utils.ellipsize(e.title, 40),
-                Utils.ellipsize(e.description, 50));
-        m.setTag(e);
-        markersByEventIds.put(e.id, m);
+        if (map != null) {
+            Marker m = MapUtils.addPin(map, new LatLng(e.latitude, e.longitude),
+                    Utils.ellipsize(e.title, 40),
+                    Utils.ellipsize(e.description, 50));
+            m.setTag(e);
+            markersByEventIds.put(e.id, m);
+        } else {
+            Toast.makeText(this.getContext(), "Map is not ready yet", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

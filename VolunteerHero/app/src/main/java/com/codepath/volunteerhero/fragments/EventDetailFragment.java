@@ -143,8 +143,9 @@ public class EventDetailFragment extends Fragment {
         tvLocation.setText(mEvent.getLocation());
         Glide.with(getActivity()).load(mEvent.getImageUrl()).apply(new RequestOptions())
                 .into(ivImage);
-        tvNumVacancies.setText(String.valueOf(mEvent.vacancies));
-        tvOrg.setText(mEvent.carrier.name);
+        tvNumVacancies.setText(String.valueOf(mEvent.vacancies == 0 ? 10: mEvent.vacancies));
+
+        tvOrg.setText(mEvent.getCarrierName());
         tvActivities.setText(mEvent.getActivities());
 
         tvContactEmail.setText(mEvent.contact.getEmail());

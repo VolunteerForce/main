@@ -154,4 +154,11 @@ public class Event extends BaseModelWithId implements Serializable {
     public Event() {
         //required default constructor
     }
+
+    public String getCarrierName() {
+        if (carrier != null && carrier.name != null) {
+            return carrier.name;
+        }
+        return "";
+    }
 }
