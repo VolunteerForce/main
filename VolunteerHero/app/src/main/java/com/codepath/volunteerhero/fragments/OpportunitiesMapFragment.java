@@ -33,7 +33,7 @@ import butterknife.ButterKnife;
  * Fragment with placeholder code for map view
  */
 public class OpportunitiesMapFragment extends Fragment implements GoogleMap.OnMapLongClickListener,
-        DataProvider.DataChangedListener<Event>, GoogleMap.OnInfoWindowClickListener {
+        DataProvider.DataChangedListener<Event>, GoogleMap.OnInfoWindowClickListener, GoogleMap.OnMarkerClickListener {
 
     SupportMapFragment mapFragment;
     private GoogleMap map;
@@ -63,13 +63,15 @@ public class OpportunitiesMapFragment extends Fragment implements GoogleMap.OnMa
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-    protected void loadMap(GoogleMap googleMap) {
+    protected void loadMap(final GoogleMap googleMap) {
         map = googleMap;
         if (map != null) {
             // Map is ready
 //            Toast.makeText(this.getContext(), "Map Fragment was loaded properly!", Toast.LENGTH_SHORT).show();
-            map.setOnMapLongClickListener(this);;
-            googleMap.setOnInfoWindowClickListener(this);
+            map.setOnMapLongClickListener(this);
+            map.setOnMarkerClickListener(this);
+            map.setOnInfoWindowClickListener(this);
+            map.getUiSettings().setMapToolbarEnabled(false);
         } else {
             Toast.makeText(this.getContext(), "Error - Map was null!!", Toast.LENGTH_SHORT).show();
         }
@@ -121,6 +123,9 @@ public class OpportunitiesMapFragment extends Fragment implements GoogleMap.OnMa
             if (e.isDeleted) {
                 if (m != null) {
                     m.remove();
+                    if (selectedMarker != null && m.getId().equals(selectedMarker.getId())) {
+                        selectedMarker = null;
+                    }
                 }
                 markersByEventIds.remove(e.id);
             } else {
@@ -152,5 +157,16 @@ public class OpportunitiesMapFragment extends Fragment implements GoogleMap.OnMa
         Log.d("jenda", "marker " + event.getId());
 
         getActivity().startActivity(EventDetailActivity.getIntent(getContext(), event));
+    }
+
+    Marker selectedMarker;
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        if (selectedMarker != null) {
+            selectedMarker.setIcon(MapUtils.getUnSelectedIcon());
+        }
+        selectedMarker = marker;
+        selectedMarker.setIcon(MapUtils.getSelectedIcon());
+        return false;
     }
 }

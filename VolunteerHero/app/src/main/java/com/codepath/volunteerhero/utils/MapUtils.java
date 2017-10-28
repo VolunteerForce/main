@@ -21,11 +21,7 @@ public class MapUtils {
     public static Marker addPin(final GoogleMap map, final LatLng point,
                               final String title, final String snippet) {
 
-        BitmapDescriptor icon =
-                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
-        // Extract content from alert dialog
-
-        return addMarker(map, point, title, snippet, icon);
+        return addMarker(map, point, title, snippet, getUnSelectedIcon());
     }
 
     public static Marker addSpeechBubble(Context context, final GoogleMap map,
@@ -56,5 +52,13 @@ public class MapUtils {
         marker.setDraggable(true);
 
         return marker;
+    }
+
+    public static BitmapDescriptor getSelectedIcon() {
+        return  BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
+    }
+
+    public static BitmapDescriptor getUnSelectedIcon() {
+        return  BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
     }
 }
