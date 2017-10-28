@@ -36,9 +36,7 @@ public class EventDataProvider extends DataProvider<Event> implements FirebaseDB
     }
 
     @Override
-    public void onUserDataUpdated(User user) {
-
-    }
+    public void onUserDataUpdated(User user) {}
 
     @Override
     public void onEventDataUpdated(Event event) {
@@ -48,12 +46,8 @@ public class EventDataProvider extends DataProvider<Event> implements FirebaseDB
     }
 
     @Override
-    public void onUserInfoAvailable(User loggedInUser) {
-
-    }
+    public void onUserInfoAvailable(User loggedInUser) {}
 
     @Override
-    public void onUserInfoNotFound(FirebaseUser firebaseUser) {
-
-    }
+    public void onUserInfoNotFound(FirebaseUser firebaseUser) {}
 }

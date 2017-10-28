@@ -44,14 +44,6 @@ public abstract class DataProvider<T extends BaseModelWithId> {
         List<T> list = new ArrayList<T>();
         list.add(data);
         addOrUpdateData(list);
-//        boolean isUpdate = dataStorage.containsKey(data.id);
-//        dataStorage.put(data.id, data);
-//
-//        if (isUpdate) {
-//            notifyAllListenersOfChange(data);
-//        } else {
-//            notifyAllListenersOfAddition(data);
-//        }
     }
 
     public synchronized void addOrUpdateData(List<T> data) {

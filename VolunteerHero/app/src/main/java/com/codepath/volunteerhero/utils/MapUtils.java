@@ -14,8 +14,6 @@ import com.google.maps.android.ui.IconGenerator;
 /**
  * Created by jan_spidlen on 10/15/17.
  */
-
-
 public class MapUtils {
 
     public static Marker addPin(final GoogleMap map, final LatLng point,
