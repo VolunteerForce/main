@@ -42,28 +42,28 @@ public class FirebaseDBHelper {
     private static StorageReference storageReference;
     private static List<DataChangeEventListener> dataChangeListeners;
 
-    public Collection<? extends Event> geFireBaseEvents() {
-        // TODO: Currently contains dummy code; Fill up with real code.
-        Event event = new Event();
-
-        event.title = "This is dummy event from Firebase";
-        event.description = "blabla";
-        event.id = "id:" + System.currentTimeMillis();
-        event.eventHeaderImageUrl = "https://images.pexels.com/photos/207962/pexels-photo-207962.jpeg";
-
-        event.topics = new ArrayList<>();
-        event.topics.add("Dummy topic");
-        event.carrier = new Carrier();
-        event.createdAt = event.updatedAt = new Date();
-        event.creator = VolunteerHeroApplication.getLoggedInUser();
-
-        event.contact = new Contact();
-        event.contact.email = VolunteerHeroApplication.getLoggedInUser().email;
-        event.contact.name = VolunteerHeroApplication.getLoggedInUser().name;
-        List<Event> events = new ArrayList<>();
-        events.add(event);
-        return events;
-    }
+//    public Collection<? extends Event> geFireBaseEvents() {
+//        // TODO: Currently contains dummy code; Fill up with real code.
+//        Event event = new Event();
+//
+//        event.title = "This is dummy event from Firebase";
+//        event.description = "blabla";
+//        event.id = "id:" + System.currentTimeMillis();
+//        event.eventHeaderImageUrl = "https://images.pexels.com/photos/207962/pexels-photo-207962.jpeg";
+//
+//        event.topics = new ArrayList<>();
+//        event.topics.add("Dummy topic");
+//        event.carrier = new Carrier();
+//        event.createdAt = event.updatedAt = new Date();
+//        event.creator = VolunteerHeroApplication.getLoggedInUser();
+//
+//        event.contact = new Contact();
+//        event.contact.email = VolunteerHeroApplication.getLoggedInUser().email;
+//        event.contact.name = VolunteerHeroApplication.getLoggedInUser().name;
+//        List<Event> events = new ArrayList<>();
+//        events.add(event);
+//        return events;
+//    }
 
     public interface DataChangeEventListener {
         void onUserDataUpdated(User user);

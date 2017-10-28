@@ -82,6 +82,9 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         mEventsList.removeIf(e -> e.isDeleted);
         // Sorting based on updated date -> this helps with creating our own events.
         Collections.sort(mEventsList, (i1, i2) -> {
+            if (i1.updatedAt == null || i2.updatedAt == null) {
+                return 0;
+            }
             if (i1.updatedAt.getTime() == i2.updatedAt.getTime()) {
                 return 0;
             } else if (i1.updatedAt.getTime() < i2.updatedAt.getTime()) {
