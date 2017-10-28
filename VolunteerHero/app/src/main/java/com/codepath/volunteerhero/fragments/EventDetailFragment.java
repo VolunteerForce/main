@@ -1,8 +1,12 @@
 package com.codepath.volunteerhero.fragments;
 
+import android.app.ActivityManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +23,8 @@ import com.codepath.volunteerhero.data.EventDataProvider;
 import com.codepath.volunteerhero.database.FirebaseDBHelper;
 import com.codepath.volunteerhero.models.Event;
 import com.codepath.volunteerhero.models.User;
+import com.codepath.volunteerhero.utils.NetworkUtils;
+import com.codepath.volunteerhero.utils.Utils;
 import com.codepath.volunteerhero.utils.VolunteerHeroConstants;
 
 import org.parceler.Parcels;
@@ -113,6 +119,13 @@ public class EventDetailFragment extends Fragment {
 
         EventDataProvider.getInstance().addOrUpdateData(mEvent);
         getActivity().finish();
+
+        // TODO: this needs to run on list activity.
+//        Utils.showSnackBar(
+//                this.getView(), this.getString(R.string.event_deleted),
+//                this.getString(R.string.undelete), v-> {
+//
+//                });
     }
 
     @OnClick (R.id.ibShare)

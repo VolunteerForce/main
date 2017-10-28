@@ -26,29 +26,16 @@ public class NetworkUtils {
 
     public static void showRetryableError(@NonNull View v, String message,
                                           @NonNull View.OnClickListener retryAction) {
-        showError(v, message, v.getContext().getString(R.string.retry), retryAction);
+        Utils.showSnackBar(v, message, v.getContext().getString(R.string.retry), retryAction);
     }
 
 
     public static void showNonretryableError(@NonNull View v, String message) {
-        showError(v, message, v.getContext().getString(R.string.ok), null);
+        Utils.showSnackBar(v, message, v.getContext().getString(R.string.ok), null);
     }
 
     public static void showNonretryableError(@NonNull View v, @NonNull @StringRes int messageRes) {
         showNonretryableError(v, v.getContext().getString(messageRes));
-    }
-
-    private static void showError(View v, String message, String buttonText,
-                                 @Nullable View.OnClickListener retryAction) {
-        final Snackbar snackbar = Snackbar.make(v, message, Snackbar.LENGTH_LONG);
-        if (retryAction == null) {
-            retryAction = view -> {
-                snackbar.dismiss();
-            };
-        }
-        snackbar.setAction(buttonText, retryAction);
-
-        snackbar.show();
     }
 
 

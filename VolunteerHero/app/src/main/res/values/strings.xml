@@ -37,5 +37,7 @@
     <string name="cancel_button_text">Cancel</string>
     <string name="unsubscribe">Unsubscribe</string>
     <string name="delete_event">Delete Event</string>
+    <string name="event_deleted">Event Deleted</string>
+    <string name="undelete">Undelete</string>
 
 </resources>

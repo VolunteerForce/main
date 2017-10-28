@@ -3,7 +3,10 @@ package com.codepath.volunteerhero.utils;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
+import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.util.Base64;
+import android.view.View;
 
 import com.codepath.volunteerhero.models.User;
 
@@ -60,5 +63,19 @@ public class Utils {
         ByteArrayOutputStream byteArrayOS = new ByteArrayOutputStream();
         image.compress(compressFormat, quality, byteArrayOS);
         return Base64.encodeToString(byteArrayOS.toByteArray(), Base64.DEFAULT);
+    }
+
+
+    public static void showSnackBar(View v, String message, String buttonText,
+                                  @Nullable View.OnClickListener action) {
+        final Snackbar snackbar = Snackbar.make(v, message, Snackbar.LENGTH_LONG);
+        if (action == null) {
+            action = view -> {
+                snackbar.dismiss();
+            };
+        }
+        snackbar.setAction(buttonText, action);
+
+        snackbar.show();
     }
 }
