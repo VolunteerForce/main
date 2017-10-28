@@ -3,9 +3,6 @@ package com.codepath.volunteerhero.database;
 import android.graphics.Bitmap;
 import android.net.Uri;
 
-import com.codepath.volunteerhero.VolunteerHeroApplication;
-import com.codepath.volunteerhero.models.Carrier;
-import com.codepath.volunteerhero.models.Contact;
 import com.codepath.volunteerhero.models.Event;
 import com.codepath.volunteerhero.models.Subscription;
 import com.codepath.volunteerhero.models.User;
@@ -20,8 +17,6 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -242,19 +237,21 @@ public class FirebaseDBHelper {
     }
 
     public void uploadFile(User user, Bitmap bitmap) {
-        StorageReference locationRef = storageReference.child(user.id + PROFILE_IMAGE_LOC);
+        if (user != null) {
+            StorageReference locationRef = storageReference.child(user.id + PROFILE_IMAGE_LOC);
 
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-        byte[] data = outputStream.toByteArray();
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+            byte[] data = outputStream.toByteArray();
 
-        UploadTask uploadTask = locationRef.putBytes(data);
-        uploadTask.addOnFailureListener(exception -> {
-            // Handle unsuccessful uploads
-        }).addOnSuccessListener(taskSnapshot -> {
-            // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-            Uri downloadUrl = taskSnapshot.getDownloadUrl();
-        });
+            UploadTask uploadTask = locationRef.putBytes(data);
+            uploadTask.addOnFailureListener(exception -> {
+                // Handle unsuccessful uploads
+            }).addOnSuccessListener(taskSnapshot -> {
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                Uri downloadUrl = taskSnapshot.getDownloadUrl();
+            });
+        }
     }
 
     public void getProfileImage(User user, final ImageDownloadListener listener) {
