@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.codepath.volunteerhero.R;
 import com.codepath.volunteerhero.VolunteerHeroApplication;
+import com.codepath.volunteerhero.data.EventDataProvider;
 import com.codepath.volunteerhero.database.FirebaseDBHelper;
 import com.codepath.volunteerhero.models.Event;
 import com.codepath.volunteerhero.models.User;
@@ -65,6 +66,9 @@ public class EventDetailFragment extends Fragment {
     @BindView(R.id.btnSubscribe)
     Button btnSubscribe;
 
+    @BindView(R.id.delete_button)
+    Button deleteButton;
+
     boolean userHasSubscribed;
 
     public static EventDetailFragment newInstance() {
@@ -102,6 +106,15 @@ public class EventDetailFragment extends Fragment {
         }
     }
 
+    @OnClick(R.id.delete_button)
+    void deleteEvent() {
+        // TODO: Confirmation dialog.
+        mEvent.isDeleted = true;
+
+        EventDataProvider.getInstance().addOrUpdateData(mEvent);
+        getActivity().finish();
+    }
+
     @OnClick (R.id.ibShare)
     void shareEvent() {
         Intent intent = new Intent(android.content.Intent.ACTION_SEND);
@@ -128,6 +141,9 @@ public class EventDetailFragment extends Fragment {
         tvContactEmail.setText(mEvent.contact.getEmail());
         tvContactName.setText(mEvent.contact.getName());
 
+        boolean isUserCreator = mEvent.creator != null
+                && mEvent.creator.id.equals(VolunteerHeroApplication.getLoggedInUser().id);
+        deleteButton.setVisibility(isUserCreator ? View.VISIBLE : View.GONE);
      }
 
     private boolean hasUserSubscribedToEvent() {

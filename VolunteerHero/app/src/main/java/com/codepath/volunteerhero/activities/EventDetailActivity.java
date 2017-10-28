@@ -19,7 +19,7 @@ public class EventDetailActivity extends BaseActivity {
             EventDetailFragment frag = EventDetailFragment.newInstance();
 
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.flContainer, frag);
+            ft.replace(R.id.flContainer, frag, FragmentTransaction.class.getName());
             ft.commit();
         }
     }

@@ -78,6 +78,8 @@ public class Event extends BaseModelWithId implements Serializable {
 
     public String imageUrl;
 
+    public boolean isDeleted;
+
     @Exclude
     public String getLocation() {
         if (city == null || country == null) {

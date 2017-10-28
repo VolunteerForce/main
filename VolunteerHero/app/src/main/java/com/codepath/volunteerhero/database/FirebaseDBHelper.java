@@ -40,7 +40,6 @@ public class FirebaseDBHelper {
     private static FirebaseDBHelper instance;
     private static FirebaseClient firebaseClient;
     private static StorageReference storageReference;
-    private static ImageDownloadListener imageDownloadListener;
     private static List<DataChangeEventListener> dataChangeListeners;
 
     public Collection<? extends Event> geFireBaseEvents() {
@@ -259,12 +258,11 @@ public class FirebaseDBHelper {
     }
 
     public void getProfileImage(User user, final ImageDownloadListener listener) {
-        imageDownloadListener = listener;
         FirebaseDBHelper.getInstance().getStorageReference()
                 .child(user.id + PROFILE_IMAGE_LOC)
                 .getBytes(Long.MAX_VALUE)
-                .addOnSuccessListener(imageDownloadListener::onSuccess)
-                .addOnFailureListener(imageDownloadListener::onFailure);
+                .addOnSuccessListener(listener::onSuccess)
+                .addOnFailureListener(listener::onFailure);
     }
 
     private void registerListener(DataChangeEventListener listener) {

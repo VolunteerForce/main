@@ -116,7 +116,8 @@ public class OpportunitiesListActivity extends BaseActivity {
 
             @Override
             public void onFailure(Exception exception) {
-                Toast.makeText(mContext, "Error loading profile pic", Toast.LENGTH_LONG).show();
+                exception.printStackTrace();
+                Toast.makeText(mContext, "Error loading profile pic: " + exception.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

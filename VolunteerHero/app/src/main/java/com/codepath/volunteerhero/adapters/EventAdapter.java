@@ -32,6 +32,7 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public EventAdapter(Context context, List<Event> events) {
         mContext = context;
         mEventsList = events;
+        removeDeletedAndSortEvents();
     }
 
     private OnItemClickListener mListener;
@@ -69,12 +70,16 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     public void clear() {
         mEventsList.clear();
-        notifyDataSetChanged();
+        removeDeletedAndSortEvents();
     }
 
     public void addAll(List<Event> events) {
         mEventsList.addAll(events);
+        removeDeletedAndSortEvents();
+    }
 
+    private void removeDeletedAndSortEvents() {
+        mEventsList.removeIf(e -> e.isDeleted);
         // Sorting based on updated date -> this helps with creating our own events.
         Collections.sort(mEventsList, (i1, i2) -> {
             if (i1.updatedAt.getTime() == i2.updatedAt.getTime()) {
@@ -89,7 +94,7 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     public void removeAll(List<Event> events) {
         mEventsList.removeAll(events);
-        notifyDataSetChanged();
+        removeDeletedAndSortEvents();
     }
 
     public void updateAll(List<Event> events) {
@@ -101,7 +106,7 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 return event;
             });
         }
-        notifyDataSetChanged();
+        removeDeletedAndSortEvents();
     }
 
     public class EventView extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
@@ -142,7 +147,6 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             Glide.with(mContext).load(event.getImageUrl())
                     .into(ivOrgPic);
-
         }
 
         @Override
