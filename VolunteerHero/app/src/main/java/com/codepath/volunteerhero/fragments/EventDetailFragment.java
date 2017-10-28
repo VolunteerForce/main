@@ -1,12 +1,8 @@
 package com.codepath.volunteerhero.fragments;
 
-import android.app.ActivityManager;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,14 +13,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.codepath.volunteerhero.R;
 import com.codepath.volunteerhero.VolunteerHeroApplication;
 import com.codepath.volunteerhero.data.EventDataProvider;
 import com.codepath.volunteerhero.database.FirebaseDBHelper;
 import com.codepath.volunteerhero.models.Event;
 import com.codepath.volunteerhero.models.User;
-import com.codepath.volunteerhero.utils.NetworkUtils;
-import com.codepath.volunteerhero.utils.Utils;
 import com.codepath.volunteerhero.utils.VolunteerHeroConstants;
 
 import org.parceler.Parcels;
@@ -110,6 +105,7 @@ public class EventDetailFragment extends Fragment {
             FirebaseDBHelper helper = FirebaseDBHelper.getInstance();
             helper.userUnSubscribeFromEvent(VolunteerHeroApplication.getLoggedInUser(), mEvent);
         }
+        getActivity().finish();
     }
 
     @OnClick(R.id.delete_button)
@@ -145,7 +141,7 @@ public class EventDetailFragment extends Fragment {
 
         tvTitle.setText(mEvent.title);
         tvLocation.setText(mEvent.getLocation());
-        Glide.with(getActivity()).load(mEvent.getImageUrl())
+        Glide.with(getActivity()).load(mEvent.getImageUrl()).apply(new RequestOptions())
                 .into(ivImage);
         tvNumVacancies.setText(String.valueOf(mEvent.vacancies));
         tvOrg.setText(mEvent.carrier.name);

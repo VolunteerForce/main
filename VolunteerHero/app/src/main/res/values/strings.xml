@@ -39,5 +39,7 @@
     <string name="delete_event">Delete Event</string>
     <string name="event_deleted">Event Deleted</string>
     <string name="undelete">Undelete</string>
+    <string name="shareButton">Share button</string>
+    <string name="eventImage">Event image</string>
 
 </resources>
