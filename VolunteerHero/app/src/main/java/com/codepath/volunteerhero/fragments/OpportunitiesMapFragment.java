@@ -1,6 +1,5 @@
 package com.codepath.volunteerhero.fragments;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -10,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.codepath.volunteerhero.R;
+import com.codepath.volunteerhero.activities.EventDetailActivity;
 import com.codepath.volunteerhero.data.DataProvider;
 import com.codepath.volunteerhero.data.EventDataProvider;
 import com.codepath.volunteerhero.models.Event;
@@ -19,8 +19,11 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,22 +31,11 @@ import butterknife.ButterKnife;
 /**
  * Fragment with placeholder code for map view
  */
-public class OpportunitiesMapFragment extends Fragment implements GoogleMap.OnMapLongClickListener, DataProvider.DataChangedListener<Event> {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-//    @BindView(R.id.map)
+public class OpportunitiesMapFragment extends Fragment implements GoogleMap.OnMapLongClickListener,
+        DataProvider.DataChangedListener<Event>, GoogleMap.OnInfoWindowClickListener {
 
     SupportMapFragment mapFragment;
     private GoogleMap map;
-
-    private OnFragmentInteractionListener mListener;
 
     public OpportunitiesMapFragment() {
         // Required empty public constructor
@@ -62,8 +54,6 @@ public class OpportunitiesMapFragment extends Fragment implements GoogleMap.OnMa
     public static OpportunitiesMapFragment newInstance(String param1, String param2) {
         OpportunitiesMapFragment fragment = new OpportunitiesMapFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -71,10 +61,6 @@ public class OpportunitiesMapFragment extends Fragment implements GoogleMap.OnMa
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
     protected void loadMap(GoogleMap googleMap) {
         map = googleMap;
@@ -84,24 +70,20 @@ public class OpportunitiesMapFragment extends Fragment implements GoogleMap.OnMa
 //            MapDemoActivityPermissionsDispatcher.getMyLocationWithCheck(this);
 //            MapDemoActivityPermissionsDispatcher.startLocationUpdatesWithCheck(this);
             map.setOnMapLongClickListener(this);
-//            map.setOnMarkerDragListener(this);
-//            loadPins(map);
+//            map.setOnMarkerClickListener(this);
+            googleMap.setOnInfoWindowClickListener(this);
         } else {
             Toast.makeText(this.getContext(), "Error - Map was null!!", Toast.LENGTH_SHORT).show();
         }
     }
 
-    public void addPin(Event e) {
-        MapUtils.addPin(map, new LatLng(e.latitude, e.longitude), e.title, e.description);
-    }
+    Map<String, Marker> markersByEventIds = new HashMap<>();
 
-//    private void loadPins(GoogleMap map) {
-//        Log.d("jenda", "loading pins");
-//        LocalStorage ls = new LocalStorage(this.getContext());
-//        for(Event e: ls.readAllStoredEvents()) {
-//            addPin(e);
-//        }
-//    }
+    public void addPin(Event e) {
+        Marker m = MapUtils.addPin(map, new LatLng(e.latitude, e.longitude), e.title, e.description);
+        m.setTag(e);
+        markersByEventIds.put(e.id, m);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -127,19 +109,6 @@ public class OpportunitiesMapFragment extends Fragment implements GoogleMap.OnMa
         return v;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
     @Override
     public void onMapLongClick(LatLng latLng) {
 
@@ -147,7 +116,20 @@ public class OpportunitiesMapFragment extends Fragment implements GoogleMap.OnMa
 
     @Override
     public void dataChanged(List<Event> data) {
-        // TODO(jenda): Implement.
+        Log.d("jenda", "data changed ");
+        for (Event e: data) {
+            Marker m = markersByEventIds.get(e.id);
+            if (e.isDeleted) {
+                if (m != null) {
+                    m.remove();
+                }
+                markersByEventIds.remove(e.id);
+            } else {
+                if (m != null) {
+                    addPin(e);
+                }
+            }
+        }
     }
 
     @Override
@@ -159,21 +141,17 @@ public class OpportunitiesMapFragment extends Fragment implements GoogleMap.OnMa
 
     @Override
     public void dataRemoved(List<Event> data) {
+        Log.d("jenda", "data dataRemoved ");
         // TODO(jenda): Implement.
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        Log.d("jenda", "marker " + marker.getId());
+
+        Event event = (Event) marker.getTag();
+        Log.d("jenda", "marker " + event.getId());
+
+        getActivity().startActivity(EventDetailActivity.getIntent(getContext(), event));
     }
 }

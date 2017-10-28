@@ -244,9 +244,7 @@ public class OpportunitiesListFragment extends Fragment implements DataProvider.
     @Override
     public void onItemClick(View itemView, Event event) {
         // open detail activity
-        Intent i = new Intent(getActivity(), EventDetailActivity.class);
-        i.putExtra(VolunteerHeroConstants.EXTRA_EVENT, Parcels.wrap(event));
-        getActivity().startActivity(i);
+        getActivity().startActivity(EventDetailActivity.getIntent(getContext(), event));
     }
 
     @Override

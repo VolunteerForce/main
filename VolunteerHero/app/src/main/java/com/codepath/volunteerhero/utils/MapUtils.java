@@ -18,15 +18,14 @@ import com.google.maps.android.ui.IconGenerator;
 
 public class MapUtils {
 
-
-
-    public static void addPin(final GoogleMap map, final LatLng point, final String title, final String snippet) {
+    public static Marker addPin(final GoogleMap map, final LatLng point,
+                              final String title, final String snippet) {
 
         BitmapDescriptor icon =
                 BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
         // Extract content from alert dialog
 
-        addMarker(map, point, title, snippet, icon);
+        return addMarker(map, point, title, snippet, icon);
     }
 
     public static Marker addSpeechBubble(Context context, final GoogleMap map,
@@ -46,7 +45,8 @@ public class MapUtils {
         return addMarker(map, point, title, snippet, icon);
     }
 
-    public static Marker addMarker(final GoogleMap map, final LatLng point, final String title, final String snippet,
+    public static Marker addMarker(final GoogleMap map, final LatLng point,
+                                   final String title, final String snippet,
                                    final BitmapDescriptor icon) {
         Marker marker = map.addMarker(new MarkerOptions()
                 .position(point)
