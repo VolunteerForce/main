@@ -239,8 +239,6 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
 
     @OnClick(R.id.upload_cover_image_button)
     void openImageIntent() {
-
-        // TODO(jan.spidlen): Properly handle permissions.
         if (ContextCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
                 || ContextCompat.checkSelfPermission(getActivity(),

@@ -34,8 +34,6 @@ public class CreateEventActivity extends BaseActivity implements FragmentManager
     private void transitionToFragment(Fragment newFragment) {
         FragmentTransaction fragmentTransaction;
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//                .setCustomAnimations(R.anim.enter_bottom, R.anim.fragment_slide_delay,
-//                        0, R.anim.exit_bottom);
 
         getSupportFragmentManager().addOnBackStackChangedListener(this);
         fragmentTransaction

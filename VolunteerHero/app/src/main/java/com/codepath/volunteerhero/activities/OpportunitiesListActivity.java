@@ -1,11 +1,15 @@
 package com.codepath.volunteerhero.activities;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -97,6 +101,30 @@ public class OpportunitiesListActivity extends BaseActivity {
         userNameText.setText(VolunteerHeroApplication.getLoggedInUser().name);
         profileImageView = headerView.findViewById(R.id.profile_image_view);
         loadProfileImage();
+        checkPermissions();
+    }
+
+    @SuppressLint("NewApi")
+    private void checkPermissions() {
+        String[] perms = {
+                Manifest.permission.CAMERA,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+        };
+
+        boolean hasAllPerms = true;;
+        for (int i = 0; i< perms.length; i++) {
+            if (ContextCompat.checkSelfPermission(this,
+                    perms[i]) != PackageManager.PERMISSION_GRANTED) {
+                hasAllPerms = false;
+                break;
+            }
+        }
+        if (!hasAllPerms) {
+            int permsRequestCode = 200;
+            requestPermissions(perms, permsRequestCode);
+        }
     }
 
     private void loadProfileImage() {
