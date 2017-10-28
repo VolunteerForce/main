@@ -24,6 +24,7 @@ import com.google.android.gms.maps.model.Marker;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import butterknife.ButterKnife;
 
@@ -70,23 +71,28 @@ public class OpportunitiesMapFragment extends Fragment implements GoogleMap.OnMa
             map.setOnMarkerClickListener(this);
             map.setOnInfoWindowClickListener(this);
             map.getUiSettings().setMapToolbarEnabled(false);
+            while (!queue.isEmpty()) {
+                addPin(queue.poll());
+            }
         } else {
             Toast.makeText(this.getContext(), "Error - Map was null!!", Toast.LENGTH_SHORT).show();
         }
     }
 
     Map<String, Marker> markersByEventIds = new HashMap<>();
+    ConcurrentLinkedQueue<Event> queue = new ConcurrentLinkedQueue<>();
 
-    public void addPin(Event e) {
-        if (map != null) {
-            Marker m = MapUtils.addPin(map, new LatLng(e.latitude, e.longitude),
-                    Utils.ellipsize(e.title, 40),
-                    Utils.ellipsize(e.description, 50));
-            m.setTag(e);
-            markersByEventIds.put(e.id, m);
-        } else {
-            Toast.makeText(this.getContext(), "Map is not ready yet", Toast.LENGTH_SHORT).show();
+    public synchronized void addPin(Event e) {
+        if (map == null) {
+            // Not initialized yet. Horrible hack to get around this issue.
+            queue.add(e);
+            return;
         }
+        Marker m = MapUtils.addPin(map, new LatLng(e.latitude, e.longitude),
+                Utils.ellipsize(e.title, 40),
+                Utils.ellipsize(e.description, 50));
+        m.setTag(e);
+        markersByEventIds.put(e.id, m);
     }
 
     @Override

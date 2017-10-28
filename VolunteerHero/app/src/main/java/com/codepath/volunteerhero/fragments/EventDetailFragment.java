@@ -148,8 +148,10 @@ public class EventDetailFragment extends Fragment {
         tvOrg.setText(mEvent.getCarrierName());
         tvActivities.setText(mEvent.getActivities());
 
-        tvContactEmail.setText(mEvent.contact.getEmail());
-        tvContactName.setText(mEvent.contact.getName());
+        if (mEvent.contact != null) {
+            tvContactEmail.setText(mEvent.contact.getEmail());
+            tvContactName.setText(mEvent.contact.getName());
+        }
 
         boolean isUserCreator = mEvent.creator != null
                 && mEvent.creator.id.equals(VolunteerHeroApplication.getLoggedInUser().id);
