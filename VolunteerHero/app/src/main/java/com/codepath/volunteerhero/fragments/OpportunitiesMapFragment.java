@@ -15,6 +15,7 @@ import com.codepath.volunteerhero.data.EventDataProvider;
 import com.codepath.volunteerhero.models.Event;
 import com.codepath.volunteerhero.storage.LocalStorage;
 import com.codepath.volunteerhero.utils.MapUtils;
+import com.codepath.volunteerhero.utils.Utils;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -66,11 +67,8 @@ public class OpportunitiesMapFragment extends Fragment implements GoogleMap.OnMa
         map = googleMap;
         if (map != null) {
             // Map is ready
-            Toast.makeText(this.getContext(), "Map Fragment was loaded properly!", Toast.LENGTH_SHORT).show();
-//            MapDemoActivityPermissionsDispatcher.getMyLocationWithCheck(this);
-//            MapDemoActivityPermissionsDispatcher.startLocationUpdatesWithCheck(this);
-            map.setOnMapLongClickListener(this);
-//            map.setOnMarkerClickListener(this);
+//            Toast.makeText(this.getContext(), "Map Fragment was loaded properly!", Toast.LENGTH_SHORT).show();
+            map.setOnMapLongClickListener(this);;
             googleMap.setOnInfoWindowClickListener(this);
         } else {
             Toast.makeText(this.getContext(), "Error - Map was null!!", Toast.LENGTH_SHORT).show();
@@ -80,7 +78,9 @@ public class OpportunitiesMapFragment extends Fragment implements GoogleMap.OnMa
     Map<String, Marker> markersByEventIds = new HashMap<>();
 
     public void addPin(Event e) {
-        Marker m = MapUtils.addPin(map, new LatLng(e.latitude, e.longitude), e.title, e.description);
+        Marker m = MapUtils.addPin(map, new LatLng(e.latitude, e.longitude),
+                Utils.ellipsize(e.title, 40),
+                Utils.ellipsize(e.description, 50));
         m.setTag(e);
         markersByEventIds.put(e.id, m);
     }
@@ -92,7 +92,6 @@ public class OpportunitiesMapFragment extends Fragment implements GoogleMap.OnMa
         View v = inflater.inflate(R.layout.fragment_opportunities_map, container, false);
 
         ButterKnife.bind(this, v);
-
 
         mapFragment = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map));
         if (mapFragment != null) {
