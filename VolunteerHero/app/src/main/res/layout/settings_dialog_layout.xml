@@ -18,10 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/string_search_query"
-            android:textSize="@dimen/settings_dialog_text_size"
-            android:textStyle="bold"
-            android:textColor="@color/colorPrimary"
-            android:fontFamily="sans-serif"
+            style="@style/SettingsTextStyle"
             android:paddingTop="@dimen/search_padding"
             android:paddingRight="@dimen/search_padding"/>
 
@@ -29,9 +26,7 @@
             android:id="@+id/query_input_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/settings_dialog_text_size"
-            android:textStyle="bold"
-            android:fontFamily="sans-serif"
+            style="@style/SettingsEditTextStyle"
             android:layout_weight="1"
             android:paddingTop="@dimen/search_padding" />
 
@@ -41,9 +36,7 @@
             android:layout_height="wrap_content"
             android:text="@string/string_loc_query"
             android:textSize="@dimen/settings_dialog_text_size"
-            android:textStyle="bold"
-            android:textColor="@color/colorPrimary"
-            android:fontFamily="sans-serif"
+            style="@style/SettingsTextStyle"
             android:paddingTop="@dimen/search_padding"
             android:paddingRight="@dimen/search_padding"
             android:paddingBottom="@dimen/search_padding"/>
@@ -52,9 +45,7 @@
             android:id="@+id/loc_query_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/settings_dialog_text_size"
-            android:textStyle="bold"
-            android:fontFamily="sans-serif"
+            style="@style/SettingsEditTextStyle"
             android:layout_weight="1"
             android:paddingTop="@dimen/search_padding"
             android:paddingBottom="@dimen/search_padding" />
