@@ -82,24 +82,47 @@
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
         android:layout_height="100dp" />
 
-    <Button
+    <ImageButton
         android:id="@+id/event_address_button"
-        style="@style/WideButton"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/event_address_button"
         android:layout_below="@+id/topics_recycler_view"
-        android:layout_alignStart="@+id/topics_recycler_view" />
-
+        android:src="@drawable/ic_location"
+        android:tint="@color/orange"
+        android:padding="@dimen/wideButtonPadding"
+        android:background="?attr/selectableItemBackgroundBorderless"  />
 
     <Button
-        android:id="@+id/event_date_button"
-        style="@style/WideButton"
+        android:id="@+id/event_address_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/event_address_button"
+        android:textAllCaps="false"
+        style="@style/CreateOptionsRequired"
+        android:text="@string/specify_event_location"
+        android:layout_below="@+id/topics_recycler_view"
+        android:layout_alignStart="@+id/event_date_text_view"
+        android:background="?attr/selectableItemBackgroundBorderless"  />
+
+    <ImageButton
+        android:id="@+id/event_date_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/event_address_button"
-        android:text="@string/event_date_test" />
+        android:tint="@color/orange"
+        android:src="@drawable/ic_calendar_icon"
+        android:padding="@dimen/wideButtonPadding"
+        android:background="?attr/selectableItemBackgroundBorderless" />
+
+    <Button
+        android:id="@+id/event_date_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        style="@style/CreateOptionsRequired"
+        android:layout_below="@+id/event_address_button"
+        android:layout_toRightOf="@id/event_date_button"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:text="@string/specify_event_date" />
 
     <FrameLayout
         android:id="@+id/sectionDivider3"

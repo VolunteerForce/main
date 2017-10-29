@@ -42,5 +42,7 @@
     <string name="shareButton">Share button</string>
     <string name="eventImage">Event image</string>
     <string name="orgName">orgName</string>
+    <string name="specify_event_date">Specify Event Date</string>
+    <string name="specify_event_location">Specify event location</string>
 
 </resources>

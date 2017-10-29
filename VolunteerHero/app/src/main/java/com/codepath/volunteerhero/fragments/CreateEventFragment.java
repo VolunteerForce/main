@@ -1,17 +1,20 @@
 package com.codepath.volunteerhero.fragments;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -26,6 +29,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.codepath.volunteerhero.R;
 import com.codepath.volunteerhero.adapters.TopicAdapter;
@@ -37,6 +41,7 @@ import butterknife.OnClick;
 
 import com.codepath.volunteerhero.models.Topics;
 import com.codepath.volunteerhero.utils.NetworkUtils;
+import com.codepath.volunteerhero.utils.Utils;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
@@ -73,9 +78,15 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
     EditText eventDescription;
 
     @BindView(R.id.event_address_button)
-    Button eventAddressButton;
+    ImageButton eventAddressButton;
+    @BindView(R.id.event_address_text_view)
+    Button eventAddressText;
+
     @BindView(R.id.event_date_button)
-    Button eventDateButton;
+    ImageButton eventDateButton;
+    @BindView(R.id.event_date_text_view)
+    Button eventDateText;
+
     @BindView(R.id.create_event_button)
     Button createEventButton;
 
@@ -121,6 +132,7 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
         eventDescription.addTextChangedListener(controller);
     }
 
+    @SuppressLint("NewApi")
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d("jenda", "onActivityResult " + resultCode + " " + requestCode);
@@ -137,7 +149,11 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
         switch (requestCode) {
             case PLACE_PICKER_REQUEST:
                 Place place = PlacePicker.getPlace(this.getActivity(), data);
-                eventAddressButton.setText(place.getAddress());
+                String address = Utils.ellipsize(place.getAddress(), 30);
+                eventAddressText.setText(address);
+                final @ColorInt int color = getContext().getColor(R.color.colorAccent);
+                eventAddressText.setTextColor(color);
+                eventAddressButton.setColorFilter(color);
                 controller.setPlace(place);
                 break;
             case IMAGE_OR_CAMERA_REQUEST_CODE:
@@ -147,7 +163,7 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
         }
     }
 
-    @OnClick(R.id.event_address_button)
+    @OnClick({R.id.event_address_button, R.id.event_address_text_view})
     void selectAddress() {
         PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
         try {
@@ -164,7 +180,7 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
         controller.startEventCreation();
     }
 
-    @OnClick(R.id.event_date_button)
+    @OnClick({R.id.event_date_button, R.id.event_date_text_view})
     void showDatePicker() {
         Calendar now = Calendar.getInstance();
         DatePickerDialog dpd = DatePickerDialog.newInstance(
@@ -214,10 +230,14 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
         getActivity().getSupportFragmentManager().popBackStack();
     }
 
+    @SuppressLint("NewApi")
     @Override
     public void onDatePicked(Calendar calendar) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        this.eventDateButton.setText(format.format(calendar.getTime()));
+        this.eventDateText.setText(format.format(calendar.getTime()));
+        final @ColorInt int color = getContext().getColor(R.color.colorAccent);
+        eventDateText.setTextColor(color);
+        eventDateButton.setColorFilter(color);
     }
 
     @Override

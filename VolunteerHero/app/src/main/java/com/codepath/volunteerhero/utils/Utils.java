@@ -79,6 +79,10 @@ public class Utils {
         snackbar.show();
     }
 
+    public static String ellipsize(CharSequence input, int maxLength) {
+        return ellipsize(input.toString(), maxLength);
+    }
+
     public static String ellipsize(String input, int maxLength) {
         String ellip = "...";
         if (input == null || input.length() <= maxLength

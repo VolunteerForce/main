@@ -26,6 +26,22 @@
         <item name="android:textColor">@color/midGrey</item>
     </style>
 
+
+    <style name="CreateOptions" >
+        <item name="android:padding">@dimen/wideButtonPadding</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:textColor">@color/midGrey</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="CreateOptionsRequired" parent="CreateOptions">
+        <item name="android:textColor">@color/orange</item>
+    </style>
+
+    <style name="CreateOptionsPopulated" parent="CreateOptions">
+        <item name="android:textColor">@color/accent_color</item>
+    </style>
+
     <style name="DefaultButton" parent="@android:style/Widget.Button">
         <item name="android:gravity">center_vertical|center_horizontal</item>
         <item name="android:textColor">#FFFFFF</item>
