@@ -78,6 +78,9 @@ public class OpportunitiesListActivity extends BaseActivity implements SettingsD
 
         ButterKnife.bind(this);
 
+        toolbar.setTitle(R.string.app_name);
+        toolbar.setLogo(R.drawable.ic_toolbar_logo);
+        toolbar.setContentInsetStartWithNavigation(0);
         setSupportActionBar(toolbar);
 
         //create adapter
