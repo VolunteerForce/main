@@ -45,9 +45,9 @@
         tools:text="SF SPCA"/>
 
     <ImageView
-        android:layout_width="18dp"
+        android:layout_width="wrap_content"
         android:id="@+id/ivLocationIcon"
-        android:layout_height="15dp"
+        android:layout_height="wrap_content"
         android:src="@drawable/ic_location"
         android:layout_below="@id/tvOrg"
         android:layout_alignStart="@id/tvOrg"/>
@@ -101,14 +101,14 @@
         android:src="@drawable/ic_if_button_share_352893"/>
 
 
-    <TextView
+    <ImageView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/tvActivities"
         android:layout_below="@+id/tvActivities"
         android:layout_marginTop="10dp"
-        android:text="@string/contact"/>
+        android:src="@drawable/account"/>
 
     <TextView
         android:id="@+id/tvContactName"
@@ -119,11 +119,20 @@
         android:layout_alignBottom="@+id/textView2"
         tools:text="John Doe"/>
 
+    <ImageView
+        android:id="@+id/iv3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tvActivities"
+        android:layout_below="@+id/textView2"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/email"/>
     <TextView
         android:id="@+id/tvContactEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView2"
+        android:layout_toEndOf="@+id/iv3"
+        android:layout_marginStart="10dp"
         android:layout_below="@+id/textView2"
         android:autoLink="email"
         android:layout_marginTop="5dp"
