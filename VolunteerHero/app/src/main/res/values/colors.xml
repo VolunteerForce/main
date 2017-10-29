@@ -8,4 +8,8 @@
     <color name="midGrey">#BDBDBD</color>
     <color name="white">#FFF</color>
     <color name="see_through_grey">#61000000</color>
+    <color name="orange">#FF9800</color>
+    <color name="deep_orange">#ee5446</color>
+    <color name="heaven_blue">#20bff0</color>
+    <color name="nature_green">#81c250</color>
 </resources>
