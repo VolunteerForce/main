@@ -114,6 +114,7 @@ public class EventDetailFragment extends Fragment {
         mEvent.isDeleted = true;
 
         EventDataProvider.getInstance().addOrUpdateData(mEvent);
+        FirebaseDBHelper.getInstance().updateEvent(mEvent);
         getActivity().finish();
 
         // TODO: this needs to run on list activity.

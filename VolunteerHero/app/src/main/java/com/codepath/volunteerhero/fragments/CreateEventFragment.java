@@ -28,6 +28,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -158,6 +159,7 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
                 break;
             case IMAGE_OR_CAMERA_REQUEST_CODE:
                 Bitmap bmp = controller.decodeImage(data, file);
+                coverPhotoButton.setScaleType(ImageView.ScaleType.CENTER);
                 coverPhotoButton.setImageBitmap(bmp);
                 break;
         }

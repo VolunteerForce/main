@@ -55,7 +55,7 @@
     </style>
 
     <style name="CreateOptionsRequired" parent="CreateOptions">
-        <item name="android:textColor">@color/orange</item>
+        <item name="android:textColor">@color/required_item_color</item>
     </style>
 
     <style name="CreateOptionsPopulated" parent="CreateOptions">

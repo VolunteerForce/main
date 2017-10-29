@@ -15,4 +15,6 @@
     <color name="heaven_blue">#20bff0</color>
     <color name="nature_green">#81c250</color>
     <color name="tab_color">#149dc7</color>
+    <color name="required_item_color">@color/orange</color>
+    <color name="no_color">#00000000</color>
 </resources>

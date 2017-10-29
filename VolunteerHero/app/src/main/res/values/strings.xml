@@ -4,8 +4,8 @@
     <string name="fb_login_protocol_scheme">fb1510437562337974</string>
 
     <string name="create_event_text">Create Event</string>
-    <string name="event_name_hint">Event name</string>
-    <string name="event_description_hint">Event description</string>
+    <string name="event_name_hint">Specify event name</string>
+    <string name="event_description_hint">Specify event description</string>
 
     <string name="title_activity_opportunities_list">OpportunitiesListActivity</string>
 

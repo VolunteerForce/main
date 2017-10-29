@@ -25,7 +25,6 @@
         android:layout_height="@dimen/section_divider_height"
         android:layout_marginTop="@dimen/section_divider_top_margin"
         android:layout_marginBottom="@dimen/section_divider_bottom_margin"
-        android:background="@color/midGrey"
         android:layout_below="@+id/upload_cover_image_button" />
 
     <EditText
@@ -36,6 +35,7 @@
         android:layout_marginTop="14dp"
         android:ems="10"
         android:hint="@string/event_name_hint"
+        android:textColorHint="@color/required_item_color"
         android:inputType="textPersonName" />
 
     <EditText
@@ -48,6 +48,7 @@
         android:minLines="2"
         android:gravity="top|left"
         android:hint="@string/event_description_hint"
+        android:textColorHint="@color/required_item_color"
         android:inputType="textPersonName|textMultiLine"
         android:layout_below="@+id/event_name_edit_text"
         android:layout_alignParentStart="true" />
@@ -58,9 +59,9 @@
         android:layout_height="@dimen/section_divider_height"
         android:layout_marginTop="@dimen/section_divider_top_margin"
         android:layout_marginBottom="@dimen/section_divider_bottom_margin"
-        android:background="@color/midGrey"
         android:layout_below="@+id/event_description_edit_text" />
 
+    <!--android:background="@color/midGrey"-->
     <!--<Button-->
         <!--android:id="@+id/event_type_button"-->
         <!--style="@style/WideButton"-->
@@ -76,11 +77,12 @@
         android:id="@+id/topics_recycler_view"
         android:layout_below="@+id/sectionDivider2"
         android:layout_marginTop="15dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:layout_width="match_parent"
+        android:elevation="2dp"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-        android:layout_height="100dp" />
+        android:layout_height="104dp"
+        android:padding="2dp"
+        android:background="@color/colorAccent"/>
 
     <ImageButton
         android:id="@+id/event_address_button"
@@ -88,7 +90,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/topics_recycler_view"
         android:src="@drawable/ic_location"
-        android:tint="@color/orange"
+        android:tint="@color/required_item_color"
         android:padding="@dimen/wideButtonPadding"
         android:background="?attr/selectableItemBackgroundBorderless"  />
 
@@ -108,7 +110,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/event_address_button"
-        android:tint="@color/orange"
+        android:tint="@color/required_item_color"
         android:src="@drawable/ic_calendar_icon"
         android:padding="@dimen/wideButtonPadding"
         android:background="?attr/selectableItemBackgroundBorderless" />
@@ -130,7 +132,6 @@
         android:layout_height="@dimen/section_divider_height"
         android:layout_marginTop="@dimen/section_divider_top_margin"
         android:layout_marginBottom="@dimen/section_divider_bottom_margin"
-        android:background="@color/midGrey"
         android:layout_below="@+id/event_date_button" />
 
     <Button

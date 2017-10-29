@@ -89,9 +89,11 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder> 
             isSelected = selected;
             if (selected) {
                 item.setBackgroundColor(context.getColor(R.color.colorAccent));
+                item.setTextColor(context.getColor(R.color.white));
                 item.setTypeface(Typeface.DEFAULT_BOLD);
             } else {
                 item.setBackgroundColor(context.getColor(R.color.white));
+                item.setTextColor(context.getColor(R.color.required_item_color));
                 item.setTypeface(Typeface.DEFAULT);
             }
             topicAdapter.onItemClicked(getAdapterPosition(), selected);
