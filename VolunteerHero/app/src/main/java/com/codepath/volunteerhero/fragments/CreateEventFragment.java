@@ -1,6 +1,7 @@
 package com.codepath.volunteerhero.fragments;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -48,7 +49,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import static android.app.Activity.RESULT_OK;
 import static android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION;
 import static android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
 
@@ -72,8 +72,6 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
     @BindView(R.id.event_description_edit_text)
     EditText eventDescription;
 
-//    @BindView(R.id.event_type_button)
-//    Button eventTypeButton;
     @BindView(R.id.event_address_button)
     Button eventAddressButton;
     @BindView(R.id.event_date_button)
@@ -127,7 +125,11 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d("jenda", "onActivityResult " + resultCode + " " + requestCode);
 
-        if (resultCode != RESULT_OK) {
+        if (resultCode == Activity.RESULT_CANCELED) {
+            Log.d("jenda", "event cancelled " + resultCode + " " + requestCode);
+            return;
+        }
+        if (resultCode != Activity.RESULT_OK) {
             NetworkUtils.showNonretryableError(this.getView(), "Something went wrong " + resultCode);
             return;
         }
