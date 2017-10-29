@@ -7,4 +7,6 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     app:titleTextColor="@android:color/white"
-    android:background="?attr/colorAccent" />
+    app:layout_scrollFlags="scroll|enterAlways"
+    app:popupTheme="@style/AppTheme.PopupOverlay"
+    android:background="?attr/colorPrimary" />

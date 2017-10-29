@@ -20,4 +20,10 @@
     <dimen name="settings_dialog_text_size">18sp</dimen>
     <dimen name="settings_dialog_item_text_size">14sp</dimen>
     <dimen name="filter_settings_dialog_size">150dp</dimen>
+
+    <dimen name="login_button_text_size">18sp</dimen>
+    <dimen name="login_button_padding">15dp</dimen>
+    <dimen name="login_button_side_padding">10dp</dimen>
+
+    <dimen name="square_image_size">100dp</dimen>
 </resources>
