@@ -12,6 +12,7 @@ import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.gson.annotations.SerializedName;
 
+import org.apache.commons.lang3.text.WordUtils;
 import org.parceler.Parcel;
 
 import java.io.IOException;
@@ -111,7 +112,7 @@ public class Event extends BaseModelWithId implements Serializable {
             result.append(string);
             result.append(", ");
         }
-        return result.length() > 0 ? result.substring(0, result.length() - 2): "";
+        return result.length() > 0 ? WordUtils.capitalize(result.substring(0, result.length() - 2)): "";
     }
 
     @Exclude
