@@ -12,9 +12,11 @@
         android:id="@+id/upload_cover_image_button"
         android:layout_width="match_parent"
         android:layout_height="130dp"
-        android:background="@drawable/upload_cover_photo"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_photo_icon"
         android:text="Upload cover photo"
         android:layout_alignParentTop="true"
+        android:scaleType="fitCenter"
         android:layout_toEndOf="@+id/progressBarLayout" />
 
     <FrameLayout
