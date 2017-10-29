@@ -79,8 +79,7 @@ public class OpportunitiesListActivity extends BaseActivity implements SettingsD
 
         ButterKnife.bind(this);
 
-        toolbar.setTitle("");
-        toolbar.setLogo(R.drawable.ic_toolbar_logo);
+        toolbar.setTitle(R.string.app_name);
         toolbar.setContentInsetStartWithNavigation(0);
         setSupportActionBar(toolbar);
 
@@ -98,7 +97,7 @@ public class OpportunitiesListActivity extends BaseActivity implements SettingsD
         // setup menu icon
         final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_nav_24dp);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_toolbar_logo);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
         View headerView = drawerNavView.getHeaderView(0);
