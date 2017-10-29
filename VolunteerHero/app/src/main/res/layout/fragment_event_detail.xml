@@ -38,6 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/tvTitle"
         android:layout_below="@+id/ivImage"
+        android:textColor="@color/colorPrimary"
         android:transitionName="@string/orgName"
         android:layout_marginTop="10dp"
         android:textSize="18sp"
@@ -124,6 +125,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/tvOrg"
+        style="@style/DefaultButton"
         android:layout_marginBottom="10dp"
         android:text="@string/subscribe"/>
 
@@ -132,6 +134,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/delete_event"
+        style="@style/DefaultButton"
         android:layout_toEndOf="@+id/btnSubscribe"
         android:layout_alignTop="@+id/btnSubscribe"
         android:layout_marginStart="13dp" />
