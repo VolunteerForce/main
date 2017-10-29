@@ -32,7 +32,9 @@ public class EventDataProvider extends DataProvider<Event> implements FirebaseDB
             addOrUpdateData(mergedData);
             onFinish();
         });
-        FirebaseDBHelper.getInstance().getEventList(this);
+        if (!filter.isFilterSet()) {
+            FirebaseDBHelper.getInstance().getEventList(this);
+        }
     }
 
     @Override

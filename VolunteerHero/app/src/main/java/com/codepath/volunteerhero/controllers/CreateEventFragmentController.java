@@ -10,7 +10,6 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.View;
 
 import com.codepath.volunteerhero.R;
 import com.codepath.volunteerhero.VolunteerHeroApplication;
@@ -22,6 +21,7 @@ import com.codepath.volunteerhero.imgur.UploadService;
 import com.codepath.volunteerhero.models.Carrier;
 import com.codepath.volunteerhero.models.Contact;
 import com.codepath.volunteerhero.models.Event;
+import com.codepath.volunteerhero.settings.FilterSettings;
 import com.codepath.volunteerhero.utils.NetworkUtils;
 import com.codepath.volunteerhero.utils.Utils;
 import com.google.android.gms.location.places.Place;
@@ -37,8 +37,6 @@ import java.util.Random;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-
-import static com.codepath.volunteerhero.utils.Utils.saveBitmapToTempImage;
 
 /**
  * Created by jan_spidlen on 10/15/17.
@@ -202,7 +200,10 @@ public class CreateEventFragmentController implements DatePickerDialog.OnDateSet
 
         Log.d("jenda", "event.creator " + event.creator );
         event = FirebaseDBHelper.getInstance().addEvent(event);
-        EventDataProvider.getInstance().addOrUpdateData(event);
+
+        if (!FilterSettings.getInstance(context).retrieveFilter().isFilterSet()) {
+            EventDataProvider.getInstance().addOrUpdateData(event);
+        }
         
         view.eventCreatedSuccessfully();
         return event;

@@ -27,6 +27,6 @@ public class Filter {
     }
 
     public boolean isFilterSet() {
-        return (!(locationQuery == null || searchQuery == null));
+        return (!(locationQuery == null || searchQuery == null) && !(locationQuery.isEmpty() && searchQuery.isEmpty()));
     }
 }
