@@ -28,6 +28,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.codepath.volunteerhero.R;
 import com.codepath.volunteerhero.VolunteerHeroApplication;
 import com.codepath.volunteerhero.adapters.EventFragmentPagerAdapter;
+import com.codepath.volunteerhero.animations.ZoomOutPageTransformer;
 import com.codepath.volunteerhero.database.FirebaseDBHelper;
 import com.codepath.volunteerhero.fragments.SettingsDialogFragment;
 import com.codepath.volunteerhero.models.Event;
@@ -78,7 +79,7 @@ public class OpportunitiesListActivity extends BaseActivity implements SettingsD
 
         ButterKnife.bind(this);
 
-        toolbar.setTitle(R.string.app_name);
+        toolbar.setTitle("");
         toolbar.setLogo(R.drawable.ic_toolbar_logo);
         toolbar.setContentInsetStartWithNavigation(0);
         setSupportActionBar(toolbar);
@@ -87,6 +88,7 @@ public class OpportunitiesListActivity extends BaseActivity implements SettingsD
         mViewPagerAdapter = new EventFragmentPagerAdapter(getSupportFragmentManager(), this);
 
         mViewPager.setAdapter(mViewPagerAdapter);
+        mViewPager.setPageTransformer(true, new ZoomOutPageTransformer());
 
         tabLayout.setupWithViewPager(mViewPager);
 
