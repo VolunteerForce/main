@@ -32,13 +32,17 @@
         tools:textColor="@color/accent_color"
         tools:text="Adoptathon! This is wrapping around stuff in another line"/>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/ivImage"
+        android:layout_alignParentBottom="true">
     <TextView
         android:id="@+id/tvOrg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/tvTitle"
-        android:layout_below="@+id/ivImage"
         android:textColor="@color/colorPrimary"
+        android:layout_marginStart="20dp"
         android:transitionName="@string/orgName"
         android:layout_marginTop="10dp"
         android:textSize="18sp"
@@ -88,17 +92,6 @@
         android:layout_below="@+id/tvVacancies"
         android:layout_marginTop="10dp"
         tools:text="Coaching, organizing"/>
-
-    <ImageButton
-        android:id="@+id/ibShare"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/tvOrg"
-        android:layout_marginEnd="21dp"
-        android:contentDescription="@string/shareButton"
-        android:backgroundTint= "@color/no_color"
-        android:src="@drawable/ic_if_button_share_352893"/>
 
 
     <ImageView
@@ -158,6 +151,26 @@
         android:layout_toEndOf="@+id/btnSubscribe"
         android:layout_alignTop="@+id/btnSubscribe"
         android:layout_marginStart="13dp" />
+    </RelativeLayout>
+
+    <FrameLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/ivImage"
+        android:layout_marginTop="-50dp">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/ibShare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:tint="@color/white"
+            android:backgroundTint="@color/colorAccentOrange"
+            android:src="@drawable/ic_if_button_share_352893"
+            app:fabSize="normal" />
+    </FrameLayout>
 
 
 </RelativeLayout>

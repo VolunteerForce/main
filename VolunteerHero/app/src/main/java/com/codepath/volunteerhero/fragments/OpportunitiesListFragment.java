@@ -127,7 +127,7 @@ public class OpportunitiesListFragment extends Fragment implements DataProvider.
         mScrollListener = new EndlessRecyclerViewScrollListener(manager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                Toast.makeText(getActivity(), "Loading more events", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), "Loading more events", Toast.LENGTH_SHORT).show();
 //                populateEventList(page);
                 loadMoreData();
 
