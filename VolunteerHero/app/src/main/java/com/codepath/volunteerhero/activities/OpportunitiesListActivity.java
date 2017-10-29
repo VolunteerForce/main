@@ -47,7 +47,7 @@ import butterknife.OnClick;
 /**
  * Main activity to browse list of opportunities
  */
-public class OpportunitiesListActivity extends BaseActivity {
+public class OpportunitiesListActivity extends BaseActivity implements SettingsDialogFragment.SettingsUpdateListener {
     public static String FILTER_DIALOG_TAG = "FILTER_DIALOG";
 
     @BindView(R.id.viewpager)
@@ -183,6 +183,13 @@ public class OpportunitiesListActivity extends BaseActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public void onSettingsUpdated() {
+        //TODO check if alternative
+        finish();
+        startActivity(getIntent());
     }
 
     public void selectDrawerItem(MenuItem menuItem) {
