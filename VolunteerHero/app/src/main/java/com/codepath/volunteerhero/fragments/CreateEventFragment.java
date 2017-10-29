@@ -176,7 +176,7 @@ public class CreateEventFragment extends Fragment implements CreateEventFragment
         dpd.show(getActivity().getFragmentManager(), "Datepickerdialog");
     }
 
-    @OnClick(R.id.test_button)
+//    @OnClick(R.id.test_button)
     void test() {
         NetworkUtils.showRetryableError(this.getView(), R.string.test_error_message_1, v -> {
             NetworkUtils.showNonretryableError(this.getView(), R.string.test_error_message_2);

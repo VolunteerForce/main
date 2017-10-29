@@ -12,8 +12,10 @@
         android:id="@+id/upload_cover_image_button"
         android:layout_width="match_parent"
         android:layout_height="130dp"
+        android:background="@drawable/upload_cover_photo"
+        android:text="Upload cover photo"
         android:layout_alignParentTop="true"
-        android:background="@mipmap/ic_upload_cover_photo" />
+        android:layout_toEndOf="@+id/progressBarLayout" />
 
     <FrameLayout
         android:id="@+id/sectionDivider1"
@@ -72,6 +74,8 @@
         android:id="@+id/topics_recycler_view"
         android:layout_below="@+id/sectionDivider2"
         android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_width="match_parent"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
         android:layout_height="100dp" />
@@ -108,21 +112,22 @@
         android:id="@+id/create_event_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="14dp"
-        android:layout_marginStart="17dp"
+        android:layout_centerHorizontal="true"
         android:text="@string/create_event_text"
-        android:layout_below="@+id/sectionDivider3"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:id="@+id/test_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="14dp"
-        android:layout_marginStart="17dp"
-        android:text="Test Button"
-        android:layout_toRightOf="@+id/create_event_button"
+        android:textColor="@color/white"
+        android:background="@drawable/create_button_shape"
         android:layout_below="@+id/sectionDivider3" />
+
+    <!--<Button-->
+        <!--android:id="@+id/test_button"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginBottom="14dp"-->
+        <!--android:layout_marginStart="17dp"-->
+        <!--android:text="Test Button"-->
+        <!--android:visibility="gone"-->
+        <!--android:layout_toRightOf="@+id/create_event_button"-->
+        <!--android:layout_below="@+id/sectionDivider3" />-->
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -131,6 +136,7 @@
         android:elevation="10dp"
         android:visibility="gone"
         android:background="@color/see_through_grey">
+
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_gravity="center"

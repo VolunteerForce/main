@@ -5,6 +5,7 @@
     <color name="colorAccent">#1e98be</color>
     <color name="colorPrimaryLight">#149dc7</color>
     <color name="lightBlue">#E3F2FD</color>
+    <color name="supelightBlue">#EFF4FD</color>
     <color name="midGrey">#BDBDBD</color>
     <color name="white">#FFF</color>
     <color name="see_through_grey">#61000000</color>

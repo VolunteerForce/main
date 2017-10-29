@@ -1,6 +1,8 @@
 package com.codepath.volunteerhero.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,12 +84,15 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ViewHolder> 
             itemView.setOnClickListener(this);
         }
 
+        @SuppressLint("NewApi")
         public void setSelected(boolean selected) {
             isSelected = selected;
             if (selected) {
-                item.setBackgroundColor(context.getColor(R.color.see_through_grey));
+                item.setBackgroundColor(context.getColor(R.color.orange));
+                item.setTypeface(Typeface.DEFAULT_BOLD);
             } else {
                 item.setBackgroundColor(context.getColor(R.color.white));
+                item.setTypeface(Typeface.DEFAULT);
             }
             topicAdapter.onItemClicked(getAdapterPosition(), selected);
         }
