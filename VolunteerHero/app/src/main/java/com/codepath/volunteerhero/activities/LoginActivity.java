@@ -164,6 +164,7 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onUserInfoAvailable(User loggedInUser) {
                 VolunteerHeroApplication.setLoggedInUser(loggedInUser);
+                fetchUserProfile(token, loggedInUser);
                 showOpportunitiesListActivity();
             }
 
@@ -174,11 +175,9 @@ public class LoginActivity extends BaseActivity {
                 showOpportunitiesListActivity();
             }
         });
-
-        fetchUserProfile(token);
     }
 
-    private void fetchUserProfile(AccessToken token) {
+    private void fetchUserProfile(AccessToken token, User loggedInUser) {
         GraphRequest request = GraphRequest.newMeRequest(
                 token,
                 (object, response) -> {
@@ -193,7 +192,7 @@ public class LoginActivity extends BaseActivity {
                             HttpsURLConnection.setFollowRedirects(true);
                             httpsConn.setInstanceFollowRedirects(true);
                             Bitmap fbImage = BitmapFactory.decodeStream(httpsConn.getInputStream());
-                            FirebaseDBHelper.getInstance().uploadFile(VolunteerHeroApplication.getLoggedInUser(), fbImage);
+                            FirebaseDBHelper.getInstance().uploadFile(loggedInUser, fbImage);
                         } catch (Exception ex) {
                             ex.printStackTrace();
                         }
