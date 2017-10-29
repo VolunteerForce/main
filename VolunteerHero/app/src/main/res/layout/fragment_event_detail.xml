@@ -44,22 +44,39 @@
         android:textSize="18sp"
         tools:text="SF SPCA"/>
 
+    <ImageView
+        android:layout_width="18dp"
+        android:id="@+id/ivLocationIcon"
+        android:layout_height="15dp"
+        android:src="@drawable/ic_location"
+        android:layout_below="@id/tvOrg"
+        android:layout_alignStart="@id/tvOrg"/>
+
     <TextView
         android:id="@+id/tvLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/tvOrg"
+        android:layout_toEndOf="@+id/ivLocationIcon"
+        android:layout_marginStart="10dp"
         android:layout_below="@+id/tvOrg"
         android:layout_marginTop="5dp"
+        android:layout_alignTop="@+id/ivLocationIcon"
         tools:text="Virtual"/>
+    <TextView
+        android:id="@+id/tvVacancies"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tvNumVacancies"
+        android:layout_toEndOf="@+id/tvNumVacancies"
+        android:layout_marginStart="10dp"
+        android:text="@string/vacancies"/>
 
     <TextView
         android:id="@+id/tvNumVacancies"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvLocation"
-        android:layout_toEndOf="@+id/tvVacancies"
-        android:layout_marginStart="10dp"
+        android:layout_alignStart="@+id/ivLocationIcon"
         android:layout_marginTop="10dp"
         tools:text="30"/>
 
@@ -67,7 +84,7 @@
         android:id="@+id/tvActivities"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/tvVacancies"
+        android:layout_alignStart="@+id/tvNumVacancies"
         android:layout_below="@+id/tvVacancies"
         android:layout_marginTop="10dp"
         tools:text="Coaching, organizing"/>
@@ -80,15 +97,9 @@
         android:layout_alignTop="@+id/tvOrg"
         android:layout_marginEnd="21dp"
         android:contentDescription="@string/shareButton"
-        app:srcCompat="?attr/actionModeShareDrawable"/>
+        android:backgroundTint= "@color/no_color"
+        android:src="@drawable/ic_if_button_share_352893"/>
 
-    <TextView
-        android:id="@+id/tvVacancies"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/tvNumVacancies"
-        android:layout_alignStart="@+id/tvLocation"
-        android:text="@string/vacancies"/>
 
     <TextView
         android:id="@+id/textView2"
