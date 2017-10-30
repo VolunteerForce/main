@@ -33,6 +33,8 @@ import com.codepath.volunteerhero.database.FirebaseDBHelper;
 import com.codepath.volunteerhero.fragments.SettingsDialogFragment;
 import com.codepath.volunteerhero.models.Event;
 import com.codepath.volunteerhero.models.User;
+import com.codepath.volunteerhero.settings.Filter;
+import com.codepath.volunteerhero.settings.FilterSettings;
 import com.codepath.volunteerhero.utils.CircularTransformation;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
@@ -198,9 +200,21 @@ public class OpportunitiesListActivity extends BaseActivity implements SettingsD
 
     public void selectDrawerItem(MenuItem menuItem) {
         switch(menuItem.getItemId()) {
-            case R.id.nav_filter_by_name:
+            case R.id.nav_event_list:
+                mViewPager.setCurrentItem(0, true);
                 break;
-            case R.id.nav_filter_by_category:
+            case R.id.nav_nearby_events:
+                mViewPager.setCurrentItem(1, true);
+                break;
+            case R.id.nav_my_events:
+                mViewPager.setCurrentItem(2, true);
+                break;
+            case R.id.nav_filter_settings:
+                showSettingsDialog();
+                break;
+            case R.id.nav_filter_clear:
+                FilterSettings.getInstance(this).saveFilter(new Filter("", ""));
+                onSettingsUpdated();
                 break;
             case R.id.nav_logout_user:
                 FirebaseAuth.getInstance().signOut();

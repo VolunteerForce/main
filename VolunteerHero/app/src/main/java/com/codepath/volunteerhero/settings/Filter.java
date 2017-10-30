@@ -10,6 +10,12 @@ public class Filter {
     private String locationQuery;
     private String searchQuery;
 
+    public Filter() {}
+    public Filter(String searchQuery, String locQuery) {
+        this.locationQuery = locQuery;
+        this.searchQuery = searchQuery;
+    }
+
     public String getLocationQuery() {
         return locationQuery;
     }
