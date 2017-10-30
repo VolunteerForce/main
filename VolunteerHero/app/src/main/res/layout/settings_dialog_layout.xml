@@ -78,7 +78,6 @@
             android:textColor="@android:color/white"
             android:background="@drawable/button_shape"
             android:textSize="@dimen/settings_dialog_item_text_size"
-            style="?attr/buttonBarButtonStyle"
             android:padding="@dimen/search_padding"/>
     </RelativeLayout>
 

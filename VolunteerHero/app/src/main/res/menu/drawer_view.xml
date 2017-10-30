@@ -1,16 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:title="@string/string_filters" >
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_event_list"
+            android:icon="@drawable/ic_events"
+            android:title="@string/string_event_list"/>
+        <item
+            android:id="@+id/nav_nearby_events"
+            android:icon="@drawable/ic_location"
+            android:title="@string/string_nearby_events"/>
+        <item
+            android:id="@+id/nav_my_events"
+            android:icon="@drawable/ic_my_events"
+            android:title="@string/string_my_events"/>
+    </group>
+
+    <item android:title="@string/string_filters" android:icon="@drawable/ic_menu_settings">
         <menu>
             <group android:checkableBehavior="single">
                 <item
-                    android:id="@+id/nav_filter_by_name"
-                    android:icon="@android:drawable/ic_menu_sort_alphabetically"
-                    android:title="@string/string_event_name" />
+                    android:id="@+id/nav_filter_settings"
+                    android:icon="@drawable/ic_menu_filter"
+                    android:title="@string/string_change_filter"/>
+
                 <item
-                    android:id="@+id/nav_filter_by_category"
-                    android:icon="@android:drawable/ic_menu_sort_by_size"
-                    android:title="@string/string_category" />
+                    android:id="@+id/nav_filter_clear"
+                    android:icon="@drawable/ic_clear_menu"
+                    android:title="@string/string_clear" />
             </group>
         </menu>
     </item>

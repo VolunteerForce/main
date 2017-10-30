@@ -24,9 +24,14 @@
     <string name="cannot_select_address">Problem selecting address.</string>
     <string name="vacancies">Vacancies</string>
     <string name="contact">Contact :</string>
-    <string name="string_filters">Filters</string>
-    <string name="string_event_name">Event Name</string>
-    <string name="string_category">Category</string>
+    <string name="string_event_list">Events</string>
+    <string name="string_nearby_events">Nearby Events</string>
+    <string name="string_my_events">My Events</string>
+    <string name="string_filters">Settings</string>
+    <string name="string_event_name">Text</string>
+    <string name="string_change_filter">Add Filter</string>
+    <string name="string_settings">Settings</string>
+    <string name="string_clear">Clear Filters</string>
     <string name="string_logout">Log Out</string>
     <string name="cover_photo_upload_failed">Cover image upload failed.</string>
     <string name="action_filter">Filter</string>
