@@ -1,6 +1,7 @@
 package com.codepath.volunteerhero.fragments;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,11 +20,20 @@ import com.codepath.volunteerhero.VolunteerHeroApplication;
 import com.codepath.volunteerhero.data.EventDataProvider;
 import com.codepath.volunteerhero.database.FirebaseDBHelper;
 import com.codepath.volunteerhero.models.Event;
+import com.codepath.volunteerhero.models.TranslateResult;
 import com.codepath.volunteerhero.models.User;
 import com.codepath.volunteerhero.utils.VolunteerHeroConstants;
+import com.google.gson.Gson;
 
 import org.parceler.Parcels;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 import butterknife.BindView;
@@ -85,6 +95,10 @@ public class EventDetailFragment extends Fragment {
 
         mEvent = (Event)Parcels.unwrap(getActivity().getIntent().getParcelableExtra(VolunteerHeroConstants.EXTRA_EVENT));
         ButterKnife.bind(this, view);
+        String textToBeTranslated = "Hello world, yeah I know it is stereotye.";
+        String languagePair = "de-en"; //English to French ("<source_language>-<target_language>")
+        //Executing the translation function
+        translate(mEvent.title, languagePair);
         return view;
     }
 
@@ -172,5 +186,93 @@ public class EventDetailFragment extends Fragment {
         }
         return false;
     }
+
+    void translate(String textToBeTranslated,String languagePair){
+        TranslatorBackgroundTask translatorBackgroundTask= new TranslatorBackgroundTask();
+        translatorBackgroundTask.execute(textToBeTranslated,languagePair);
+    }
+
+
+    public class TranslatorBackgroundTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String textToBeTranslated = params[0];
+            String languagePair = params[1];
+
+            String jsonString;
+
+            try {
+                //Set up the translation call URL
+                String yandexKey = "trnsl.1.1.20171030T181605Z.0bd0d40edf2f20b9.bbf9b45e9cc270ed0c7e8dfde8fd4b0e12e39b93";
+                String yandexUrl = "https://translate.yandex.net/api/v1.5/tr.json/translate?key=" + yandexKey
+                        + "&text=" + textToBeTranslated + "&lang=" + languagePair;
+                URL yandexTranslateURL = new URL(yandexUrl);
+
+                //Set Http Conncection, Input Stream, and Buffered Reader
+                HttpURLConnection httpJsonConnection = (HttpURLConnection) yandexTranslateURL.openConnection();
+                InputStream inputStream = httpJsonConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+
+                //Set string builder and insert retrieved JSON result into it
+                StringBuilder jsonStringBuilder = new StringBuilder();
+                while ((jsonString = bufferedReader.readLine()) != null) {
+                    jsonStringBuilder.append(jsonString + "\n");
+                }
+
+                //Close and disconnect
+                bufferedReader.close();
+                inputStream.close();
+                httpJsonConnection.disconnect();
+
+                //Making result human readable
+                String resultString = jsonStringBuilder.toString().trim();
+                //Getting the characters between [ and ]
+                resultString = resultString.substring(resultString.indexOf('[')+1);
+                resultString = resultString.substring(0,resultString.indexOf("]"));
+                //Getting the characters between " and "
+                resultString = resultString.substring(resultString.indexOf("\"")+1);
+                resultString = resultString.substring(0,resultString.indexOf("\""));
+
+                Log.d("Translation Result:", resultString);
+                return jsonStringBuilder.toString().trim();
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            int SUCCESS = 200;
+            if (result != null) {
+                // if result is not null, somehow pass back to app to show
+                Gson g = new Gson();
+                TranslateResult res = g.fromJson(result, TranslateResult.class);
+                if (res.code == SUCCESS) {
+                    if (res != null && res.text != null && !res.text.get(0).isEmpty()) {
+                        tvTitle.setText(res.text.get(0));
+                    }
+                }
+            }
+            Log.d("DC", "translated text - " + result);
+      }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
+
+    }
+
 
 }
